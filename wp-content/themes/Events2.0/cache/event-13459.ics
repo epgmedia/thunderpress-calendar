@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121019T132823CEST-4517NZg42Z@98.129.229.176
+DTSTAMP:20121019T112823Z
+CATEGORIES:Events
+DESCRIPTION:An 80-mile motorcycle ride through Bucks County\, stopping at f
+ ive participating restaurant pit stops. Fran’s Pub in New Hope is the fi
+ nal destination\, and the celebration location. The party at Fran’s will
+  begin at 12 noon and continue throughout the afternoon. Best poker hand\,
+  raffles\, door prizes. Everyone welcome.
+DTSTART:20121007T100000
+DTEND:20121007T190000
+LOCATION:600 Flowers Mill Road\, Langhorne PA 19047
+SUMMARY:The 2nd Annual New Hope Dog &amp\; Cat Poker Run
+END:VEVENT
+END:VCALENDAR

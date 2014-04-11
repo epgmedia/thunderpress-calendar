@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130110T233121CET-0742CvvgiD@98.129.229.176
+DTSTAMP:20130110T223121Z
+CATEGORIES:Events
+DESCRIPTION:The James Gang\, Inc. is a non-profit motorcycle organization t
+ hat is here to give back to the community
+DTSTART:20130420T110000
+DTEND:20130420T020000
+LOCATION:129 E. Washington St.\, Kearney\, MO
+SUMMARY:The James Gang\, Inc.-James Gang
+END:VEVENT
+END:VCALENDAR

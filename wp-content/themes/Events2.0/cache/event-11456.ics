@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120919T061319CEST-2256OHO12H@98.129.229.176
+DTSTAMP:20120919T041319Z
+CATEGORIES:Events
+DESCRIPTION:Party of the year. Four days of more fun than allowed by law. M
+ otorcycle rodeo\, five #1 bands\, best chopper\, Ms. Hog Holiday\, tattoo 
+ contest\, happy hour\, Buffalo ABATE.
+DTSTART:20120831T090000
+DTEND:20120903T000000
+LOCATION:11847 Summit Lane Springville NY 14141
+SUMMARY:Hog Labor Day Holiday Campout
+END:VEVENT
+END:VCALENDAR

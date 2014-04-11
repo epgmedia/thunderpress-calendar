@@ -1,0 +1,17 @@
+#header, #top_strip, .breadcrumb, #sidebar, #footer, #bottom, #comments, #respond, .realated_post, #main_navi, .tabber, .event_social_media, .search_location, .b_contact, .b_register, .event_bookmark, .pos_navigation, .i_addtocalendar, #detail_google_map_id, #pikachoose {
+  display: none !important;
+}
+body, #main, #content, .column, #articletext, #footer, img, .main_photo, .product_details {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border:none !important;
+}
+ 
+.google_map { background:none !important; border:none !important; }
+#content p.bottom_line span.i_category, #content p.bottom_line span.i_tag { background:none !important;  }
+.register_msg { background:none !important; }
+
+body, #wrapper, #content .register_msg { background:none !important; }
+#content .register_msg { border:none !important;  }

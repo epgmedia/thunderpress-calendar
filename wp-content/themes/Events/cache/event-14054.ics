@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130926T200148CEST-9456L60u23@68.233.251.81
+DTSTAMP:20130926T180148Z
+CATEGORIES:Events
+DESCRIPTION:Bike Show (registration required)\, demos\, putt for cash conte
+ st\, pinstriping\, powder coating\, patch sewing\, face painting\, and Ten
+ t Sale (up to 50% off select end-of-season MotorClothes products).
+DTSTART:20121103T090000
+DTEND:20121103T170000
+LOCATION:6620 Market St\, Wilmington\, NC 28405
+SUMMARY:21st Anniversary Bike Show &amp\; Open House
+END:VEVENT
+END:VCALENDAR

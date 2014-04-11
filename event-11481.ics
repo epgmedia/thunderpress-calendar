@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120914T150045CEST-4357GsT79o@98.129.229.176
+DTSTAMP:20120914T130045Z
+CATEGORIES:Events
+DESCRIPTION:Come join us for the funnest run in the Inland Empire. Girls go
+  get those corsets and guys clean your shades for this 100 mile Yahtzee ru
+ n through the Inland Empire. Ends with a great party at Monte De Oro Winer
+ y in Temecula. High Yahtzee score\, barbecue\, corset contest\, bike show\
+ , and more.
+DTSTART:20120923T090000
+DTEND:20120923T000000
+LOCATION:7688 Indiana Ave Riverside CA 92504
+SUMMARY:Inland Empire Corset Run III
+END:VEVENT
+END:VCALENDAR

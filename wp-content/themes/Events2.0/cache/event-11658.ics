@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121024T005411CEST-3999NKKdk6@98.129.229.176
+DTSTAMP:20121024T225411Z
+CATEGORIES:Events
+DESCRIPTION:A poker run to some of the hottest fire stations around\, with 
+ a stop at the Fallen Firefighters Memorial Observance. Barbecue\, live mus
+ ic\, run pin to first 300\, door prize (must be present to win)\, high and
+  low hand poker winners\, a sizzling raffle\, drawings at 2 pm. Rain or sh
+ ine\, all bikes and cars welcome.
+DTSTART:20121007T090000
+DTEND:20121007T190000
+LOCATION:2383 N. Wilson Way Stockton CA 95205
+SUMMARY:12th Annual Fallen Firefighters Memorial Poker Run
+END:VEVENT
+END:VCALENDAR

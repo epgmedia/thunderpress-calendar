@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121020T191106CEST-7369d1HUgK@98.129.229.176
+DTSTAMP:20121020T171106Z
+CATEGORIES:Events
+DESCRIPTION:Our stars and their families that have been impacted by brain t
+ umors are escorted on a loop ride. After the ride\, a celebration of life 
+ ceremony honoring the Stars will take place as the highlight of the event.
+  Riders on all makes and models are welcome. Registration 8:30–10:45 am.
+  Ride leaves at 11 am sharp. Rain or shine! Breakfast pastries from My Kit
+ chen served during registration and lunch from the Bullpen included.
+DTSTART:20121021T083000
+DTEND:20121021T020000
+LOCATION:Mira Costa College\, 3333 Manchester Ave\, Cardiff\, CA 92007
+SUMMARY:8th Annual San Diego Ride for Kids
+END:VEVENT
+END:VCALENDAR

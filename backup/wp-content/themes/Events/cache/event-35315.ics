@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//204.11.59.99//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130709T203843CEST-1893wDlBEt@204.11.59.99
+DTSTAMP:20130709T183843Z
+CATEGORIES:Events
+DESCRIPTION:Monthly breakfast and fellowship ride. Come as you are\, all bi
+ kers welcome. Destination to be determined\, usually day ride to
+DTSTART:20130413T080000
+DTEND:20130413T110000
+LOCATION:14659 N. Thornton Rd\, Lodi\, CA
+SUMMARY:CMA-Delta Ambassadors
+END:VEVENT
+END:VCALENDAR

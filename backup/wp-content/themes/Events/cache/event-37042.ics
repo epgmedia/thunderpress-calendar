@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130528T140858CEST-5761JT3tMC@98.129.229.176
+DTSTAMP:20130528T120858Z
+CATEGORIES:Events
+DESCRIPTION:Bikers Against Child Abuse B.A.C.A. is an organization of biker
+ s that removes the FEAR for children who are being abused
+DTSTART:20130609T100000
+DTEND:20130609T010000
+LOCATION:1900 South Goldenrod Road\, Orlando\, FL
+SUMMARY:Bikers Against Child Abuse B.A.C.A.-Tri County Chapter
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120921T054902CEST-7091GvL2xd@98.129.229.176
+DTSTAMP:20120921T034902Z
+CATEGORIES:Events
+DESCRIPTION:4th Annual Event. 160 mile ride. Solve the crime and win grand 
+ prize. $500 gift certificate and advance mc safety class. Free lunch inclu
+ ded.
+DTSTART:20120909T090000
+DTEND:20120909T000000
+LOCATION:135 Vista Way Kennewick WA 99336
+SUMMARY:Who Done It? Ride
+END:VEVENT
+END:VCALENDAR

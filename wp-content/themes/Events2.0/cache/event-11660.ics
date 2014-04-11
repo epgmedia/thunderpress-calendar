@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120921T220515CEST-4314PT1tmD@98.129.229.176
+DTSTAMP:20120921T200515Z
+CATEGORIES:Events
+DESCRIPTION:Virtual bike rally to help save Scotland's oldest licensed coac
+ hing inn. Entries will get a limited edition rally badge and certificate e
+ ntitling them to a beer when we save and re-open the Crook Inn. See websit
+ e for more info.
+DTSTART:20120901T090000
+DTEND:20120930T120000
+LOCATION:Tweedsmuir\, Biggar\, ML12 6QN
+SUMMARY:The Crook Inn Rally
+END:VEVENT
+END:VCALENDAR

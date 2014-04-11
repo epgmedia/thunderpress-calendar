@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140325T163219CET-2728zxpalC@68.233.251.81
+DTSTAMP:20140325T153219Z
+CATEGORIES:Events
+DESCRIPTION:Please join us at the Modified Motorcycle Association - Div 4\,
+  Frisco: Monthly Meeting. Agenda: Local/State/National Motorcycle related 
+ legislative
+DTSTART:20130605T080000
+DTEND:20130605T110000
+LOCATION:628 20th Street\, San Francisco\, CA
+SUMMARY:MMA-Frisco &#8211\; Division 4
+END:VEVENT
+END:VCALENDAR

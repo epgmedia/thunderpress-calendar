@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130708T172144CEST-7611wvo8X3@98.129.229.176
+DTSTAMP:20130708T152144Z
+CATEGORIES:Events
+DESCRIPTION:In the morning participants will receive refreshments at the st
+ arting line and lunch will be served at noon upon completion of the short 
+ or long ride. Pre-register by November 1 and qualify to enter drawing for 
+ a secret prize.
+DTSTART:20121117T083000
+DTEND:20121117T170000
+LOCATION:1725 Hacienda Dr. Vista\, CA 92081
+SUMMARY:25th Annual Toys for Tots Motorcycle Benefit Ride
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130628T093900CEST-1956xzBUB3@98.129.229.176
+DTSTAMP:20130628T073900Z
+CATEGORIES:Events
+DESCRIPTION:FREE beer\, food and blockbuster Biker movies. Search for Ms. F
+ reedom 2010 is also happening. Ladies submit your entry forms
+DTSTART:20130523T000000
+DTEND:20130523T030000
+LOCATION:8020 W Colfax Ave\, Lakewood\, CO
+SUMMARY:Bikers\, Babes &amp\; Blockbusters Nights
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130707T172420CEST-8792n8XAsb@98.129.229.176
+DTSTAMP:20130707T152420Z
+CATEGORIES:Events
+DESCRIPTION:1st Monday unless it falls on a holiday\, then changed to the f
+ ollowing Monday. Dinner at 6 pm\, meeting starts
+DTSTART:20130506T060000
+DTEND:20130506T090000
+LOCATION:4219 E Waterloo Rd\, Stockton\, CA
+SUMMARY:H.O.G.-California Valley Stockton
+END:VEVENT
+END:VCALENDAR

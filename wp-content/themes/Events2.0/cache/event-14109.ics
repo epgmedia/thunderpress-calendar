@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121015T032011CEST-5386GGcAuo@98.129.229.176
+DTSTAMP:20121015T012011Z
+CATEGORIES:Events
+DESCRIPTION:We have a wonderful lineup of aircraft and performers as well a
+ s an expanded ground show. There will be a show and shine including street
+  rods\, extreme off-road vehicles\, motorcycles and military ground vehicl
+ es.
+DTSTART:20121006T090000
+DTEND:20121007T060000
+LOCATION:7000 Flightline Drive\, Kingman\, AZ
+SUMMARY:Kingman Air and Auto Show
+END:VEVENT
+END:VCALENDAR

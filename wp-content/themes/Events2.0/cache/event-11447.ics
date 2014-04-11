@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120921T055420CEST-2909VVoGU2@98.129.229.176
+DTSTAMP:20120921T035420Z
+CATEGORIES:Events
+DESCRIPTION:2\,000 riders will be escorted by IMPD on I-465 around the Indi
+ anapolis area. The ride is 65 miles long closing all three lanes for the r
+ ide. First 750 to Pre-register get a gift bag. Registration includes break
+ fast\, live music\, vendor midway\, lunch and a bike show with prizes and 
+ awards.
+DTSTART:20120908T083000
+DTEND:20120908T000000
+LOCATION:I-465 & S. Eastern to Troy Indianapolis IN 46239
+SUMMARY:Russ Dellen Memorial Loop Ride
+END:VEVENT
+END:VCALENDAR

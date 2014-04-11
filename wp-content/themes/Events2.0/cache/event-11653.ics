@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120921T000558CEST-5638uMpSM0@98.129.229.176
+DTSTAMP:20120921T220558Z
+CATEGORIES:Events
+DESCRIPTION:Join us for a ride as we remember those no longer with us. Poke
+ r run\, barbecue lunch\, live music and raffle prizes. Walk in's welcome. 
+ Run finishes and lunch will be served at Plainfield Station.
+DTSTART:20120901T090000
+DTEND:20120901T190000
+LOCATION:1035 Maine St. Vallejo\, CA 94590
+SUMMARY:1st Annual Fallen Riders Poker Run
+END:VEVENT
+END:VCALENDAR

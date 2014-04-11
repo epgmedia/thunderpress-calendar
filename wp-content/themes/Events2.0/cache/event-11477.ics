@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121021T024009CEST-0654HWjSFk@98.129.229.176
+DTSTAMP:20121021T004009Z
+CATEGORIES:Events
+DESCRIPTION:The Kern County County Christian Fellowship is having our quart
+ erly breakfast and blood drive at Houchin Blood Bank. Everyone is invited.
+  Please RSVP.
+DTSTART:20121010T090000
+DTEND:20121010T000000
+LOCATION:5500 Olive Dr. Bakersfield CA 93308
+SUMMARY:Christian Bikers Fellowship Breakfast &#038\; Blood Run
+END:VEVENT
+END:VCALENDAR

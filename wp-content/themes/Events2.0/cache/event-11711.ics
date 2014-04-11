@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121021T180120CEST-6783rOihol@98.129.229.176
+DTSTAMP:20121021T160120Z
+CATEGORIES:Events
+DESCRIPTION:Come and enjoy a great ride through Lake County and end with a 
+ chicken barbecue luncheon. You must be 21 years of age to participate.
+DTSTART:20121013T090000
+DTEND:20121013T180000
+LOCATION:460 S. Main St. Lakeport\, CA 95453
+SUMMARY:Christmas Charity Fun Run
+END:VEVENT
+END:VCALENDAR

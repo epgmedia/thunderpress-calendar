@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120923T163613CEST-8555JJ0uvA@98.129.229.176
+DTSTAMP:20120923T143613Z
+CATEGORIES:Events
+DESCRIPTION:Scenic ride in Rockland/Orange County. Route sheet\, all makes 
+ welcome. Breakfast and $10 coupon for lunch. Music\, door prizes\, 50/50\,
+  raffles\, at end site.
+DTSTART:20120923T090000
+DTEND:20120923T000000
+LOCATION:17 N. Middletown Red Nanuet\, NY 10954
+SUMMARY:Charity Ride to Benefit Gabrielle DiCarlo
+END:VEVENT
+END:VCALENDAR

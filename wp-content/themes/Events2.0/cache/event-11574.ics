@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T020703CEST-1048b1U2dv@98.129.229.176
+DTSTAMP:20120926T000703Z
+CATEGORIES:Events
+DESCRIPTION:Bike show (registration 11 am - 12 noon\, awards at 3:30 pm)\, 
+ food\, vendors\, music\, pin striping by Relic Kustoms. Skid Row\, LA Guns
+  and Annex in concert (gates open 6:15\, starts at 7 pm). Concert tickets 
+ on sale in store or online.
+DTSTART:20120922T110000
+DTEND:20120922T000000
+LOCATION:2704 W. Airport Dr\,\, Faribault\, MN\, 55021
+SUMMARY:Faribault Harley-Davidson&#8217\;s 35th Anniversary
+END:VEVENT
+END:VCALENDAR

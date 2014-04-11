@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130110T005710CET-8831uo8iui@98.129.229.176
+DTSTAMP:20130110T235710Z
+CATEGORIES:Events
+DESCRIPTION:Karaoke\, 50/50 raffles (you get half the money collected)\, mu
+ sic\, and Chirs is the Previous Owner of Sequoia Drive-In
+DTSTART:20130612T053000
+DTEND:20130612T083000
+LOCATION:48 Healdsburg Avenue\, Healdsburg\, CA
+SUMMARY:Bike Night at the Healdsburger
+END:VEVENT
+END:VCALENDAR

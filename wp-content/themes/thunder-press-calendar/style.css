@@ -1,0 +1,79 @@
+/*
+Theme Name:     Thunder Press Calendar
+Description:    Child theme of Templatic Events theme
+Author:         School Webworks
+Template:       Events
+
+(optional values you can add: Theme URI, Author URI, Version)
+*/
+
+@import url("../Events/style.css");
+
+#header, #footer, #footer a {
+	background: #002c6b;
+	color: #fff;
+}
+
+#footer {
+	padding-top: 0;
+	border-top: 4px solid #002C6B;
+}
+
+.header_center {
+	padding-left: 20px;
+	float: left;
+	width: 430px;
+	height: 125px;
+}
+
+.topbannerad {
+	text-align: center;
+	width: 730px;
+	padding: 10px 0 10px 0;
+	clear: both;
+	height: 100%;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.logo img {
+	position: relative;
+	margin-bottom: 6px;
+	top: -16px;
+}
+
+.calendar_widget {
+	width: 585px;
+}
+
+#content .twocolumns .listingview li h3 {
+	width: 100%;
+}
+
+#comments {
+	display: none;
+}
+
+.category_map {
+width: 587px;
+margin: 0;
+padding: 0 0 11px 0;
+background: none;
+}
+
+.category_map #map_canvas {
+width: 587px !important;
+}
+
+
+.event_type {
+display: none !important;
+}
+
+.totalprice_asp {
+display: none !important;
+}
+
+.feature_label {
+display: none !important;
+}

@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130708T131510CEST-23055fnzzf@98.129.229.176
+DTSTAMP:20130708T111510Z
+CATEGORIES:Events
+DESCRIPTION:ABATE of Southern Idaho is a not-for-profit organization intere
+ sted in the rights of the motorcycle rider. We meet
+DTSTART:20130807T070000
+DTEND:20130807T090000
+LOCATION:1935 S Eagle Rd\, Meridian\, ID
+SUMMARY:ABATE of Southern Idaho Business Meeting
+END:VEVENT
+END:VCALENDAR

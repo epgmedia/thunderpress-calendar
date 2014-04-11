@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130110T180309CET-6337PVZb47@98.129.229.176
+DTSTAMP:20130110T170309Z
+CATEGORIES:Events
+DESCRIPTION:Majority of meetings take place at Gateway Harley-Davidson. A s
+ econd meeting location is being confirmed for 2012 and the
+DTSTART:20130626T070000
+DTEND:20130626T100000
+LOCATION:3600 Lemay Ferry Road\, St. Louis\, MO
+SUMMARY:Women On Wheels-Heartland Chapter
+END:VEVENT
+END:VCALENDAR

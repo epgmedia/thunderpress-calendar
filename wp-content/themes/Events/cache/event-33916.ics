@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140411T173123CEST-14070jj4Uv@68.233.251.81
+DTSTAMP:20140411T153123Z
+CATEGORIES:Events
+DESCRIPTION:Please contact a member to arrange attending a monthly meeting 
+ or ride. Most meetings are on 1st Friday of the
+DTSTART:20130301T073000
+DTEND:20130301T103000
+LOCATION:25 Townsend Ave\, Beacon\, NY
+SUMMARY:Lost Wheels Motorcycle Club
+END:VEVENT
+END:VCALENDAR

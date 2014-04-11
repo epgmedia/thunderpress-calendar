@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121022T135629CEST-4372A7H2Uh@98.129.229.176
+DTSTAMP:20121022T115629Z
+CATEGORIES:Events
+DESCRIPTION:Top-name entertainment\, beautiful area riding\, racing action\
+ , giveaways\, bike shows\, contests\, bike builders\, food\, and much more
+  happening all over town and around.
+DTSTART:20121018T090000
+DTEND:20121021T120000
+LOCATION:Daytona Beach\, FL
+SUMMARY:20th Annual Biketoberfest
+END:VEVENT
+END:VCALENDAR

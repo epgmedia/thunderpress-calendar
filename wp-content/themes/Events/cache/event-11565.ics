@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140404T130441CEST-9318dZDAnu@68.233.251.81
+DTSTAMP:20140404T110441Z
+CATEGORIES:Events
+DESCRIPTION:Enjoy music\, autos\, cycles\, barbecue\, 50/50\, raffles\, pri
+ zes\, gifts and fun for the kids. 10 am_Noon signup for ABATE 21 Poker Run
+ .
+DTSTART:20121125T110000
+DTEND:20121125T000000
+LOCATION:44545 Division St.\, Lancaster\, CA 93535
+SUMMARY:Happenin&#8217\; HQ 16th Annual Toy Run
+END:VEVENT
+END:VCALENDAR

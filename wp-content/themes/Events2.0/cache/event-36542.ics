@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130106T185012CET-24477SgPAU@98.129.229.176
+DTSTAMP:20130106T175012Z
+CATEGORIES:Events
+DESCRIPTION:The Grand Canyon District of the Modified Motorcycle Associatio
+ n welcomes all riders to participate in protecting their rights as motorcy
+ clists
+DTSTART:20130106T090000
+DTEND:20130106T120000
+LOCATION:5877 N Leupp Rd.\, Flagstaff\, AZ
+SUMMARY:MMA-Grand Canyon District
+END:VEVENT
+END:VCALENDAR

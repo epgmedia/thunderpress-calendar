@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121216T132920CET-6632Ut7iCW@98.129.229.176
+DTSTAMP:20121216T122920Z
+CATEGORIES:Events
+DESCRIPTION:Run ends at Mother Lode Fairgrounds\, Sonora\, California\, aro
+ und noon for a pulled pork lunch with all the trimmings. Raffle\, 50/50\, 
+ games and music.
+DTSTART:20121029T090000
+DTEND:20121029T000000
+LOCATION:18275 Highway 108 Jamestown CA 95327
+SUMMARY:26th Annual Sonora Toy Run
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T081522CEST-89869oZKFe@98.129.229.176
+DTSTAMP:20120926T061522Z
+CATEGORIES:Events
+DESCRIPTION:A true ol’ school style biker party including live entertainm
+ ent\, adult games\, wet T-shirt contest\, food\, camping with clean shower
+ s and restrooms\, and lots more. This is a BYOB event\, so feel free to br
+ ing in your own alcohol. The event is held on private gated property. Entr
+ ance fee includes on-site camping with showers and restrooms. This is an a
+ dult rally and you must be 21 to enter.
+DTSTART:20120913T090000
+DTEND:20120916T170000
+LOCATION:310 Sherbert Road Cleveland AL
+SUMMARY:Rally By The River Fall
+END:VEVENT
+END:VCALENDAR

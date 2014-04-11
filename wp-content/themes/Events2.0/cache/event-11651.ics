@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T065615CEST-5088AK5XiT@98.129.229.176
+DTSTAMP:20120926T045615Z
+CATEGORIES:Events
+DESCRIPTION:Two places to register\, two separate rides (Sonoma Wine countr
+ y and Marin Headlands) to Penngrove Park in Penngrove\, California. Music\
+ , food\, raffle\, live BDSM demos.
+DTSTART:20120908T090000
+DTEND:20120908T190000
+LOCATION:6597 Commerce Blvd Rohnert Park\, CA 94928
+SUMMARY:Nor Cal Kink Ride
+END:VEVENT
+END:VCALENDAR

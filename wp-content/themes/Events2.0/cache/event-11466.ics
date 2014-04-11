@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T081559CEST-0137655Jfb@98.129.229.176
+DTSTAMP:20120926T061559Z
+CATEGORIES:Events
+DESCRIPTION:Begins with poker run\, all riders welcome\, high hand/low hand
+ \, 50/50\, raffle\, barbecue. POW/MIA ceremony starts at 1:30 pm. Donation
+  includes poker hand\, ride pin\, and meal ticket.
+DTSTART:20120922T090000
+DTEND:20120922T000000
+LOCATION:8300 Prunedale N. Rd. Prunedale CA 93907
+SUMMARY:ALR District 28 POW/MIA Poker Run and Ceremony
+END:VEVENT
+END:VCALENDAR

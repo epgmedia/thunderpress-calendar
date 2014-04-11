@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T144421CEST-0926MOKKfz@98.129.229.176
+DTSTAMP:20120926T124421Z
+CATEGORIES:Events
+DESCRIPTION:Open ride\, all welcome\, 5 stop poker run ending at Ethel's Ol
+ d Corral Caf_\, cash prize for high and low hands\, lunch\, 50/50\, door p
+ rizes\, live music.
+DTSTART:20120929T080000
+DTEND:20120929T000000
+LOCATION:35089 Merle Haggard Dr. Bakersfield CA 93308
+SUMMARY:Purple Thunder Cancer Ride
+END:VEVENT
+END:VCALENDAR

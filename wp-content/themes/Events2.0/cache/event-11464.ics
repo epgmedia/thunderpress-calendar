@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120924T001719CEST-0559Lg9sft@98.129.229.176
+DTSTAMP:20120924T221719Z
+CATEGORIES:Events
+DESCRIPTION:This approximately 30 mile motorcycle run starts and ends at Ke
+ ystone H-D and concludes with refreshments and live music. Kickstands up a
+ t 10 a.m.
+DTSTART:20120922T090000
+DTEND:20120922T000000
+LOCATION:770 State Rd. Parryville PA 18244
+SUMMARY:Alice&#8217\;s Cancer Run
+END:VEVENT
+END:VCALENDAR

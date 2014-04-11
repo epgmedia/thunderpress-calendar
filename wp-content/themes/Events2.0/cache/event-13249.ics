@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T064433CEST-3858fImiuw@98.129.229.176
+DTSTAMP:20120926T044433Z
+CATEGORIES:Events
+DESCRIPTION:KIA ceremony\, raising of the USA\, POW\, MIA\, KIA and Armed F
+ orces Flags at 12:30 pm. Swap meet and ride-in all day. Live music\, barbe
+ cue\, prize giveaways.
+DTSTART:20120901T090000
+DTEND:20120901T060000
+LOCATION:Hwy 1 & Struve Rd. Moss Landing\, CA
+SUMMARY:KIA Ride-In\, Flag Raising Ceremony\, Military Vehicle/Bike Show &#
+ 038\; Swap Meet
+END:VEVENT
+END:VCALENDAR

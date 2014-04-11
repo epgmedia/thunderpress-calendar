@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121007T072306CEST-6855iST4uW@98.129.229.176
+DTSTAMP:20121007T052306Z
+CATEGORIES:Events
+DESCRIPTION:Live music\, barbecue\, wet T-shirt\, burn out\, admission incl
+ udes lunch and bottomless beer. Bike show entrants shouldarrive no earlier
+  than 9 am and no later than 11:30 am\, categories are Custom\, H-D Bagger
+ \, all other H-D.
+DTSTART:20121006T120000
+DTEND:20121006T180000
+LOCATION:418 N. Main St Manteca\, CA 95336
+SUMMARY:Binford&#8217\;s Big Ass Bash
+END:VEVENT
+END:VCALENDAR

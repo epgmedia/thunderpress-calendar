@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120914T190447CEST-5408ZVewlO@98.129.229.176
+DTSTAMP:20120914T170447Z
+CATEGORIES:Events
+DESCRIPTION:This ride begins and ends at the Bethlehem SteelStacks but stop
+ s at Keystone H-D for a poker run. The registration fee includes and after
+  party with free food\, live music\, raffles\, prizes\, etc.
+DTSTART:20121028T100000
+DTEND:20121028T000000
+LOCATION:101 Founders Way Bethlehem PA 18015
+SUMMARY:Steel Horse Poker Run
+END:VEVENT
+END:VCALENDAR

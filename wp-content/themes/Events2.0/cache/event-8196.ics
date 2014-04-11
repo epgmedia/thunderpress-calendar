@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130111T152933CET-9994z5VOkz@98.129.229.176
+DTSTAMP:20130111T142933Z
+CATEGORIES:Events
+DESCRIPTION:The Sturgis Motorcycle Rally is a life-changing event for score
+ s of bikers.  With attendance in the hundreds of thousands\, the rally is 
+ the most iconic major motorcycle rally of the year. Local Rides—Incredib
+ le roads like Needles Highway\, Iron Mountain Road\, the Wildlife Loop\, V
+ anocker Canyon Road and Spearfish Canyon take you to amazing destinations 
+ including Mount Rushmore National Memorial\, Custer State Park\, Crazy Hor
+ se Memorial\, Bear Butte State Park\, the Badlands and Devil’s Tower Nat
+ ional Monument. Nonstop Fun—Don't forget about all the babes\, beer and 
+ nightlife that sweeps through the town when the sun goes down.
+DTSTART:20130805T090000
+DTEND:20130811T210000
+LOCATION:Sturgis\, SD
+SUMMARY:Sturgis Motorcycle Rally
+END:VEVENT
+END:VCALENDAR

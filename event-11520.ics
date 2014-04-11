@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120915T195322CEST-9966jN66cL@98.129.229.176
+DTSTAMP:20120915T175322Z
+CATEGORIES:Events
+DESCRIPTION:Peoples Choice Best Bike contest\, first place $100\, second pl
+ ace $75\, third place $50\, lucky numbers ride for cash prizes\, vendors\,
+ dart games for good raffle prizes\, kids games and jumper\, snow cones.
+DTSTART:20120915T093000
+DTEND:20120915T000000
+LOCATION:151 Hegenburger Rd Oakland CA 94621
+SUMMARY:Socks For Souls
+END:VEVENT
+END:VCALENDAR

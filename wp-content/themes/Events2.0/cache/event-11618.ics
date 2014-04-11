@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121022T135453CEST-5022BJJikp@98.129.229.176
+DTSTAMP:20121022T115453Z
+CATEGORIES:Events
+DESCRIPTION:Evening of fun with music\, dancing and food for the adults. We
+ ar a costume or come as you are. Mark this on your calendar. More info to 
+ come.
+DTSTART:20121020T193000
+DTEND:20121020T000000
+LOCATION:1801 Eldorado St. Vallejo CA 94590
+SUMMARY:Public Halloween Party
+END:VEVENT
+END:VCALENDAR

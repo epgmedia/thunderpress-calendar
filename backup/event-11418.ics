@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120915T144617CEST-5414kGeZLs@98.129.229.176
+DTSTAMP:20120915T124617Z
+CATEGORIES:Events
+DESCRIPTION:Bike show by Lorenzo Lamas\, vendors\, barbecue lunch\, raffles
+ \, live music. Registration and more details online.
+DTSTART:20120923T070000
+DTEND:20120923T000000
+LOCATION:22107 Sherman Way Canoga Park CA 91303
+SUMMARY:2nd Annual Benefit for the Residents of the California Veterans Hom
+ e West L.A.
+END:VEVENT
+END:VCALENDAR

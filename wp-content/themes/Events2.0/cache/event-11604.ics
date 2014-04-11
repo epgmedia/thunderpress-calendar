@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120926T113933CEST-9708mPmGoO@98.129.229.176
+DTSTAMP:20120926T093933Z
+CATEGORIES:Events
+DESCRIPTION:Celebrating the historical Marion International Motorcycle race
+  where the first Harley-Davidson victory lap with a live hog took place.
+DTSTART:20120921T170000
+DTEND:20120923T230000
+LOCATION:Ballard Field Marion IN 46952
+SUMMARY:Hog Daze Motorcycle Rally
+END:VEVENT
+END:VCALENDAR

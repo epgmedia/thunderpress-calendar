@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121212T152801CET-0014fU9T8e@98.129.229.176
+DTSTAMP:20121212T142801Z
+CATEGORIES:Events
+DESCRIPTION:Every year\, thousands of kids are diagnosed with a brain tumor
+  the deadliest type of childhood cancer. You can give them a brighter futu
+ re by joining.
+DTSTART:20121021T083000
+DTEND:20121021T000000
+LOCATION:3333 Manchester Ave Cardiff CA 92007
+SUMMARY:San Diego Ride for Kids
+END:VEVENT
+END:VCALENDAR

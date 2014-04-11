@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130709T022425CEST-4229Z4dfuw@98.129.229.176
+DTSTAMP:20130709T002425Z
+CATEGORIES:Events
+DESCRIPTION:Come join us for fun and fellowship. Find out out more about ou
+ r planned events and help us decide on
+DTSTART:20130506T063000
+DTEND:20130506T093000
+LOCATION:Rt 1 and 175 Columbia Marketplace East\, Jessup\, MD
+SUMMARY:United Christian Bikers International-Maryland
+END:VEVENT
+END:VCALENDAR

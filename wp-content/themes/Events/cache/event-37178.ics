@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140409T170801CEST-1714N2CuXX@68.233.251.81
+DTSTAMP:20140409T150801Z
+CATEGORIES:Events
+DESCRIPTION:Purple Heart Riders is a National non-profit veterans organizat
+ ion for Veterans that were awarded the Purple Heart\, In some
+DTSTART:20131013T010000
+DTEND:20131013T040000
+LOCATION:1450 W Walnut St\, Stockton\, CA
+SUMMARY:The Purple Heart Riders-California
+END:VEVENT
+END:VCALENDAR

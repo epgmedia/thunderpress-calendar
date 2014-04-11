@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121007T233410CEST-0002PU9ZvO@98.129.229.176
+DTSTAMP:20121007T213410Z
+CATEGORIES:Events
+DESCRIPTION:Free pin to first 100 riders. Pack ride. Registration includes 
+ admission\, chance to win the door prize\, free photograph of you and your
+  bike\, ice cream.
+DTSTART:20121007T090000
+DTEND:20121007T000000
+LOCATION:2869 W. Highway 12 Burson CA 95225
+SUMMARY:5th Annual TAG Ride for Autism
+END:VEVENT
+END:VCALENDAR

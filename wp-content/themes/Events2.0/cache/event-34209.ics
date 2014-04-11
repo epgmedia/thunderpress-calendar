@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130111T020227CET-4977DV4rTF@98.129.229.176
+DTSTAMP:20130111T010227Z
+CATEGORIES:Events
+DESCRIPTION:Raffle\, door prizes\, vendors\, food\, drinks. Come and bring 
+ a friend (or meet a new one) to V-Twin City
+DTSTART:20131011T060000
+DTEND:20131011T090000
+LOCATION:8760 Central Avenue\, Montclair\, CA
+SUMMARY:Bike Night at V-Twin City &#8211\; Montclair
+END:VEVENT
+END:VCALENDAR

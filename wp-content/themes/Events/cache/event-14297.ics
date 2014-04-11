@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20131003T025440CEST-3788i2U1GT@68.233.251.81
+DTSTAMP:20131003T005440Z
+CATEGORIES:Events
+DESCRIPTION:Annual holiday open house. Saturday and Sunday\, free refreshme
+ nts from 11 am–2 pm or while supplies last and lots of holiday cheer!
+DTSTART:20121208T100000
+DTEND:20121209T050000
+LOCATION:16175 Condit Road\, Morgan Hill\, CA 95037
+SUMMARY:HOT Holiday Open House
+END:VEVENT
+END:VCALENDAR

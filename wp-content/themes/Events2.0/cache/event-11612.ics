@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121015T023904CEST-8353Ni5VCt@98.129.229.176
+DTSTAMP:20121015T003904Z
+CATEGORIES:Events
+DESCRIPTION:Join us for a night of bikes and bubbles. This will be a fun fi
+ lled evening of hands on demonstrations\, fabulous fall fashions and even 
+ the opportunity to ride your first Harley in a safe\, controlled environme
+ nt with our Jump Start motorcycle experience. This event is totally free\,
+  so why not grab a girlfriend or two and join us? Flying solo? Not to worr
+ y\, we've got you covered. There's going to be plenty of guides to help yo
+ u start your journey!
+DTSTART:20121011T180000
+DTEND:20121011T000000
+LOCATION:100 Auto Center Dr Vacaville CA 95687
+SUMMARY:Bikes and Bubbles Ladies Garage Party
+END:VEVENT
+END:VCALENDAR

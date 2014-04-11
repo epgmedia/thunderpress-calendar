@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130111T161242CET-5387EGUNV1@98.129.229.176
+DTSTAMP:20130111T151242Z
+CATEGORIES:Events
+DESCRIPTION:Ladies only from 7–9 pm (sorry men!). Refreshments\, door pri
+ zes for 25 lucky ladies\, pictures with Santa and lots of holiday cheer! D
+ on't miss it!
+DTSTART:20121206T070000
+DTEND:20121206T090000
+LOCATION:16175 Condit Road\, Morgan Hill\, CA 95037
+SUMMARY:Annual HOT Ladies Nite
+END:VEVENT
+END:VCALENDAR

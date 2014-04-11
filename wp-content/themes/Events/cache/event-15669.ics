@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140409T142407CEST-9549HR7EaK@68.233.251.81
+DTSTAMP:20140409T122407Z
+CATEGORIES:Events
+DESCRIPTION:Buy\, sell\, trade\, bikes\, parts leather\, food\, beer\, live
+  bands\, celebrity appearance\, bike show\, trophy awards. Hours: Friday 1
+ –7 pm\, Saturday 10 am–7 pm\, Sunday 10 am–4 pm
+DTSTART:20130118T010000
+DTEND:20130120T040000
+LOCATION:4051 East Main Street\, St. Charles\, IL 60174
+SUMMARY:29th Annual Chicago Motorcycle Show &amp\; Swap Meet
+END:VEVENT
+END:VCALENDAR

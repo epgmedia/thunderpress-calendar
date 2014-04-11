@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130709T022403CEST-0699dwCF0U@98.129.229.176
+DTSTAMP:20130709T002403Z
+CATEGORIES:Events
+DESCRIPTION:Chapter Meetings in April through September are riding meetings
+ . We meet at the dealership and then ride to our destination
+DTSTART:20131020T100000
+DTEND:20131020T010000
+LOCATION:6900 South Frontage Road\, Billings\, MT
+SUMMARY:HOG-Beartooth
+END:VEVENT
+END:VCALENDAR

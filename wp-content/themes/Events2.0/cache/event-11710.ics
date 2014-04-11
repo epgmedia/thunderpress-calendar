@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121008T165707CEST-4482AvvBDe@98.129.229.176
+DTSTAMP:20121008T145707Z
+CATEGORIES:Events
+DESCRIPTION:Vendors\, music\, refreshments and demos every day. 50 percent 
+ off all end-of-season MotorClothes merchandise. Vendors call Ray Herro Pro
+ motions at 361.290.5960 or rayherro@yahoo.com.
+DTSTART:20121003T090000
+DTEND:20121007T190000
+LOCATION:4919 Ocean Hwy W\, Shallotte\, NC
+SUMMARY:Fall Beach Rally
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121012T174632CEST-6465OG4bo1@98.129.229.176
+DTSTAMP:20121012T154632Z
+CATEGORIES:Events
+DESCRIPTION:Come see Montgomery County's own Black Eyed Suzies Roller Derby
+  team demo in our parking lot. You'll learn the rules of roller derby and 
+ can take part in their 'Hit like a derby girl' clinics.  Free food at our 
+ cook-out.
+DTSTART:20121006T110000
+DTEND:20121006T150000
+LOCATION:7830 Airpark Rd\, Gaithersburg\, MD 20879
+SUMMARY:Roller Derby Girls at Battley Harley-Davidson
+END:VEVENT
+END:VCALENDAR

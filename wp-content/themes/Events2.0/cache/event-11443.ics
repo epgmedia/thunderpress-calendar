@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130111T013839CET-9690LIWwlg@98.129.229.176
+DTSTAMP:20130111T003839Z
+CATEGORIES:Events
+DESCRIPTION:Overnight motorcycle poker run\, Lafayette\, Louisiana\, to Ora
+ nge Beach\, Alabama\, open to all bikes. Or join us at the Happy Harbor Ca
+ ntina in Pensacola Saturday night. Registration includes event T-shirt\, c
+ omplimentary meal and ride token.
+DTSTART:20130322T080000
+DTEND:20120323T000000
+LOCATION:724 I-10 So. Frontage Rd. Scott LA 70583
+SUMMARY:10th annual Ride for Autism
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140409T232905CEST-1011NHUiG4@68.233.251.81
+DTSTAMP:20140409T212905Z
+CATEGORIES:Events
+DESCRIPTION:The poker run pays $500 for best hand and $200 for worst hand. 
+ So come join us as well for breakfast\, raffles\, pins and much more! Brin
+ g a new unwrapped toy.  All riders welcome\, no colors please.
+DTSTART:20121208T090000
+DTEND:20121208T070000
+LOCATION:100 E. Harrison St.\, Corona\, CA 92879
+SUMMARY:Jeff Dill&#8217\;s 9th Annual Spark Of Love Toy Run
+END:VEVENT
+END:VCALENDAR

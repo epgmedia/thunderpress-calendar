@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120924T181158CEST-8377ZvuGOo@98.129.229.176
+DTSTAMP:20120924T161158Z
+CATEGORIES:Events
+DESCRIPTION:Public is invited to the Official Grand Start of the coast-to-c
+ oast antique motorcycle endurance run. Be there for the green flag as ride
+ rs from around the world depart at 9 am for their 4\,000-mile New York to 
+ San Francisco adventure. All marques of pre-1930 motorcycles entries will 
+ be participating.
+DTSTART:20120907T070000
+DTEND:20120907T000000
+LOCATION:250 Lake St.  Newburgh NY
+SUMMARY:Motorcycle Cannonball Run
+END:VEVENT
+END:VCALENDAR

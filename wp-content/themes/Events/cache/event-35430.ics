@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140406T131748CEST-6254oUToLr@68.233.251.81
+DTSTAMP:20140406T111748Z
+CATEGORIES:Events
+DESCRIPTION:All Are Welcome! We are a non-profit helping the under privileg
+ ed in Siskiyou County\, as well as other children
+DTSTART:20130914T100000
+DTEND:20130914T010000
+LOCATION:137 Main St\, Weed\, CA
+SUMMARY:Siskiyou Motorcycle Association-Weed
+END:VEVENT
+END:VCALENDAR

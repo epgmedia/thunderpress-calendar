@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140404T163344CEST-8398GL0paU@68.233.251.81
+DTSTAMP:20140404T143344Z
+CATEGORIES:Events
+DESCRIPTION:Monthly meetings are open to all. We discuss upcoming rides\, e
+ vents\, projects\, membership\, have fellowship\, coffee & prayer. All bik
+ ers welcome
+DTSTART:20130920T070000
+DTEND:20130920T100000
+LOCATION:19700 Rinaldi Street\, Room #110\, Porter Ranch\, CA
+SUMMARY:Bikers for Christ-San Fernando Valley
+END:VEVENT
+END:VCALENDAR

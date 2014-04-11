@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120922T081513CEST-4760bdcmCC@98.129.229.176
+DTSTAMP:20120922T061513Z
+CATEGORIES:Events
+DESCRIPTION:Motorcycle show/shine ($250 purse money)\, opening ceremony at 
+ 11 am\, barbecue\, music\, refreshments\, raffle and live auction. World W
+ ar II vintage Harley and 1/2 track displays and followed by a Dice Run ($1
+ 50) top roll.
+DTSTART:20120922T090000
+DTEND:20120922T000000
+LOCATION:320 Collins Ave Boise ID 83705
+SUMMARY:3rd Annual Chrome At The Home
+END:VEVENT
+END:VCALENDAR

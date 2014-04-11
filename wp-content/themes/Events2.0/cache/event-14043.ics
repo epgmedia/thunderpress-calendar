@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130109T154232CET-4346sUz0i2@98.129.229.176
+DTSTAMP:20130109T144232Z
+CATEGORIES:Events
+DESCRIPTION:Rain or shine. Ends at Stokes Ranch. There will be food\, drink
+ s\, live music and raffle. All bikes and cars are welcome. Sponsors needed
+ ! Contact Bret at 415.488.1441.
+DTSTART:20121208T090000
+DTEND:20121208T060000
+LOCATION:15 Harbor St.\, San Rafael\, CA 94901
+SUMMARY:Hatt&#8217\;s 13th Annual San Quentin Toy Run
+END:VEVENT
+END:VCALENDAR

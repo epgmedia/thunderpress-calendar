@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120921T132621CEST-7293u7CW5X@98.129.229.176
+DTSTAMP:20120921T112621Z
+CATEGORIES:Events
+DESCRIPTION:This scenic\, escorted ride benefits children with brain cancer
+ . It is a special day for the kids who get to forget the hospitals and che
+ mo for one day.
+DTSTART:20120916T080000
+DTEND:20120916T000000
+LOCATION:Pinecrest St. Phoenixville PA 19460
+SUMMARY:Philadelphia Ride for Kids
+END:VEVENT
+END:VCALENDAR

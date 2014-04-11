@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120922T202817CEST-68652GuKVJ@98.129.229.176
+DTSTAMP:20120922T182817Z
+CATEGORIES:Events
+DESCRIPTION:75 riders from 12 different countries make up this ride and tra
+ vel almost 300 miles every day stopping at the Harley-Davidson Museum. Vis
+ itors will also get to see Cris Sommer Simmons\, previous Cannonball Run r
+ ider and author of The American Motorcycle Girl's Cannonball Diary.
+DTSTART:20120909T120000
+DTEND:20120909T000000
+LOCATION:400 W. Canal St. Milwaukee WI 53201
+SUMMARY:Motorcycle Cannonball Run Milwaukee Stop
+END:VEVENT
+END:VCALENDAR

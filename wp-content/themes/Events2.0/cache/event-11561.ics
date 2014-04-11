@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121008T134421CEST-0831jVm9th@98.129.229.176
+DTSTAMP:20121008T114421Z
+CATEGORIES:Events
+DESCRIPTION:Bike ride\, barbecue\, music\, beer and dancing in support of 2
+ 0-year-old Candice Renee\, recently shot by unknown assailants and now par
+ alyzed.
+DTSTART:20121006T103000
+DTEND:20121006T000000
+LOCATION:23rd & The Strand Galveston TX 77550
+SUMMARY:Let&#8217\;s Ride for Candice
+END:VEVENT
+END:VCALENDAR

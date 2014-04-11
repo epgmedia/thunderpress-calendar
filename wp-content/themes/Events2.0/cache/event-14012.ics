@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121017T122857CEST-8911l1gkxi@98.129.229.176
+DTSTAMP:20121017T102857Z
+CATEGORIES:Events
+DESCRIPTION:We are holding our Inaugural Motorcycle Rally in conjunction wi
+ th the Maricopa Stage Coach Days. Stage Coach Days is a weeklong event wit
+ h many events. As group here in Maricopa we have been asked to join the ev
+ ent with a rally on Sunday October 21\, 2012.
+DTSTART:20121021T120000
+DTEND:20121021T050000
+LOCATION:19000 Porter Road\, Maricopa\, AZ 85139
+SUMMARY:Maricopa Motorcycle Riders Inaugural Rally
+END:VEVENT
+END:VCALENDAR

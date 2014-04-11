@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120919T235342CEST-032979bHOU@98.129.229.176
+DTSTAMP:20120919T215342Z
+CATEGORIES:Events
+DESCRIPTION:Breaky at 9 am at Trev Deeley's. Ride leaves 10:30 am. Scenic r
+ ide up the Sea to Sky Highway to Squamish\, BC\, for a salmon barbecue and
+  live entertainment.
+DTSTART:20120916T090000
+DTEND:20120916T000000
+LOCATION:1875 Boundary Rd Vancouver BC V5M 3Y7
+SUMMARY:1st Annual Salmon Run Ride
+END:VEVENT
+END:VCALENDAR

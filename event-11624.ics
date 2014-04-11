@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120913T024517CEST-3535OUUDsN@98.129.229.176
+DTSTAMP:20120913T004517Z
+CATEGORIES:Events
+DESCRIPTION:$5 buffet breakfast at sign in. Out by 11 am\, in by 2 pm. Live
+  music starts at 2 pm\, 50/50\, auction\, prizes\, barbecue. High hand $25
+ 0\, low hand $100.
+DTSTART:20120908T090000
+DTEND:20120908T170000
+LOCATION:410 E. Main St. Rogue River OR 97537
+SUMMARY:7th Annual Patriot&#8217\;s Run
+END:VEVENT
+END:VCALENDAR

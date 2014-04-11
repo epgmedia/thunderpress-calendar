@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20130707T145342CEST-2601SWSIlR@98.129.229.176
+DTSTAMP:20130707T125342Z
+CATEGORIES:Events
+DESCRIPTION:Grand Fathers invite you to our pancake breakfast\, taco lunch 
+ and swap-meet. Vendors welcome lots of old school Harley
+DTSTART:20130127T090000
+DTEND:20130127T120000
+LOCATION:18115 Grand Avenue\, Lake Elsinore\, CA
+SUMMARY:Pancake&#47\;Taco&#47\;Swapmeet
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140404T130426CEST-1771arkD8h@68.233.251.81
+DTSTAMP:20140404T110426Z
+CATEGORIES:Events
+DESCRIPTION:All bikes welcome. Come out and have a good time. Live music\,f
+ ood\, door prizes\, run prizes and vendors. Full bar available.
+DTSTART:20121117T110000
+DTEND:20121117T000000
+LOCATION:32150 Grand Ave.\, Winchester\, CA 92596
+SUMMARY:9th Annual Anniversary Party
+END:VEVENT
+END:VCALENDAR

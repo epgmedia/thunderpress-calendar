@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121021T015054CEST-4748rUngjs@98.129.229.176
+DTSTAMP:20121021T235054Z
+CATEGORIES:Events
+DESCRIPTION:This will be an escorted ride departing at 12 noon. Breakfast a
+ nd beverages will be available for a $4 donation at the Lodge with complim
+ entary coffee during sign ups.
+DTSTART:20121020T080000
+DTEND:20121020T000000
+LOCATION:117 S. Hook Rd. Pennsville NJ 08070
+SUMMARY:2nd Annual Nemours/A.I. duPont Hospital for Children Toy Run
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20120922T075918CEST-5301XNHTVd@98.129.229.176
+DTSTAMP:20120922T055918Z
+CATEGORIES:Events
+DESCRIPTION:There will be a show and shine\, spaghetti dinner at 2 pm\, raf
+ fle for prizes at 3:30 pm and prizes awarded for high and low poker hands.
+  All motorcycles and cars welcome.
+DTSTART:20120915T100000
+DTEND:20120915T000000
+LOCATION:200 Mercy Oaks Dr. Redding CA 96003
+SUMMARY:9th Annual Star Poker Run
+END:VEVENT
+END:VCALENDAR

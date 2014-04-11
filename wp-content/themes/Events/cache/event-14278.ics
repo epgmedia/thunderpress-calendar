@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20131002T011833CEST-6112JKUeip@68.233.251.81
+DTSTAMP:20131002T231833Z
+CATEGORIES:Events
+DESCRIPTION:Run pin (first 500)\, run shirt\, breakfast\, barbecue lunch\, 
+ $5 gaming credit\, entered into grand prize drawings\, live music and more
+ .
+DTSTART:20121103T080000
+DTEND:20121103T030000
+LOCATION:930 N. Carpenter Rd.\, Modesto\, CA  95351
+SUMMARY:7th Annual Santa Claus Toy Run
+END:VEVENT
+END:VCALENDAR

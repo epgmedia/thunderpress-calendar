@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140411T164313CEST-7226GU1fwJ@68.233.251.81
+DTSTAMP:20140411T144313Z
+CATEGORIES:Events
+DESCRIPTION:This is a 100 mile Charity benefit 'Pledge Ride.' Funds raised 
+ will go to build a permanent memorial to the men and women from Orland who
+  died in service to America. A secondary cause is to permanently light the
+  Historic Orland Arch.
+DTSTART:20130119T100000
+DTEND:20130119T020000
+LOCATION:500 Fifth Street\, Orland\, CA. 95963
+SUMMARY:Motor-Icicle Run
+END:VEVENT
+END:VCALENDAR

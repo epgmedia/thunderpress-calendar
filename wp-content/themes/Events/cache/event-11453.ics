@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140410T183620CEST-0105xfFAgR@68.233.251.81
+DTSTAMP:20140410T163620Z
+CATEGORIES:Events
+DESCRIPTION:Save the ta-tas. KSU 10:15 am. Free coffee and donuts. Free run
+  patch or year rocker to first 150. Pre-registration encouraged to receive
+  patch.
+DTSTART:20121021T083000
+DTEND:20121021T000000
+LOCATION:511 Commack Rd. Deer Park NY 11729
+SUMMARY:Bikers For Boobies Breast Cancer Run
+END:VEVENT
+END:VCALENDAR

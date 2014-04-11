@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121217T153337CET-7363v76Dmv@98.129.229.176
+DTSTAMP:20121217T143337Z
+CATEGORIES:Events
+DESCRIPTION:Join us every Friday for bike night with live music from Sal Co
+ rolino\, drink specials and giveaways\, vendors and a
+DTSTART:20120803T180000
+DTEND:20160826T210000
+LOCATION:
+SUMMARY:Friday Night Bike Nights at the Hideaway Grill
+END:VEVENT
+END:VCALENDAR

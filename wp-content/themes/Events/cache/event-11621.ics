@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140410T005226CEST-5805HABuLr@68.233.251.81
+DTSTAMP:20140410T225226Z
+CATEGORIES:Events
+DESCRIPTION:If you are from outside the area get a room party\, spend the n
+ ight and ride in a pack to the toy run. Mention the Toy Run for a discount
+ ed room rate.
+DTSTART:20121124T200000
+DTEND:20121124T000000
+LOCATION:5321 Date Ave Sacramento CA 95841
+SUMMARY:Pre-Toy Run Party
+END:VEVENT
+END:VCALENDAR

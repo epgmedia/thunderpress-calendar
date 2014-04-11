@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20121227T091805CET-1407UOO3o5@98.129.229.176
+DTSTAMP:20121227T081805Z
+CATEGORIES:Events
+DESCRIPTION:Sertoma International is a 501(c)3 not-for-profit civic organiz
+ ation with 20\,000-plus members in more than 650
+DTSTART:20130416T063000
+DTEND:20130416T093000
+LOCATION:866 Indian Springs Drive\, Forsyth\, GA
+SUMMARY:Sertoma Riders-North Georgia District\, Sertoma International
+END:VEVENT
+END:VCALENDAR
