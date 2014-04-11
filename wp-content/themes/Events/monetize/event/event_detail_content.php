@@ -53,7 +53,19 @@ else
 		});
 	</script>
 	<div class="pikachoose" id="pikachoose" <?php if($gallery_map_flag == 'Map & Gallery Both - Default Gallery' || $gallery_map_flag == 'Gallery Only'){ } else { echo 'style="display:none;"'; }?> >
-	<?php $post_img = bdw_get_images_with_info($post->ID,'large'); ?>
+	<?php 
+	$is_parent = $post->post_parent;
+	if($is_parent)
+		$post_id = $post->post_parent;
+	else
+		$post_id = $post->ID;
+	$post_img = bdw_get_images_with_info($post_id,'large'); 
+	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'large'  );
+	if($image[0] != '')
+		$thumb = $image[0];
+	elseif($prdimage[0] != '')
+		$thumb = $post_img[0]['file'];
+	?>
 	<?php if(count($post_img) > 0) { ?>
 	<ul id="pikame" class="jcarousel-skin-pika">
 	<?php
@@ -77,8 +89,8 @@ else
 	{ ?> 
 	<div class="google_map" id="detail_google_map_id" style="<?php if($gallery_map_flag == 'Map Only'){ echo 'width:593px; height:400px;'; } if($gallery_map_flag == 'Map & Gallery Both - Default Map' || $gallery_map_flag == 'Map Only' ){ } else { echo ' visibility:hidden;height:0'; }?>" > 
 	<?php 
-	$geo_latitude = get_post_meta($post->ID,'geo_latitude',true);
-	$geo_longitude = get_post_meta($post->ID,'geo_longitude',true);
+	$geo_latitude = get_post_meta($post_id,'geo_latitude',true);
+	$geo_longitude = get_post_meta($post_id,'geo_longitude',true);
 	$map_type = get_post_meta($post->ID,'map_view',true);
 	include_once (TEMPLATEPATH . '/library/map/google_map_detail.php');?> 
 	</div>  <!-- google map #end -->

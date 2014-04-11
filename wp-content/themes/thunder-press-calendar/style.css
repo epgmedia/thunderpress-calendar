@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /*
 Theme Name:     Thunder Press Calendar
 Description:    Child theme of Templatic Events theme
@@ -6,7 +8,6 @@ Template:       Events
 
 (optional values you can add: Theme URI, Author URI, Version)
 */
-
 @import url("../Events/style.css");
 
 #header, #footer, #footer a {

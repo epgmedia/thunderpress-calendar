@@ -1,15 +1,32 @@
-<?php global $post; ?>
+<?php global $post;
+$is_parent = $post->post_parent;
+if($is_parent)
+	$post_id = $is_parent;
+else
+	$post_id = $post->ID;
+ ?>
 <div class="event_list <?php if(get_post_meta($post->ID,'featured_c',true) == 'c'){?>event_list_featured<?php }?> clearfix">
     <?php if(get_post_meta($post->ID,'featured_c',true) == 'c'  ) { ?><div class="featured_tag"></div><?php }?>
     <?php
-	$post_img = bdw_get_images_with_info($post->ID,'thumb');//fetch the event thumb image.
-	$thumb = $post_img[0]['file'];
+	$post_img = bdw_get_images_with_info($post_id,'thumb');//fetch the event thumb image.
+
+	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'thumb'  );
+	if($image[0] != '')
+		$thumb = $image[0];
+	elseif($post_img[0]['file'] != '')
+		$thumb = $post_img[0]['file'];
+		
 	if ( $thumb != '' ) { ?>
 	 <a class="event_img" href="<?php the_permalink(); ?>">
-	 <img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /> </a>
+     <?php if($image[0]):
+        		echo get_the_post_thumbnail($post_id, 'listing_img' );
+		else: ?>
+			 <img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  width="125" height="75"/>
+     <?php endif;?>
+     </a>
 	<?php
 	} else { ?> 
-	   <!--<a href="<?php echo get_permalink($post->ID); ?>" class="event_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>"  width="125" height="75" /></a>-->
+	   <a href="<?php echo get_permalink($post->ID); ?>" class="event_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>"  width="125" height="75" /></a>
 	<?php } ?>
     <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php if ($post->post_type != "post") { ?>
@@ -29,7 +46,7 @@
 	?> </p> 
     <p class="location"> <span><?php echo LOCATION;?> :</span>  <br /> 
     <?php echo get_post_meta($post->ID,'address',true);?> </p> 
-	<?php $custom_fields = show_on_listing(CUSTOM_POST_TYPE1,$post->ID);//show all the custom fields
+	<?php $custom_fields = show_on_listing(CUSTOM_POST_TYPE1,$post_id);//show all the custom fields
 	print_r($custom_fields); ?>
 	<?php } ?>
 	<?php if ($post->post_type == "post") { ?>

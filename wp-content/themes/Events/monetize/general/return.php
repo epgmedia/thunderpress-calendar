@@ -11,14 +11,14 @@ global $page_title;?>
 	 <?php if ( get_option( 'ptthemes_breadcrumbs' ) == 'Yes') {  ?>
 <div class="breadcrumb_in"><a href="<?php echo home_url(); ?>"><?php _e('Home','templatic'); ?></a> &raquo; <?php echo $page_title; ?></div><?php } ?>
 <?php 
-if($_REQUEST['txn_id'] != "" && $_REQUEST['pid'] != "" ){
+if($_REQUEST['trans_id'] != "" && $_REQUEST['pid'] != "" ){
 global $wpdb,$transection_db_table_name;
 $trans_id = $wpdb->get_row("select * from $transection_db_table_name where trans_id='".$_REQUEST['trans_id']."' and status=0");
 if($trans_id !=""){
 $filecontent = stripslashes(get_option('post_payment_success_msg_content'));
 if(!$filecontent)
 {
-	$filecontent = PAYMENT_SUCCESS_MSG;
+	$filecontent = "<p>".PAYMENT_SUCCESS_MSG."</p>";
 }
 $store_name = get_option('blogname');
 $order_id = $_REQUEST['pid'];
@@ -76,7 +76,7 @@ $replace_array = array($store_name,$post_link,$buyer_information);
 
 $filecontent = str_replace($search_array,$replace_array,$filecontent);
 ?>
-<div class="content-title"><?php echo $page_title; ?></div>
+<h3 class="content-title" style="padding-top:50px;"><?php echo $page_title; ?></h3>
 <?php
 echo $filecontent;
 if($_REQUEST['pid']!="" && $_REQUEST['trans_id']!=""){

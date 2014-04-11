@@ -4,8 +4,13 @@ $file = dirname(__FILE__);
 $file = substr($file,0,stripos($file, "wp-content"));
 require($file . "/wp-load.php");
 global $post,$wpdb;
+if(is_plugin_active('wpml-translation-management/plugin.php'))
+{
+	global  $sitepress;
+	$sitepress->switch_lang($_REQUEST['language']);
+}
 /* display calendar fetching all event */
-$monthNames = Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+$monthNames = Array(__('January','templatic'), __('February','templatic'), __('March','templatic'), __('April','templatic'), __('May','templatic'), __('June','templatic'), __('July','templatic'), __('August','templatic'), __('September','templatic'), __('October','templatic'), __('November','templatic'), __('December','templatic'));
 	
 	if (!isset($_REQUEST["mnth"])) $_REQUEST["mnth"] = date("n");
 	if (!isset($_REQUEST["yr"])) $_REQUEST["yr"] = date("Y");
@@ -52,7 +57,7 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
     <table width="100%">
      <tr align="center" class="title">
     <td width="10%" class="title"> <a href="javascript:void(0);" onclick="change_calendar(<?php echo $prev_month; ?>,<?php echo $prev_year; ?>)"> <img src="<?php bloginfo('template_directory'); ?>/library/calendar/previous.png" alt=""  /></a></td>
-	<td   class="title"><?php echo $monthNames[$cMonth-1].' '.$cYear; ?></td>
+	<td   class="title"><?php _e($monthNames[$cMonth-1],'templatic'); echo ' '.$cYear; ?></td>
     <td width="10%" class="title"><a href="javascript:void(0);"  onclick="change_calendar(<?php echo $next_month; ?>,<?php echo $next_year; ?>)">  <img src="<?php bloginfo('template_directory'); ?>/library/calendar/next.png" alt=""  /></a> </td>
 	</tr>
             </table>
@@ -64,13 +69,13 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 	<table width="100%" border="0" cellpadding="2" cellspacing="2"  class="calendar_widget">
 	
 	<tr>
-	<td class="days" >M</td>
-	<td  class="days" >T</td>
-	<td class="days" >W</td>
-	<td class="days" >T</td>
-	<td class="days" >F</td>
-	<td class="days" >S</td>
-	<td  class="days" >S</td>
+	<td class="days" ><?php _e('M','templatic'); ?></td>
+	<td  class="days" ><?php _e('T','templatic'); ?></td>
+	<td class="days" ><?php _e('W','templatic'); ?></td>
+	<td class="days" ><?php _e('T','templatic'); ?></td>
+	<td class="days" ><?php _e('F','templatic'); ?></td>
+	<td class="days" ><?php _e('S','templatic'); ?></td>
+	<td  class="days" ><?php _e('S','templatic'); ?></td>
 	</tr> 
 	<?php
 	$timestamp = mktime(0,0,0,$cMonth,1,$cYear);
@@ -90,14 +95,31 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 	}
 
 	global $wpdb;
-	for ($i=1; $i<($maxday+$startday); $i++) {
-		if(($i % 7) == 1 ) echo "<tr>\n";
-		if($i < $startday){
+	$sun_start_date = 0;
+	if($startday == 0 )
+	{
+		$count = 7;
+	}else
+	{
+		$count = 0;
+	}
+	for ($i=1; $i<($maxday+$startday+$count); $i++) {
+		if($startday == 0 )
+		{
+			$add_sun_start_date = 7;
+			$sun_start_date++;
+		}else
+		{
+			$add_sun_start_date = $startday;
+			$sun_start_date = $i;
+		}
+		if(($sun_start_date % 7) == 1 ) echo "<tr>\n";
+		if($sun_start_date < $add_sun_start_date){
 			echo "<td class='date_n'></td>\n";
 		}
 		else 
 		{
-			$cal_date = $i - $startday + 1;
+			$cal_date = $i - $add_sun_start_date + 1;
 			$calday = $cal_date;
 			if(strlen($cal_date)==1)
 			{
@@ -113,10 +135,11 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 			
 			$todaydate = "$cYear-$cMonth_date-$the_cal_date";
 			global $todaydate;
+			$posts_per_page=get_option('posts_per_page');
 				$args=
 				array( 'post_type' => 'event',
-				'posts_per_page' => -1	,
-				'post_status' => array('publish','private')	,
+				'posts_per_page' => $posts_per_page	,
+				'post_status' => array('publish','recurring')	,
 				'meta_query' => array(
 					'relation' => 'AND',
 					array(
@@ -131,6 +154,11 @@ $monthNames = Array("January", "February", "March", "April", "May", "June", "Jul
 						'value' => $todaydate,
 						'compare' => '>=',
 						'type' => 'DATE'
+					),
+					array(
+						'key' => 'event_type',
+						'value' => 'Regular event',
+						'compare' => '='
 					)
 				)
 				);

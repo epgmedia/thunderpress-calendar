@@ -328,12 +328,12 @@ function show_featuredprice(pkid)
 			
 			document.getElementById('total_price').value = parseFloat(myStringArray[0]) + parseFloat(document.getElementById('feture_price').innerHTML)  + parseFloat(myStringArray[4]);
 			
-			document.getElementById('result_price').innerHTML = parseFloat(myStringArray[0]) + parseFloat(document.getElementById('feture_price').innerHTML)  + parseFloat(myStringArray[4]);
+			document.getElementById('result_price').innerHTML =  parseFloat(document.getElementById('feture_price').innerHTML)  + parseFloat(myStringArray[4]);
 		}else if((document.getElementById('featured_h').checked == false) && (document.getElementById('featured_c').checked == true)){
 			document.getElementById('feture_price').innerHTML = parseFloat(myStringArray[1]);
 			document.getElementById('total_price').value = parseFloat(myStringArray[1]) + parseFloat(document.getElementById('feture_price').innerHTML)  + parseFloat(myStringArray[4]);
 			
-			document.getElementById('result_price').innerHTML = parseFloat(myStringArray[1]) + parseFloat(document.getElementById('feture_price').innerHTML) + parseFloat(myStringArray[4]);
+			document.getElementById('result_price').innerHTML =  parseFloat(document.getElementById('feture_price').innerHTML) + parseFloat(myStringArray[4]);
 		}else{
 			document.getElementById('total_price').value = parseFloat(document.getElementById('feture_price').innerHTML)  + parseFloat(myStringArray[4]);
 			
@@ -1283,11 +1283,33 @@ if(isset($_REQUEST['invalid']) == 'playthru') {
 			</div>
             <span class="message_error2" id="price_package_error"></span>
 			<?php } ?>
+            <?php
+            if(isset($_REQUEST['backandedit']) && $_REQUEST['backandedit'] !=''){
+				$pkg_id = $_SESSION['theme_info']['price_select'];
+				global $price_db_table_name;
+				$pricesql = $wpdb->get_row("select * from $price_db_table_name where pid='".$pkg_id."'");
+				$is_featured = $pricesql->is_featured;
+				if($is_featured ==1){
+					if($_SESSION['theme_info']['featured_h'])
+					 {
+						$featured_hb = $pricesql->feature_amount;
+					 }
+					if($_SESSION['theme_info']['featured_c'])
+					 {
+						$featured_cb = $pricesql->feature_cat_amount;
+					 }
+					$featured_h = $pricesql->feature_amount; 
+					$featured_c = $pricesql->feature_cat_amount; 
+					if(!$featured_h){ $featured_h =0; }
+					if(!$featured_c){ $featured_c =0; }
+				}	
+			 }
+			?>
 			<div class="form_row clearfix" id="is_featured" <?php if(@$is_feature == '0'){ echo "style=display:none;"; } ?>>
 					<label><?php echo FEATURED_TEXT; ?> </label>
 					<div class="feature_label">
-					<label style="clear:both;width:430px;"><input type="checkbox" name="featured_h" id="featured_h" value="0" onclick="featured_list(this.id)" <?php if(@$featured_h !=""){ echo "checked=checked"; } ?>/><?php _e(FEATURED_H,'templatic'); ?> <span id="ftrhome"><?php if(@$featured_h !=""){ echo "(".display_amount_with_currency($featured_h).")"; }else{ echo "(".display_amount_with_currency('0').")"; } ?></span></label>
-					<label style="clear:both;width:430px;"><input type="checkbox" name="featured_c" id="featured_c" value="0" onclick="featured_list(this.id)" <?php if(@$featured_c !=""){ echo "checked=checked"; } ?>/><?php _e(FEATURED_C,'templatic'); ?><span id="ftrcat"><?php if(@$featured_c !=""){ echo "(".display_amount_with_currency($featured_c).")"; }else{ echo "(".display_amount_with_currency('0').")"; } ?></span></label>
+					<label style="clear:both;width:430px;"><input type="checkbox" name="featured_h" id="featured_h" value="0" onclick="featured_list(this.id)" <?php if(@$featured_hb !=""){ echo "checked=checked"; } ?>/><?php _e(FEATURED_H,'templatic'); ?> <span id="ftrhome"><?php if(@$featured_h !=""){ echo "(".display_amount_with_currency($featured_h).")"; }else{ echo "(".display_amount_with_currency('0').")"; } ?></span></label>
+					<label style="clear:both;width:430px;"><input type="checkbox" name="featured_c" id="featured_c" value="0" onclick="featured_list(this.id)" <?php if(@$featured_cb !=""){ echo "checked=checked"; } ?>/><?php _e(FEATURED_C,'templatic'); ?><span id="ftrcat"><?php if(@$featured_c !=""){ echo "(".display_amount_with_currency($featured_c).")"; }else{ echo "(".display_amount_with_currency('0').")"; } ?></span></label>
 					
 					<input type="hidden" name="featured_type" id="featured_type" value="none"/>
 					<span id='process' style='display:none;'><img src="<?php echo get_template_directory_uri()."/images/process.gif"; ?>" alt='Processing..' /></span> 
@@ -1312,6 +1334,25 @@ if(isset($_REQUEST['invalid']) == 'playthru') {
 						endforeach;	
 					endif;
 				endif;
+				?>
+                <?php
+				global $price_db_table_name;
+				$pricesql = $wpdb->get_row("select * from $price_db_table_name where pid='".$price_select."'");
+				if($_SESSION['theme_info']['featured_h']!= "" && $_SESSION['theme_info']['featured_h']==""){
+					$fprice = $pricesql->feature_amount;
+					$hprice = $pricesql->feature_amount;
+				}else if($_SESSION['theme_info']['featured_h']== "" && $_SESSION['theme_info']['featured_h']!=""){
+					$fprice = $pricesql->feature_cat_amount;
+					$cprice = $pricesql->feature_cat_amount;
+				}else if($_SESSION['theme_info']['featured_h']!= "" && $_SESSION['theme_info']['featured_h']!=""){
+					$fprice = $pricesql->feature_cat_amount + $pricesql->feature_amount;
+				}
+				$packprice = $pricesql->package_cost;
+				$is_feature = $pricesql->is_featured;
+				$cat_price = $_SESSION['theme_info']['all_cat_price'];
+				$total_price = $_SESSION['theme_info']['total_price'];
+				$none = 0;
+
 				?>
 				
 				 <?php if($position == 'Symbol Before amount'){ echo $currency; }else if($position == 'Space between Before amount and Symbol'){ echo $currency.' '; } ?>
@@ -1470,8 +1511,9 @@ include_once(TT_MODULES_FOLDER_PATH.'event/submition_validation.php');
 ?>
 </div> <!-- wrapper #end -->
 <div id="bottom"></div> 
+<?php get_footer(); ?>
 <script type="text/javascript">
-function check_date(str)
+function check_date(str='')
 {
 	if(str =='end_date'){
 		if(jQuery("#st_date").val() !=''){
@@ -1488,4 +1530,3 @@ function check_date(str)
 	}
 }
 </script> 
-<?php get_footer(); ?>

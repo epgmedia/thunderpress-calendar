@@ -2,7 +2,6 @@
 ini_set('set_time_limit', 0);
 ini_set('max_execution_time', 0);
 error_reporting(E_ERROR);
-
 load_theme_textdomain('templatic');
 load_textdomain( 'templatic', TEMPLATEPATH.'/languages/en_US.mo' );
 require_once(ABSPATH.'/wp-includes/plugin.php');
@@ -21,8 +20,8 @@ if(file_exists(TT_ADMIN_FOLDER_PATH . 'constants.php')){
 if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support('post-thumbnails');
 	set_post_thumbnail_size(125, 75); // default Post Thumbnail dimensions   
-	update_option('thumbnail_size_w', 125);
-	update_option('thumbnail_size_h', 75);
+	//update_option('thumbnail_size_w', 125);
+	//update_option('thumbnail_size_h', 75);
 	if(get_option('thumbnail_crop')==''){
 	update_option('thumbnail_crop', 0);
 	}
@@ -30,6 +29,7 @@ if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support( 'automatic-feed-links' );
 	add_image_size('detail_page_image',570, 400, false);//(cropped)
 	add_image_size('listing_img',125, 75, false);//(cropped)
+	add_image_size('home_listing_img',125, 125, false);//(cropped)
 }
 
 /* add an image size for detail page and slider End */
@@ -135,41 +135,74 @@ function recurring_event_user()
 	}
 	
 }
+function my_custom_post_status(){
+	register_post_status( 'recurring', array(
+		'label'                     => _x( 'Recurring', 'event' ),
+		'public'                    => true,
+		'exclude_from_search'       => false,
+		'show_in_admin_all_list'    => true,
+		'show_in_admin_status_list' => true,
+		'label_count'               => _n_noop( 'Recurring <span class="count">(%s)</span>', 'Recurring <span class="count">(%s)</span>' ),
+	) );
+}
+add_action( 'init', 'my_custom_post_status' );
 
-/* START School Webworks Code to protect event submitters from getting into the admin to create posts. */
-function get_user_role() {
-	global $current_user;
-	$user_roles = $current_user->roles;
-	$user_role = array_shift($user_roles);
-	return $user_role;
+
+if(is_admin() && ($pagenow =='themes.php' || $pagenow =='post.php' || $pagenow =='edit.php'|| $pagenow =='admin-ajax.php' || @$_REQUEST['page'] == 'tmpl_theme_update')){
+	require_once('wp-updates-theme.php');	
+	new WPUpdatesEventsUpdater( 'http://templatic.com/updates/api', basename(get_stylesheet_directory_uri()) );	
 }
 
-function sno_header_redirect() {
-	if (is_user_logged_in()) {
-		$currentrol =  get_user_role();
-	    if ( $currentrol=='author'  ) {	
-		    if (headers_sent()) {
-	            echo '<meta http-equiv="refresh" content="0;url="/">';
-	            echo '<script type="text/javascript">document.location.href="/"</script>';
-	        } else {
-	            wp_redirect('/');
-	            exit();
-	        }
+/* frame work update templatic menu*/
+function tmpl_support_theme(){
+	echo "<h3>Need Help?</h3>";
+	echo "<p>Here's how you can get help from templatic on any thing you need with regarding this theme. </p>";
+	echo "<br/>";
+	echo '<p><a href="http://templatic.com/docs/events-theme-guide/" target="blank">'."Take a look at theme guide".'</a></p>';
+	echo '<p><a href="http://templatic.com/docs/" target="blank">'."Knowlegebase".'</a></p>';
+	echo '<p><a href="http://templatic.com/forums/" target="blank">'."Explore our community forums".'</a></p>';
+	echo '<p><a href="http://templatic.com/helpdesk/" target="blank">'."Create a support ticket in Helpdesk".'</a></p>';
+}
+
+/* framework update templatic menu*/
+function tmpl_purchase_theme(){
+	wp_redirect( 'http://templatic.com/wordpress-themes-store/' ); 
+	exit;
+}
+
+/* frame work update templatic menu*/
+function tmpl_theme_update(){
+	
+	require_once(get_stylesheet_directory()."/templatic_login.php");
+}
+
+
+
+add_action('admin_menu','events_theme_menu',11); // add submenu page 
+function events_theme_menu(){
+
+	add_menu_page( 'Theme Update','Theme Update', 'administrator', 'tmpl_theme_update', 'tmpl_theme_update' );
+	
+	add_submenu_page( 'tmpl_theme_update', 'Get Support' ,'Get Support' , 'administrator', 'tmpl_support_theme', 'tmpl_support_theme');
+	
+	add_submenu_page( 'tmpl_theme_update', 'Purchase theme','Purchase theme', 'administrator', 'tmpl_purchase_theme', 'tmpl_purchase_theme');
+}
+//Set Default permalink on theme activation: start
+add_action( 'load-themes.php', 'default_permalink_set' );
+if(!function_exists('default_permalink_set')){
+	function default_permalink_set(){
+		global $pagenow;
+		if ( 'themes.php' == $pagenow && isset( $_GET['activated'] ) ){ // Test if theme is activate
+			//Set default permalink to postname start
+			global $wp_rewrite;
+			$wp_rewrite->set_permalink_structure( '/%postname%/' );
+			$wp_rewrite->flush_rules();
+			if(function_exists('flush_rewrite_rules')){
+				flush_rewrite_rules(true);  
+			}
+			//Set default permalink to postname end
 		}
 	}
 }
-
-function sno_header_removebar() {
-	if (is_user_logged_in()) {
-		$currentrol =  get_user_role();
-	    if ( $currentrol=='author'  ) {	
-	    	show_admin_bar(false);
-		}
-	}
-}
-
-add_action('admin_head', 'sno_header_redirect');
-add_action('wp_head', 'sno_header_removebar');
-/* END School Webworks Code */
-
+//Set Default permalink on theme activation: end
 ?>

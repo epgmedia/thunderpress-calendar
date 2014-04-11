@@ -11,11 +11,6 @@ if(isset($_REQUEST['backandedit']))
 	
 }
 ?>
-<?php if(is_user_logged_in()): ?>
-	<script type="text/javascript">var logimg = true;</script>
-<?php else: ?>
-	<script type="text/javascript">var logimg = false;</script>
-<?php endif; ?>
 <script type="text/javascript" src="<?php echo bloginfo('template_url'); ?>/library/js/jqueryupload/ajaxupload.3.5.js" ></script>
 <script language="javascript" type="text/javascript">
 var temp = 1;

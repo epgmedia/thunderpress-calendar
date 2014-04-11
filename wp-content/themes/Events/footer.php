@@ -1,5 +1,5 @@
 <div id="footer" class="clearfix"><p class="fl">&copy;<?php echo date('Y'); ?>&nbsp;<a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a>. <?php echo RIGHTS_TEXT;?></p>
-<p class="copy"><span class="themeby"> <?php echo DESIGNED_TEXT; ?> </span>  <a href="http://templatic.com" title="Premium wordpress themes"><img src="<?php bloginfo('template_directory'); ?>/images/templatic.png" alt="" class="flogo" /></a> </p>
+<p class="copy"><span class="themeby"> <?php echo DESIGNED_TEXT; ?> </span>  <a href="http://templatic.com" title="wordpress themes" alt="wordpress themes"><img src="<?php bloginfo('template_directory'); ?>/images/templatic-wordpress-themes.png" alt="wordpress themes" class="flogo" /></a> </p>
 </div> <!-- footer #end -->
         
 <script type="text/javascript">

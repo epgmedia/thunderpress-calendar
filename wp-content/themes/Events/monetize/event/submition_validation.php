@@ -80,7 +80,6 @@ for($i=0;$i<count($validation_info);$i++) {
 			if(flag == 1)
 			{
 				'.$espan.'.addClass("message_error2");
-				jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 				'.$espan.'.text("'.$msg.'");
 				if("'.$name.'" == "category")
 				 {
@@ -107,7 +106,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				if(jQuery("#'.$name.'").val() == "") { ';
 					$msg = __("Please provide your email address","templatic");
 				$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 				return false;';
@@ -115,7 +113,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				$js_code .= ' } else if(!emailReg.test(jQuery("#'.$name.'").val())) { ';
 					$msg = __("Please provide valid email address","templatic");
 					$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 					return false;';
@@ -132,7 +129,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				if(jQuery("#'.$name.'").val() == "") { ';
 					$msg = $text;
 				$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 				return false;';
@@ -140,7 +136,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				$js_code .= ' } else if(!phonereg.test(jQuery("#'.$name.'").val())) { ';
 					$msg = "Enter Valid Phone No.";
 					$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 					return false;';
@@ -157,7 +152,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				if(jQuery("#'.$name.'").val() == "") { ';
 					$msg = $text;
 				$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 				return false;';
@@ -165,7 +159,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				$js_code .= ' } else if(!digitreg.test(jQuery("#'.$name.'").val())) { ';
 					$msg = "This field allow only digit.";
 					$js_code .= $name.'.addClass("error");
-					jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 					'.$espan.'.text("'.$msg.'");
 					'.$espan.'.addClass("message_error2");
 					return false;';
@@ -185,7 +178,6 @@ for($i=0;$i<count($validation_info);$i++) {
 				{
 				';
 				$js_code .= $name.'.addClass("error");
-				jQuery(\'html, body\').animate({scrollTop:300}, \'slow\');
 				'.$espan.'.text("'.$msg.'");
 				'.$espan.'.addClass("message_error2");
 				return false;
@@ -218,10 +210,10 @@ for($i=0;$i<count($validation_info);$i++) {
 		';
 	}
 	//$js_code .= '//On blur ';
-	//$js_code .= $name.'.blur(validate_'.$name.'); ';
+	$js_code .= $name.'.blur(validate_'.$name.'); ';
 	
 	//$js_code .= '//On key press ';
-	//$js_code .= $name.'.keyup(validate_'.$name.'); ';
+	$js_code .= $name.'.keyup(validate_'.$name.'); ';
 	
 	$jsfunction[] = 'validate_'.$name.'()';
 

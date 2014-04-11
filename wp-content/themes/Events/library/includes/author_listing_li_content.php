@@ -1,4 +1,9 @@
 <?php global $post; 
+$is_parent = $post->post_parent;
+if($is_parent)
+	$post_id = $is_parent;
+else
+	$post_id = $post->ID;
 /* author dashboard page*/
 ?>
 <script type="text/javascript">
@@ -22,11 +27,15 @@ function showRecurringEvent(post_id,display)
 <div class="event_list <?php if(get_post_meta($post->ID,'featured_type',true) != 'none'){?>event_list_featured<?php }?>clearfix">
     <?php if(get_post_meta($post->ID,'featured_type',true) != 'none'){?><div class="featured_tag"> </div><?php }?>
     <?php
-	$post_img = bdw_get_images_with_info($post->ID,'thumb');//fetch the event thumb image.
-	$thumb = $post_img[0]['file'];
+	$post_img = bdw_get_images_with_info($post_id,'thumb');//fetch the event thumb image.
+	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+	if($image[0] != '')
+		$thumb = $image[0];
+	elseif($post_img[0]['file'] != '')
+		$thumb = $post_img[0]['file'];
 	if ( $thumb != '' ) { ?>
 	 <a class="event_img" href="<?php the_permalink(); ?>" >
-	 <img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /> </a>
+	 <img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  width="125" height="75"/> </a>
 	<?php
 	} else { ?> 
 	   <a href="<?php echo get_permalink($post->ID); ?>" class="event_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>"  width="125" height="75" /></a>
@@ -48,11 +57,11 @@ function showRecurringEvent(post_id,display)
 	if($location){ ?>
     <p class="location"> <span><?php echo LOCATION;?>: </span>  <br /> 
     <?php echo get_post_meta($post->ID,'address',true);?>
-    <?php  global $current_user; if($current_user->ID == $post->post_author){?>
+    <?php  global $current_user; if($current_user->ID == $post->post_author && (!isset($_REQUEST['list']) && $_REQUEST['list'] == '')){?>
     <br /> <br />
     <span class="author_link"> 
         <?php
-        if(get_time_difference( $post->post_date, $post->ID ))
+        if(get_time_difference( $post->post_date, $post->ID ) )
 		{
 		?>
         <a href="<?php echo get_option('home');?>/?ptype=post_event&pid=<?php echo $post->ID;?>"><?php echo EDIT_TEXT;?></a> | 

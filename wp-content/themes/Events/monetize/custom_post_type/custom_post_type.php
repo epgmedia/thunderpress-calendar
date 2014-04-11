@@ -106,6 +106,7 @@ function templatic_edit_event_columns( $columns )
 	$columns = array(
 		'cb' => '<input type="checkbox" />',
 		'title' => EVENT_TITLE_HEAD,
+		'event_type_'=>__('Event Type','templatic'),
 		'author' => AUTHOR_TEXT,
 		'address' => ADDRESS,
 		'start_timing' => EVENT_ST_TIME,
@@ -188,7 +189,20 @@ function templatic_manage_event_columns( $column, $post_id )
 				}
 				echo $end_date;
 			break;
-		
+		case 'event_type_' :
+			/* Get the event_type for the post. */
+				$event_type = trim(get_post_meta( $post_id, 'event_type', true ));
+				if(strtolower($event_type) == trim(strtolower('Recurring event'))){				
+					$e_type = "<span style='color:green;'>".__('Recurring event',T_DOMAIN)."</span>";
+				} else {
+					 $e_type = __('Regular event',T_DOMAIN);;
+				}
+				if($post->post_parent !=0){
+					$post_parent = get_post($post->post_parent );
+					$e_type = __('Recurrence of ',T_DOMAIN)."<a href='".get_edit_post_link($post->post_parent)."'>".$post_parent->post_title."</a>";
+				}
+				echo $e_type;
+			break;
 		/* Just break out of the switch statement for everything else. */
 		default :
 			break;
@@ -203,6 +217,7 @@ function templatic_event_sortable_columns( $columns ) {
 	$columns['geo_address'] = 'Address';
 	$columns['start_timing'] = 'Start time';
 	$columns['end_timing'] = 'End time';
+	$columns['event_type_'] = 'Event Type';
 	return $columns;
 }
 /* EOF - SORT COLUMNS */

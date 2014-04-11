@@ -321,7 +321,7 @@ blockquote a:hover { color:#000; }
 .tabber { background:url(1-default/tabber_bottomline.png) repeat-x left bottom; }
 #content .tab li a { color:#999;  }
 #content .tab li a:hover { color:#578bb1;  }
-#content .tab li.active a { background:#FFFFFF; border:2px solid #578bb1; border-bottom:none; color:#447ba5; }
+#content .tab li.active a { background:#FFFFFF; border:2px solid #578bb1; border-bottom:none; color:#447ba5 !important; }
 
 
 

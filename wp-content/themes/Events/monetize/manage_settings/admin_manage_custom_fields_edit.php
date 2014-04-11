@@ -82,7 +82,7 @@ if(@$_POST['submit_fields'])
     
     <p class="notes_spec"><?php _e($custom_msg,'templatic');?></p>
     
-<input type="hidden" name="save" value="1" /> <input type="hidden" name="is_delete" value="<?php echo $post_val->is_delete;?>" />
+<input type="hidden" name="save" value="1" /> 
 <?php if(@$_REQUEST['field_id']){?>
 <input type="hidden" name="field_id" value="<?php echo $_REQUEST['field_id'];?>" />
 <?php }?>
@@ -271,18 +271,7 @@ if(@$_POST['submit_fields'])
     </div>
   </div> <!-- #end -->
  
- <div class="option option-select" <?php if(@$post_val->is_edit == '0' && is_super_admin($current_user->ID) != '1'){?> style="display:none;" <?php }else{?> style="display:block;" <?php }?>>
-    <h3><?php _e('Is Deletable?','templatic');?></h3>
-    <div class="section">
-      <div class="element">
-                   <select name="is_delete" id="is_edit">
-                  <option value="1" <?php if(@$post_val->is_delete=='1'){ echo 'selected="selected"';}?>><?php _e('Yes','templatic');?></option>
-                  <option value="0" <?php if(@$post_val->is_delete=='0'){ echo 'selected="selected"';}?>><?php _e('No','templatic');?></option>
-                  </select>
-      	   </div>
-      <div class="description"><?php _e('Specify whether this field is deletable or not. IF you select No then you will not be able to delete this field.','templatic');?></div>
-    </div>
-  </div> <!-- #end -->
+ 
    <div class="option option-select" <?php if(@$post_val->is_edit == '0' && is_super_admin($current_user->ID) != '1'){?> style="display:none;" <?php }else{?> style="display:block;" <?php }?>>
     <h3><?php _e('Show in Search Form?','templatic');?></h3>
     <div class="section">
@@ -355,6 +344,9 @@ if(@$_POST['submit_fields'])
 		</div>
 	</div>
   <input type="submit" name="submit_fields" value="<?php _e('Save all changes','templatic');?>" class="button-framework-imp right position_bottom"> 
+  <?php if($post_val->is_delete || $field_id =='' ) { ?>
+	<input type="hidden" name="is_delete" id="is_delete" value="1"/>
+	<?php } ?>
 </form>
 
 <script type="text/javascript">

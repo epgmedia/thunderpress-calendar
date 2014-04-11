@@ -79,7 +79,7 @@ if($_POST)
 		
 
 	$_SESSION['theme_info'] = $_POST;
-	
+	$_SESSION["file_info"] = explode(",",$_POST['imgarr']);
 	if($_POST['user_email'] && $_FILES['user_photo']['name'])
 	{
 		$src = $_FILES['user_photo']['tmp_name'];
@@ -154,7 +154,6 @@ if($_POST)
 	}	/**registration validation for user EOF**/
 	
 	global $upload_folder_path;
-	$_SESSION["file_info"] = explode(",",$_POST['imgarr']);
 	if($_SESSION["file_info"])
 	{
 		foreach($_SESSION["file_info"] as $image_id=>$val)
@@ -409,7 +408,7 @@ function show_hide_tabs(type)
        <div class="tabber">
    		 <ul class="tab">
             <li id="li_location_map" class="active"> <a href="javascript:void(0):" onclick="show_hide_tabs('map');"><?php _e('Location Map','templatic');?></a></li>
-            <li id="li_image_gallery" class="" > <a href="javascript:void(0):" onclick="show_hide_tabs('gallery');"><?php _e('Image Gallery','templatic');?></a></li>
+             <?php if($_SESSION["file_info"][0] || $thumb_img_arr){?> <li id="li_image_gallery" class="" > <a href="javascript:void(0):" onclick="show_hide_tabs('gallery');"><?php _e('Image Gallery','templatic');?></a></li><?php } ?>
          </ul>
        </div>
 			<script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/library/js/jquery.pikachoose.js"></script>
@@ -423,11 +422,11 @@ function show_hide_tabs(type)
             </script>
            
                 <div class="pikachoose" id="pikachoose" style="display:none" >
-                 <?php if($_SESSION["file_info"] || $thumb_img_arr){?>
+                 <?php if($_SESSION["file_info"][0] || $thumb_img_arr){?>
                 <ul id="pikame" class="jcarousel-skin-pika">
                 <?php
 				$thumb_img_counter = 0;
-				if($_SESSION["file_info"])
+				if($_SESSION["file_info"][0])
 				{
 					$thumb_img_counter = $thumb_img_counter+count($_SESSION["file_info"]);
 					$image_path = get_image_phy_destination_path();
@@ -613,7 +612,7 @@ include_once (TEMPLATEPATH . '/library/map/google_map_detail.php');?>
  	<div class="register_msg clearfix" ><?php echo stripslashes($reg_desc);?> </div>
 <?php }?>
 <div style="clear:both;"></div>
-<?php include (TEMPLATEPATH . "/monetize/event/preview_buttons_event.php");?>                   
+               
    </div> <!-- content #end -->
 <?php get_sidebar(); ?>
 </div> <!-- wrapper #end -->

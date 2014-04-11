@@ -3,6 +3,8 @@
 if ( function_exists('register_sidebar') )
 {
 
+	register_sidebars(1,array('id' => 'front_page_sidebar','name' => 'Front Page Sidebar', 'description' => 'Widgets placed in this area will be displayed in the Sidebar of Front Page.','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
+
 	register_sidebars(1,array('name' => __('Header: Right area','templatic'),'id' => 'social_media_widget','description' => 'The rightmost section alongside the logo. A social media widget','id' => 'header_logo_right_side','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3>','after_title' => '</h3>'));
 
 	register_sidebars(1,array('id' => 'front_content', 'name' => 'Front Page Content', 'description' => 'Widgets placed in this area will be displayed in Front Content.','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
@@ -10,9 +12,7 @@ if ( function_exists('register_sidebar') )
 	register_sidebars(1,array('id' => 'front_content_left', 'name' => 'Front Content Left', 'description' => 'Widgets placed in this area will be displayed on the Left side in Front Content.', 'before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
 	
 	register_sidebars(1,array('id' => 'front_content_right', 'name' => 'Front Content Right', 'description' => 'Widgets placed in this area will be displayed on the Right side in Front Content.', 'before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
-	
-	register_sidebars(1,array('id' => 'front_page_sidebar','name' => 'Front Page Sidebar', 'description' => 'Widgets placed in this area will be displayed in the Sidebar of Front Page.','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
-	
+		
 	register_sidebars(1,array('id' => 'content_sidebar', 'name' => 'Content Page Sidebar','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
 	
 	register_sidebars(1,array('id' => 'event_listing_sidebar', 'name' => 'Event Listing - Sidebar', 'description' => 'Widgets placed in this area will be displayed in the Sidebar of Event Listing page.','before_widget' => '<div class="widget">','after_widget' => '</div>','before_title' => '<h3><span>','after_title' => '</span></h3>'));
@@ -388,6 +388,7 @@ class news2columns extends WP_Widget {
 		$post_link = empty($instance['post_link']) ? '' : apply_filters('widget_post_link', $instance['post_link']);
 		$character_cout = empty($instance['character_cout']) ? '15' : apply_filters('widget_character_cout', $instance['character_cout']);
 		$sorting = empty($instance['event_sorting']) ? 'Latest Published' : apply_filters('widget_event_sorting', $instance['event_sorting']);
+		$current_tab = empty($instance['current_tab']) ? 'current' : apply_filters('widget_current_tab', $instance['current_tab']);
 		?>
 	<div class="tabber">
 		<ul class="tab">
@@ -397,15 +398,20 @@ class news2columns extends WP_Widget {
 		</ul>
 	</div>
 	<script type="text/javascript">
+		jQuery.noConflict();
+		jQuery( document ).ready( function() {
+				show_hide_tabs('<?php echo $current_tab;?>');
+		});
+		
 		function show_hide_tabs(type)
 		{
 			if( type == 'upcoming')
 			{
-				document.getElementById('widget_index_upcomming_events_id').style.display='';
+				document.getElementById('li_upcomming_events').style.display='';
 				document.getElementById('upcomming_event_type').style.display='';
-				document.getElementById('widget_index_current_events_id').style.display='none';
+				//document.getElementById('li_current_events').style.display='none';
 				document.getElementById('current_event_type').style.display='none';
-				document.getElementById('widget_index_past_events_id').style.display='none';
+			//	document.getElementById('li_index_past_events').style.display='none';
 				document.getElementById('past_event_type').style.display='none';
 				document.getElementById('li_upcomming_events').className='active';
 				document.getElementById('li_current_events').className='';
@@ -413,11 +419,11 @@ class news2columns extends WP_Widget {
 			}
 			else if( type == 'current')
 			{
-				document.getElementById('widget_index_upcomming_events_id').style.display='none';
+			//	document.getElementById('li_upcomming_events').style.display='none';
+			//	document.getElementById('li_index_past_events').style.display='none';
 				document.getElementById('upcomming_event_type').style.display='none';
-				document.getElementById('widget_index_current_events_id').style.display='';
+				document.getElementById('li_current_events').style.display='';
 				document.getElementById('current_event_type').style.display='';
-				document.getElementById('widget_index_past_events_id').style.display='none';
 				document.getElementById('past_event_type').style.display='none';
 				document.getElementById('li_current_events').className='active';
 				document.getElementById('li_upcomming_events').className='';
@@ -425,11 +431,11 @@ class news2columns extends WP_Widget {
 			}
 			else if( type == 'past')
 			{
-				document.getElementById('widget_index_upcomming_events_id').style.display='none';
-				document.getElementById('upcomming_event_type').style.display='none';
-				document.getElementById('widget_index_current_events_id').style.display='none';
+			//	document.getElementById('li_upcomming_events').style.display='none';
+			//	document.getElementById('li_current_events').style.display='none';
 				document.getElementById('current_event_type').style.display='none';
-				document.getElementById('widget_index_past_events_id').style.display='';
+				document.getElementById('upcomming_event_type').style.display='none';
+				document.getElementById('li_index_past_events').style.display='';
 				document.getElementById('past_event_type').style.display='';
 				document.getElementById('li_upcomming_events').className='';
 				document.getElementById('li_current_events').className='';
@@ -516,15 +522,12 @@ class news2columns extends WP_Widget {
 		else
 		{
 			$today = date('Y-m-d');
-			$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC";
+			$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and $wpdb->postmeta.meta_key = 'featured_h') ASC, p.post_date DESC";
 		}
 	}
 	?>
-     <ul id='upcomming_event_type'>
-     	<li><a class="active" href="javascript:void(0);" id="upcomming_regular" onclick="show_hide_tabs_event_type('widget_index_upcomming_events_id','widget_index_upcomming_regular_events_id');"><?php _e('Regular Events','templatic');?></a></li>
-          <li><a class="" href="javascript:void(0);" id="upcomming_recurring" onclick="show_hide_tabs_event_type('widget_index_upcomming_events_id','widget_index_upcomming_recurring_events_id');"><?php _e('Recurring Events','templatic');?></a></li>
-     </ul>
-	<ul class="category_list_view" id="widget_index_upcomming_events_id">
+    
+	<ul class="category_list_view" id="upcomming_event_type">
 	<?php
 		global $post,$wpdb;
 		$category1 = $category;
@@ -536,23 +539,40 @@ class news2columns extends WP_Widget {
 		}
 		$today = date('Y-m-d G:i:s');
 		@$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
-		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $where order by $orderby limit $post_number";
+		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where order by $orderby limit $post_number";
 		$latest_menus = $wpdb->get_results($sql);
 		echo '<li class="" id="widget_index_upcomming_regular_events_id">  <ul>';
 		if($latest_menus)
 		{			
 		foreach($latest_menus as $post) :
 		setup_postdata($post);
-		$post_img = bdw_get_images_with_info($post->ID,'thumb');
-		$thumb = $post_img[0]['file']; ?>		
+		$is_parent = $post->post_parent;
+		if($is_parent)
+			$post_id = $is_parent;
+		else
+			$post_id = $post->ID;
+		$post_img = bdw_get_images_with_info($post_id,'thumb');
+		
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+		$thumb = '';
+		
+		if($image[0] != '')
+			$thumb = $image[0];
+		elseif($post_img[0]['file'] != '')
+			$thumb = $post_img[0]['file']; ?>		
           <li class="clearfix">
 		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
 		<?php if ( $thumb != '' ) { ?>
 		<a class="post_img" href="<?php the_permalink(); ?>">
-		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
+        <?php if($image[0]):
+        		echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
+			  else: ?>
+		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
+        <?php endif; ?>
+        </a>
 		<?php
 		} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 		<?php } ?>
 		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php
@@ -606,96 +626,12 @@ class news2columns extends WP_Widget {
           </ul>
           </li>
           <!-- Upcomming Recurring evenet list-->
-          <li id="widget_index_upcomming_recurring_events_id" style="display:none;">
-	          <ul>
-          	<?php
-				$today = date('Y-m-d G:i:s');
-				$where='';
-				if($category)
-				{
-					$category = "'".str_replace(",","','",$category)."'";
-					$where .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
-				}
-				$today = date('Y-m-d G:i:s');
-				$recurring_date=date('Y-m-d');
-				@$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value NOT LIKE '%$recurring_date%') ) ";
-				$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $where order by $orderby limit $post_number";				
-				$latest_menus_recurring = $wpdb->get_results($sql);
-				$latest_menus=$latest_menus_recurring;
-				if($latest_menus)
-				{
-			?>
-          	
-               	<?php
-		foreach($latest_menus as $post) :
-		setup_postdata($post);
-		$post_img = bdw_get_images_with_info($post->ID,'thumb');
-		$thumb = $post_img[0]['file']; ?>		
-          <li class="clearfix">
-		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-		<?php if ( $thumb != '' ) { ?>
-		<a class="post_img" href="<?php the_permalink(); ?>">
-		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
-		<?php
-		} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
-		<?php } ?>
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		<?php
-		if(get_post_meta($post->ID,'address',true))
-		{
-			$from_add = get_post_meta($post->ID,'address',true);
-		}
-		if($from_add)
-		{ ?>
-		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br /><span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?><br />
-		<span><?php echo TIME_TEXT;?>: </span>
-		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-		}
-		else if(get_post_meta($post->ID,'st_time',true) )
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-		}
-		else
-		{
-			echo ' - ';	
-		} ?><br /></p>
-		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-		<?php }?>
-		<p class="bottom">
-		<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-		<?php  $taxonomy_category = get_the_taxonomies();
-			$taxonomy_category = @$taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-			$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-			$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-			$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-		<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-		<?php  $taxonomy_tags = get_the_taxonomies();
-			@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-			$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':','in ',$taxonomy_tags);
-			$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-			$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-		<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-		</li>
-		<?php endforeach; 
-				}else{
-				echo "<li><p>".UPCOMING_RECURRING_NOT_FOUND_TEXT."</p></li>";
-			}//finish upcoming recurring event?>
-          </ul>
-          </li>
+          
 		</ul>
           
           <!--Current Event theme -->
-          <ul id='current_event_type' style="display:none;">
-               <li><a href="javascript:void(0);" id="current_regular" class="active" onclick="show_hide_tabs_event_type('widget_index_current_events_id','widget_index_current_regular_events_id');"><?php _e('Regular Events','templatic');?></a></li>
-               <li><a href="javascript:void(0);" id="current_recurring" class="" onclick="show_hide_tabs_event_type('widget_index_current_events_id','widget_index_current_recurring_events_id');"><?php _e('Recurring Events','templatic');?></a></li>
-     	</ul>
-		<ul class="category_list_view" id="widget_index_current_events_id" style="display:none;">
+          
+		<ul class="category_list_view" id="current_event_type" style="display:none;">
 	<?php
 		global $post,$wpdb;
 		$today = date('Y-m-d');
@@ -707,7 +643,7 @@ class news2columns extends WP_Widget {
 		
 		$today = date('Y-m-d');
 		$where1 .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') <='".$today."')) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >= '".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
-		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $where1 order by $orderby limit $post_number";
+		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where1 order by $orderby limit $post_number";
 		
 		$latest_menus = $wpdb->get_results($sql);
 		echo "<li id='widget_index_current_regular_events_id'>";
@@ -716,16 +652,32 @@ class news2columns extends WP_Widget {
 		{
 		foreach($latest_menus as $post) :
 		setup_postdata($post);
-		$post_img = bdw_get_images_with_info($post->ID,'thumb');
-		$thumb = $post_img[0]['file']; ?>
+
+		$is_parent = $post->post_parent;
+		if($is_parent)
+			$post_id = $is_parent;
+		else
+			$post_id = $post->ID;
+		$post_img = bdw_get_images_with_info($post_id,'thumb');
+		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+		$thumb = '';
+		if($image[0] != '')
+			$thumb = $image[0];
+		elseif($post_img[0]['file'] != '')
+			$thumb = $post_img[0]['file']; ?>
 		<li class="clearfix">
 		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
 		<?php if ( $thumb != '' ) { ?>
 		<a class="post_img" href="<?php the_permalink(); ?>">
-		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
+        <?php if($image[0]):
+		        echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
+	    else: ?>			
+			<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
+        <?php endif; ?>
+        </a> 
 		<?php
 		} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 		<?php } ?>
 		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php
@@ -778,97 +730,14 @@ class news2columns extends WP_Widget {
           </ul>
           </li>
           	<!--Current Recurring Event List -->
-               <li id="widget_index_current_recurring_events_id" style="display:none">          	
-                    <?php
-                    global $post,$wpdb;
-                    $today = date('Y-m-d');
-				$where1='';
-                    if($category1)
-                    {
-                         $category1 = "'".str_replace(",","','",$category1)."'";
-                         $where1 .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category)  )";
-                    }
-                    $today = date('Y-m-d');
-                    $where1 .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') <='".$today."')) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >= '".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value LIKE '%$recurring_date%') )";
-                    $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $where1 order by $orderby limit $post_number";   				
-                    $current_recurring_menus = $wpdb->get_results($sql);
-				$latest_menus=$current_recurring_menus;
-                    echo '<ul>';
-                    if($latest_menus)
-				{
-				foreach($latest_menus as $post) :
-				setup_postdata($post);
-				$post_img = bdw_get_images_with_info($post->ID,'thumb');
-				$thumb = $post_img[0]['file']; ?>
-				<li class="clearfix">
-				<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-				<?php if ( $thumb != '' ) { ?>
-				<a class="post_img" href="<?php the_permalink(); ?>">
-				<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
-				<?php
-				} else { ?>
-				<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
-				<?php } ?>
-				<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-				<?php
-				if(get_post_meta($post->ID,'address',true))
-				{
-					$from_add = get_post_meta($post->ID,'address',true);
-				}
-				if($from_add)
-				{ ?>
-				<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
-				<span><?php echo TIME_TEXT;?>: </span>
-				<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-				{
-					echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-				}
-				else if(get_post_meta($post->ID,'st_time',true) )
-				{
-					echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-				}
-				else
-				{
-					echo ' - ';	
-				} ?></p>
-				<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-				<?php }?>
-				<p class="bottom">
-				<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-				<?php  $taxonomy_category = get_the_taxonomies();
-					$taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-					$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-					$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-					$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-					//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-				<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-				<?php  $taxonomy_tags = get_the_taxonomies();
-					@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-					$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
-					$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-					$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-					//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-				<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-				<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-				</li>
-				<?php endforeach; ?>
-				<?php }
-				else
-				{
-					echo "<li><p>".CURRENT_RECURRING_NOT_FOUND_TEXT."</p></li>";
-				} ?>
-                    </ul>
-               </li>
+               
           
 		</ul>
           
           
           <!--Past Event Type -->
-           <ul id='past_event_type' style="display:none;">
-               <li><a href="javascript:void(0);" id="past_regular" class="active" onclick="show_hide_tabs_event_type('widget_index_past_events_id','widget_index_past_regular_events_id');"><?php _e('Regular Events','templatic');?></a></li>
-               <li><a href="javascript:void(0);" id="past_recurring" class="" onclick="show_hide_tabs_event_type('widget_index_past_events_id','widget_index_past_recurring_events_id');"><?php _e('Recurring Events','templatic');?></a></li>
-     	</ul>          
-		<ul class="category_list_view" id="widget_index_past_events_id" style="display:none;">
+                   
+		<ul class="category_list_view" id="past_event_type" style="display:none;">
             <?php
 			 global $post,$wpdb;
 			 $today = date('Y-m-d');
@@ -879,7 +748,7 @@ class news2columns extends WP_Widget {
 					}
 					$today = date('Y-m-d');
 					$sqlsql .= " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."')  AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') ) ";
-				    $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $sqlsql order by $orderby limit $post_number";
+				    $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $sqlsql order by $orderby limit $post_number";
 					$latest_menus = $wpdb->get_results($sql);
 			echo '<li id="widget_index_past_regular_events_id">';
 				echo "<ul>";
@@ -889,8 +758,18 @@ class news2columns extends WP_Widget {
 			<?php
 			foreach($latest_menus as $post) :
 			setup_postdata($post); 
-			$post_img = bdw_get_images_with_info($post->ID,'thumb');
-		$thumb = $post_img[0]['file']; ?>
+			$is_parent = $post->post_parent;
+			if($is_parent)
+				$post_id = $is_parent;
+			else
+				$post_id = $post->ID;
+			$post_img = bdw_get_images_with_info($post_id,'thumb');
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+			$thumb = '';
+			if($image[0] != '')
+				$thumb = $image[0];
+			elseif($post_img[0]['file'] != '')
+				$thumb = $post_img[0]['file']; ?>
 		<li class="clearfix">
 		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
 		<?php if ( $thumb != '' ) { ?>
@@ -898,7 +777,7 @@ class news2columns extends WP_Widget {
 		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
 		<?php
 		} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 		<?php } ?>
 		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php
@@ -951,88 +830,7 @@ class news2columns extends WP_Widget {
            </ul>
            </li>
            <!--Past Recurring Event -->
-           <li id="widget_index_past_recurring_events_id" style="display:none;">
-           	<?php
-			 global $post,$wpdb;
-			 $today = date('Y-m-d');
-			 $sqlsql='';
-			 if($category)
-			 {
-				$category = str_replace("","','",$category);
-				$sqlsql = "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
-			 }
-			 $today = date('Y-m-d G:i:s');
-			 $sqlsql .= " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."') AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value NOT LIKE '%$recurring_date%') )";
-			 $orderbysql = " (select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and $wpdb->postmeta.post_id=p.ID and $wpdb->postmeta.meta_key='featured_h' ) desc, ";
-		      $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $sqlsql order by $orderby limit $post_number";
-			 $past_recurring_menus = $wpdb->get_results($sql);
-			 $latest_menus=$past_recurring_menus;
-			 echo "<ul>";
-			 if($latest_menus)
-			 {			
-				foreach($latest_menus as $post) :
-					setup_postdata($post); 
-					$post_img = bdw_get_images_with_info($post->ID,'thumb');
-				$thumb = $post_img[0]['file']; ?>
-				<li class="clearfix">
-				<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-				<?php if ( $thumb != '' ) { ?>
-				<a class="post_img" href="<?php the_permalink(); ?>">
-				<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
-				<?php
-				} else { ?>
-				<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
-				<?php } ?>
-				<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-				<?php
-				if(get_post_meta($post->ID,'address',true))
-				{
-					$from_add = get_post_meta($post->ID,'address',true);
-				}
-				if($from_add)
-				{ ?>
-				<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
-				<span><?php echo TIME_TEXT;?>: </span>
-				<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-				{
-					echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-				}
-				else if(get_post_meta($post->ID,'st_time',true) )
-				{
-					echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-				}
-				else
-				{
-					echo ' - ';	
-				} ?></p>
-				<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-				<?php }?>
-				<p class="bottom">
-				<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-				<?php  $taxonomy_category = get_the_taxonomies();
-					$taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-					$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-					$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-					$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-					//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-				<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-				<?php  $taxonomy_tags = get_the_taxonomies();
-					@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-					$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
-					$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-					$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-					//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-				<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-				<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-				</li> 
-				<?php endforeach; ?>
-                    
-                 <?php }else{
-                     echo '<li><p>'.PAST_RECURRING_NOT_FOUND_TEXT.'</p></li>';
-                 }
-                 ?>
-			</ul>
-           </li>
+           
        </ul>     
 			<?php
 		    echo $after_widget;
@@ -1047,19 +845,21 @@ class news2columns extends WP_Widget {
 		$instance['post_link'] = strip_tags($new_instance['post_link']);
 		$instance['character_cout'] = strip_tags($new_instance['character_cout']);
 		$instance['event_sorting'] = strip_tags($new_instance['event_sorting']);
+		$instance['current_tab'] = strip_tags($new_instance['current_tab']);
 		return $instance;
 
 	}
 
 	function form($instance) {
 	//widgetform in backend
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'category' => '', 'post_number' => '','character_cout' => '','event_sorting' => 'Latest Published' ) );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'category' => '', 'post_number' => '','character_cout' => '','event_sorting' => 'Latest Published','current_tab'=>'current' ) );
 		$title = strip_tags($instance['title']);
 		$category = strip_tags($instance['category']);
 		$post_number = strip_tags($instance['post_number']);
 		$post_link = strip_tags($instance['post_link']);
 		$character_cout = strip_tags($instance['character_cout']);
 		$sorting = strip_tags($instance['event_sorting']);
+		$current_tab = strip_tags($instance['current_tab']);
 
 ?>
 <p>
@@ -1088,7 +888,15 @@ class news2columns extends WP_Widget {
   </select>
   </label>
 </p>
-
+<p>
+  <label for="<?php echo $this->get_field_id('current_tab'); ?>"><?php echo SORT_EVENT; ?>:
+  <select name="<?php echo $this->get_field_name('current_tab'); ?>" id="<?php echo $this->get_field_id('current_tab'); ?>">
+	<option <?php if ($current_tab == 'upcoming') { echo 'selected=selected'; } ?> value="upcoming"><?php _e('Upcoming','templatic'); ?></option>
+	<option <?php if ($current_tab == 'current') { echo 'selected=selected'; } ?> value="current"><?php _e('Current','templatic'); ?></option>
+	<option <?php if ($current_tab == 'past') { echo 'selected=selected'; } ?> value="past"><?php _e('Past','templatic'); ?></option>
+  </select>
+  </label>
+</p>
 <?php
 	}
 }
@@ -1115,17 +923,93 @@ class featuredslider extends WP_Widget {
 		$character_cout = empty($instance['character_cout']) ? '15' : apply_filters('widget_character_cout', $instance['character_cout']);
 		
 	global $post,$wpdb;
-	$today = date('Y-m-d G:i:s');
-	if($category)
+	$today = date('Y-m-d');
+	/*if($category)
 	{
 		$category = "'".str_replace(",","','",$category)."'";
 		$where .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category)  )";
 	}
-	@$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d %G:%i:%s') > '".$today."') OR ($wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d %G:%i:%s') > '".$today."')  ) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key = 'featured_h' and $wpdb->postmeta.meta_value = 'h'))";
+	//@$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d %G:%i:%s') > '".$today."') OR ($wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d %G:%i:%s') > '".$today."')  ) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key = 'event_type' and $wpdb->postmeta.meta_value = 'Regular event'))  AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key = 'featured_h' and $wpdb->postmeta.meta_value = 'h'))";
 	$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id =p.ID and $wpdb->postmeta.meta_key = 'featured_h') ASC, p.post_date ASC";
-	$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.id in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and p.post_status = 'publish' $where) order by  $orderby limit $post_number";
+	//$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.id in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and (p.post_status = 'publish' or p.post_status = 'recurring') $where) order by  $orderby limit $post_number";*/
+	if($category)
+	{
+		$args=
+		array( 
+		'post_type' => 'event',
+		'posts_per_page' => $post_number,
+		'post_status' => array('publish','recurring'),
+		'meta_query' => array(
+				'relation' => 'AND',
+				array(
+					'key' => 'st_date',
+					'value' => $today,
+					'compare' => '<=',
+					'type'=> 'text'
+				),
+				array(
+					'key' => 'end_date',
+					'value' =>  $today,
+					'compare' => '>='
+				),
+					array(
+						'key' => 'featured_h',
+						'value' =>  'h',
+						'compare' => 'text'
+					)
+			),
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'eventcategory',
+				'field' => 'id',
+				'terms' => array($category),
+				'operator'  => 'IN'
+			)
+			),
+			'meta_key' => 'featured_h',
+			'orderby' => 'meta_value',
+			'order' => 'ASC'
+		);
+		
+	}
+	else
+	{
+		$args=
+			array( 
+			'post_type' => 'event',
+			'posts_per_page' => $post_number,
+			'post_status' => array('publish','recurring'),
+			'meta_query' => array(
+					'relation' => 'AND',
+					array(
+						'key' => 'st_date',
+						'value' => $today,
+						'compare' => '<='
+						
+					),
+					array(
+						'key' => 'end_date',
+						'value' =>  $today,
+						'compare' => '>='
+					),
+					array(
+						'key' => 'featured_h',
+						'value' =>  'h',
+						'compare' => 'text'
+					)
+				),
+				'meta_key' => 'featured_h',
+				'orderby' => 'meta_value',
+				'order' => 'ASC'
+			);
+	}
+			$post_query = null;
+			add_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
+			$post_query = new WP_Query($args);
+			remove_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
+			
 	$latest_menus = $wpdb->get_results($sql);
-	if($latest_menus)
+	if($post_query)
 	{ ?>
           
 <script type="text/javascript" src="<?php bloginfo('template_directory'); ?>/library/js/jquery.pikachoose.js"></script>
@@ -1140,22 +1024,32 @@ class featuredslider extends WP_Widget {
 		<span class="h_featured"><?php echo $title; ?> </span>
 		<ul id="pikame" class="jcarousel-skin-pika">
         <?php 
-			foreach($latest_menus as $post) :
-			setup_postdata($post);
+			while($post_query->have_posts()): $post_query->the_post();
+							setup_postdata($post);
 	    ?>
-         <?php $post_img = bdw_get_images_with_info($post->ID,'detail_page_image');
-				$thumb = $post_img[0]['file']; ?>
+         <?php 
+		 	$is_parent = $post->post_parent; 
+			if($is_parent)
+				$post_id = $is_parent;
+			else
+				$post_id = $post->ID;
+		 		$post_img = bdw_get_images_with_info($post_id,'detail_page_image');
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+				if($image[0] != '')
+					$thumb = $image[0];
+				elseif($post_img[0]['file'] != '')
+					$thumb = $post_img[0]['file']; ?>
 		<li> 
 		<?php if ( $thumb != '' ) { ?>
 		<a href="<?php the_permalink(); ?>">
 		<img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
 		<?php
 		} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>"><img src="<?php echo get_template_directory_uri()."/images/no-image_full.jpg"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+		<a href="<?php echo get_permalink($post->ID); ?>"><img src="<?php echo get_template_directory_uri()."/images/no-image_full.jpg"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 		<?php } ?>
          <span><?php the_title(); ?> <br /> <small><?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?> <?php echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> </small> </span>
         </li>
-<?php endforeach; ?>
+<?php endwhile; ?>
 <?php
    echo '</ul></div>';
 }
@@ -1237,7 +1131,11 @@ class eventwidget extends WP_Widget {
                     setup_postdata($post);
 			    ?>
                 <?php $post_images = bdw_get_images_with_info($post->ID,'thumb');
-				$thumb = $post_images[0]['file']; ?>
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ) , 'single-post-thumbnail'  );
+				if($image[0] != '')
+					$thumb = $image[0];
+				elseif($post_img[0]['file'] != '')
+					$thumb = $post_img[0]['file']; ?>
 				<li class="clearfix">
 				<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
 				<?php if ( $thumb != '' ) { ?>
@@ -1245,7 +1143,7 @@ class eventwidget extends WP_Widget {
 				<img src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
 				<?php
 				} else { ?>
-				<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+				<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 				<?php } ?>
                    <h3> <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>  </h3><br />
                    <span class="date"><?php the_time('j F Y') ?> <?php _e('at','templatic'); ?> <?php the_time('H : s A') ?> </span> 
@@ -1313,6 +1211,7 @@ class onecolumnslist extends WP_Widget {
 
 		extract($args, EXTR_SKIP);
 		echo $before_widget;
+		$widget_id= $args['widget_id'];
 		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
  		$category = empty($instance['category']) ? '' : apply_filters('widget_category', $instance['category']);
 		$post_number = empty($instance['post_number']) ? '5' : apply_filters('widget_post_number', $instance['post_number']);
@@ -1351,16 +1250,34 @@ class onecolumnslist extends WP_Widget {
 				$category = "'".str_replace(",","','",$category)."'";
 				$sqlsql = " and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category)  )";
 			}
-			@$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and p.post_status='publish' $sqlsql order by $orderby limit $post_number";
-			$latest_menus = $wpdb->get_results($sql);
+			
+			$today = date('Y-m-d');
+			if ( false === ( $latest_menus = get_transient( 'onecolumnslist'.$widget_id ) ) ) {
+				// It wasn't there, so regenerate the data and save the transient		
+				$where = "AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')>='".$today."') ";
+				@$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring' ) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event')) $sqlsql $where order by $orderby limit $post_number";
+				$latest_menus = $wpdb->get_results($sql);
+				set_transient( 'onecolumnslist'.$widget_id, $latest_menus, 60*60*12 );
+			}
+			
 			$pcount=0;
 			if($latest_menus)
 			{
 				foreach($latest_menus as $post) :
 				setup_postdata($post);
 				$pcount++; ?>
-					<?php $post_images = bdw_get_images_with_info($post->ID,'thumb');
-					$thumb = $post_images[0]['file']; ?>
+					<?php 
+					$is_parent = $post->post_parent;
+					if($is_parent)
+						$post_id = $post->post_parent;
+					else
+						$post_id = $post->ID;
+					$post_images = bdw_get_images_with_info($post_id,'thumb');
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+					if($image[0] != '')
+						$thumb = $image[0];
+					elseif($post_images[0]['file'] != '')
+						$thumb = $post_images[0]['file']; ?>
 					<li class="clearfix">
 					<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_img_s"></div><?php }?>
 					<?php if ( $thumb != '' ) { ?>
@@ -1368,7 +1285,7 @@ class onecolumnslist extends WP_Widget {
 					<img src="<?php echo $thumb; ?>" width="85" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
 					<?php
 					} else { ?>
-					<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="85" alt="<?php echo @$post_img[0]['alt']; ?>" /></a>-->
+					<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="85" alt="<?php echo @$post_img[0]['alt']; ?>" /></a>
 					<?php } ?>
             		<h3> <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3> 
                     <p> <span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?> <?php _e('at','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'st_time',true))?></span> <br /> 
@@ -1629,7 +1546,11 @@ function popular_posts_sidebar()
 					      $first_post_title=substr($post_title,0,26);
             ?>
              <?php $post_img = bdw_get_images_with_info($post->ID,'thumb');
-		$thumb = $post_img[0]['file'];?>
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ) , 'single-post-thumbnail'  );
+					if($image[0] != '')
+						$thumb = $image[0];
+					elseif($post_img[0]['file'] != '')
+						$thumb = $post_img[0]['file'];?>
             	
 		        <li class="clearfix">
 				<?php 
@@ -1638,7 +1559,7 @@ function popular_posts_sidebar()
 				<a class="post_img" href="<?php the_permalink(); ?>">
 				<img src="<?php echo $thumb; ?>" alt="<?php echo $post->post_title; ?>" width="125" height="75" title="<?php echo $post->post_title; ?>"  /></a>
 			<?php	} else { ?>
-		<!--<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>-->
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 		<?php } ?>
                     <a href="<?php echo $guid; ?>" title="<?php echo $post_title; ?>"><?php echo $post_title; ?></a>  
                      </li>
@@ -1741,267 +1662,202 @@ register_widget('CommentsWidget');
  */	
 
 // Display Twitter messages
-function templatic_twitter_messages($options) {
-	
-	// CHECK OPTIONS
-	
-	if ($options['username'] == '') {
-		return __('Twitter username not configured','templatic');
-	} 
-	
-	if (!is_numeric($options['num']) or $options['num']<=0) {
-		return __('Number of tweets not valid','templatic');
-	}
-
-	// SET THE NUMBER OF ITEMS TO RETRIEVE - IF "SKIP TEXT" IS ACTIVE, GET MORE ITEMS
-	$max_items_to_retrieve = $options['num'];
-	if ($options['skip_text']!='') {
-		$max_items_to_retrieve *= 3;
-	}
-	
-	// USE TRANSIENT DATA, TO MINIMIZE REQUESTS TO THE TWITTER FEED
-	
-	$timeout = 30 * 60; //30m
-	$error_timeout = 5 * 60; //5m
-	$no_cache_timeout = 60 * 60 * 24 * 365 * 10; //10 years should be fine...
-	
-	$transient_name = 'twitter_data_'.$options['username'].$options['skip_text'].'_'.$options['num'];
-    
-    $twitter_data = get_transient($transient_name);
-    $twitter_status = get_transient($transient_name."_status");
-    
-	// Twitter Status
-    if(!$twitter_status || !$twitter_data) {
-        $json = wp_remote_get('http://api.twitter.com/1/account/rate_limit_status.json');
-		$twitter_status = json_decode($json['body'], true);
-        
-		set_transient($transient_name."_status", $twitter_status, $no_cache_timeout);
-    }
-	//echo "<!-- Twitter status: ".print_r($twitter_status,true)." -->";
-    $reset_seconds = (strtotime($twitter_status['reset_time'])-time());
-    
-    
-	// Tweets
-	if (!$twitter_data) {
-
-		//echo "\n<!-- Fetching data from Twitter... -->";                            /* Debug Stuff */
+if(!class_exists('templatic_twiter')){
+	require_once('Oauth/twitteroauth.php');
+	class templatic_twiter extends WP_Widget{
+		function templatic_twiter(){
+			$this->options = array(
+				array(
+					'name'	=> 'title',
+					'label'	=> __( 'Title', DOMAIN ),
+					'type'	=> 'text'
+				),			
+				array(
+					'name'	=> 'twitter_username',
+					'label'	=> __( 'Twitter Username', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'consumer_key',
+					'label'	=> __( 'Consumer Key', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'consumer_secret',
+					'label'	=> __( 'Consumer Secret', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'access_token',
+					'label'	=> __( 'Access Token', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'access_token_secret',
+					'label'	=> __( 'Access Token Secret', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'twitter_number',
+					'label'	=> __( 'Number Of Tweets', DOMAIN ),
+					'type'	=> 'text'
+				),
+				array(
+					'name'	=> 'follow_text',
+					'label'	=> __( 'Twitter button text <small>(for eg. Follow us, Join me on Twitter, etc.)</small>', DOMAIN ),
+					'type'	=> 'text'
+				),			
+			);
+			$widget_options = array(
+				'classname'		=>	'widget Templatic twitter',
+				'description'	=>	__('Show your latest tweets on your site.','templatic')
+			);
+			$this->WP_Widget(false, __('T &rarr; Latest Twitter Feeds','templatic'), $widget_options);
+		}
 		
-		if($twitter_status['remaining_hits'] <= 7) {
-		    $timeout = $reset_seconds;
-		    $error_timeout = $timeout;
-		}		
-	    
-        
-		$json = wp_remote_get('http://api.twitter.com/1/statuses/user_timeline.json?screen_name='.$options['username'].'&count='.$max_items_to_retrieve);
- 		if( is_wp_error( $json ) ) {
-			return __('Error retrieving tweets','templatic');
-		} else {
-			$twitter_data = json_decode($json['body'], true);
-                        
-            if(!isset($twitter_data['error']) && (count($twitter_data) == $options['num']) ) {
-			    set_transient($transient_name, $twitter_data, $timeout);
-			    set_transient($transient_name."_valid", $twitter_data, $no_cache_timeout);
-            } else {
-			    set_transient($transient_name, $twitter_data, $error_timeout);	// Wait 5 minutes before retry
-	            echo "\n<!-- Twitter error: ".$twitter_data['error']." -->";          /* Debug Stuff */
-		    }
+		function widget($args, $instance){
+			extract($args, EXTR_SKIP );
+			$title = ($instance['title']) ? $instance['title'] : 'Latest Tweets';
+			$twitter_username = ($instance['twitter_username']) ? $instance['twitter_username'] : '';
+			$consumer_key = ($instance['consumer_key']) ? $instance['consumer_key'] : '3';
+			$consumer_secret = ($instance['consumer_secret']) ? $instance['consumer_secret'] : '3';
+			$access_token = ($instance['access_token']) ? $instance['access_token'] : '3';
+			$access_token_secret = ($instance['access_token_secret']) ? $instance['access_token_secret'] : '3';
+			$twitter_number = ($instance['twitter_number']) ? $instance['twitter_number'] : '3';
+			$follow_text = apply_filters('widget_title', $instance['follow_text']);
+			
+			echo $before_widget;
+			
+			if ( $title ) {
+				echo '<h3 class="i_twitter">' . $title . '</h3>';
+			}
+			if ($twitter_username != '') {
+				templatic_twitter_messages($instance);
+			}
+			
+			echo $after_widget;
 		}
-	} else {		
-		if(isset($twitter_data['error'])) {
-	        echo "\n<!-- Twitter error: ".$twitter_data['error']." -->";              /* Debug Stuff */
-		} 
-	}
-    
-	$items_retrieved = count($twitter_data); 
-    
-	if (empty($twitter_data) and false === ($twitter_data = get_transient($transient_name."_valid"))) {
-	    return __('No public tweets','templatic');
-	}
-
-	if (isset($twitter_data['errors'])) {
-		// STORE ERROR FOR DISPLAY
-		$twitter_error = $twitter_data['errors'];
-	    if(false === ($twitter_data = get_transient($transient_name."_valid"))) {
-			$debug = ($options['debug']) ? '<br /><i>Debug info:</i> ['.$twitter_error[0]['code'].'] '.$twitter_error[0]['message'].' - username: "'.$options['username'].'"' : '';
-		    return __('Unable to get tweets'.$debug,'templatic');
-		}
-	}
-	
-	// SET THE MAX NUMBER OF ITEMS  
-	$num_items_shown = $options['num'];
-	if ($items_retrieved<$options['num']) {
-		$num_items_shown = $items_retrieved;
-	}
-	
-	$link_target = ($options['link_target_blank']) ? ' target="_blank" ' : '';
 		
-	$out = '<ul id="twitter_update_list" class="templatic_twitter_widget">';
-
-	$i = 0;
-	foreach($twitter_data as $message){
-		if ($i>=$num_items_shown) {
-			break;
+		/** @see WP_Widget::update */
+		function update($new_instance, $old_instance) {				
+			$instance = $old_instance;
+			foreach ($this->options as $val) {
+				if ($val['type']=='text') {
+					$instance[$val['name']] = strip_tags($new_instance[$val['name']]);
+				} else if ($val['type']=='checkbox') {
+					$instance[$val['name']] = ($new_instance[$val['name']]=='on') ? true : false;
+				}
+			}
+			return $instance;
 		}
-		$msg = $message['text'];
-		
-		if ($options['skip_text']!='' and strpos($msg, $options['skip_text'])!==false) {
-			continue;
+		function form($instance){
+			if (empty($instance)) {
+				$instance['title']					= __( 'Latest Tweets', DOMAIN );			
+				$instance['twitter_username']		= 'templatic';
+				$instance['consumer_key']			= '';
+				$instance['consumer_secret']		= '';
+				$instance['access_token']			= '';
+				$instance['access_token_secret']	= '';
+				$instance['twitter_number']			= '3';			
+				$instance['follow_text']			= __('Follow Us','templatic');
+			}
+			echo '<p><span style="font-size:11px">To use this widget, <a href="https://dev.twitter.com/apps/new" style="text-decoration:none;" target="_blank">create</a> an application or <a href="https://dev.twitter.com/apps" target="_blank" style="text-decoration:none;" >click here</a> if you already have it, and fill required fields below. Need help? Read <a href="http://templatic.com/docs/latest-changes-in-twitter-widget-for-all-templatic-themes/" title="Tweeter Widget Guide" target="_blank" style="text-decoration:none;" >Tweeter Guide</a>.</small></p>';
+			foreach ($this->options as $val) {
+				$label = '<label for="'.$this->get_field_id($val['name']).'">'.$val['label'].'</label>';
+				if ($val['type']=='separator') {
+					echo '<hr />';
+				} else if ($val['type']=='text') {
+					echo '<p>'.$label.'<br />';
+					echo '<input class="widefat" id="'.$this->get_field_id($val['name']).'" name="'.$this->get_field_name($val['name']).'" type="text" value="'.esc_attr($instance[$val['name']]).'" /></p>';
+				} else if ($val['type']=='checkbox') {
+					$checked = ($instance[$val['name']]) ? 'checked="checked"' : '';
+					echo '<input id="'.$this->get_field_id($val['name']).'" name="'.$this->get_field_name($val['name']).'" type="checkbox" '.$checked.' /> '.$label.'<br />';
+				}
+			}
 		}
-		if($options['encode_utf8']) $msg = utf8_encode($msg);
-				
-		$out .= '<li>';
-
-		if ($options['hyperlinks']) { 
-			// match protocol://address/path/file.extension?some=variable&another=asf%
-			$msg = preg_replace('/\b([a-zA-Z]+:\/\/[\w_.\-]+\.[a-zA-Z]{2,6}[\/\w\-~.?=&%#+$*!]*)\b/i',"<a href=\"$1\" class=\"twitter-link\" ".$link_target.">$1</a>", $msg);
-			// match www.something.domain/path/file.extension?some=variable&another=asf%
-			$msg = preg_replace('/\b(?<!:\/\/)(www\.[\w_.\-]+\.[a-zA-Z]{2,6}[\/\w\-~.?=&%#+$*!]*)\b/i',"<a href=\"http://$1\" class=\"twitter-link\" ".$link_target.">$1</a>", $msg);    
-			// match name@address
-			$msg = preg_replace('/\b([a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]*\@[a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]{2,6})\b/i',"<a href=\"mailto://$1\" class=\"twitter-link\" ".$link_target.">$1</a>", $msg);
-			//NEW mach #trendingtopics
-			//$msg = preg_replace('/#([\w\pL-.,:>]+)/iu', '<a href="http://twitter.com/#!/search/\1" class="twitter-link">#\1</a>', $msg);
-			//NEWER mach #trendingtopics
-			$msg = preg_replace('/(^|\s)#(\w*[a-zA-Z_]+\w*)/', '\1<a href="http://twitter.com/#!/search/%23\2" class="twitter-link" '.$link_target.'>#\2</a>', $msg);
-		}
-		if ($options['twitter_users'])  { 
-			$msg = preg_replace('/([\.|\,|\:|\¡|\¿|\>|\{|\(]?)@{1}(\w*)([\.|\,|\:|\!|\?|\>|\}|\)]?)\s/i', "$1<a href=\"http://twitter.com/$2\" class=\"twitter-user\" ".$link_target.">@$2</a>$3 ", $msg);
-		}
-          					
-		$link = 'http://twitter.com/#!/'.$options['username'].'/status/'.$message['id_str'];
-		if($options['linked'] == 'all')  { 
-			$msg = '<a href="'.$link.'" class="twitter-link" '.$link_target.'>'.$msg.'</a>';  // Puts a link to the status of each tweet 
-		} else if ($options['linked'] != '') {
-			$msg = $msg . ' <a href="'.$link.'" class="twitter-link" '.$link_target.'>'.$options['linked'].'</a>'; // Puts a link to the status of each tweet
-		} 
-		$out .= $msg;
-		
-		if($options['update']) {				
-			$time = strtotime($message['created_at']);
-			$h_time = ( ( abs( time() - $time) ) < 86400 ) ? sprintf( __('%s ago', 'templatic'), human_time_diff( $time )) : date(__('Y/m/d'), $time);
-			$out .= '<span class="rstw_comma">,</span> '.sprintf( __('%s', 'templatic'),' <span class="twitter-timestamp"><abbr title="' . date(__('Y/m/d H:i:s', 'templatic'), $time) . '">' . $h_time . '</abbr></span>' );
-		}          
-                  
-		$out .= '</li>';
-		$i++;
 	}
-	$out .= '</ul>';
-	
-	if ($options['link_user']) {
-		$out .= '<div class="rstw_link_user"><a href="http://twitter.com/' . $options['username'] . '" '.$link_target.'>'.$options['link_user_text'].'</a></div>';
-	}
-	
-	return $out;
+	// Register Widget
+	add_action('widgets_init', create_function('', 'return register_widget("templatic_twiter");'));
 }
 
-
-
-/**
- * ReallySimpleTwitterWidget Class
- */
-class templatic_twiter extends WP_Widget {
-	private /** @type {string} */ $languagePath;
-
-    /** constructor */
-    function templatic_twiter() {
-		$this->options = array(
-			array(
-				'name'	=> 'title',
-				'label'	=> __( 'Title', 'templatic' ),
-				'type'	=> 'text'
-			),			
-			array(
-				'name'	=> 'username',
-				'label'	=> __( 'Twitter Username', 'templatic' ),
-				'type'	=> 'text'
-			),
-			array(
-				'name'	=> 'num',
-				'label'	=> __( 'Show # of Tweets', 'templatic' ),
-				'type'	=> 'text'
-			),
-			
-			
-		);
-
-        $widget_ops = array('classname' => 'widget Templatic twitter', 'description' => __('Show your latest tweets on your site.') );
-		$this->WP_Widget('templatic_twiter', __('T &rarr; Latest Twitter Feeds'), $widget_ops);
+//Function to convert date to time ago format
+//eg.1 day ago, 1 year ago, etc...
+function time_elapsed_string($ptime) {
+    $etime = time() - $ptime;
+    
+    if ($etime < 1) {
+        return __('0 seconds','templatic');
     }
-
-    /** @see WP_Widget::widget */
-    function widget($args, $instance) {		
-		extract( $args );
-		$title = apply_filters('widget_title', $instance['title']);
-		$username = apply_filters('widget_title', $instance['username']);
-		$follow_text = apply_filters('widget_title', $instance['follow_text']);
-		echo $before_widget ;
-		echo $before_widget ;
-		echo '<div id="twitter" style="margin:auto">';
-		if ( $title ) {
-			$title_icon = ($instance['title_icon']) ? '<img src="'.WP_PLUGIN_URL.'/'.basename(dirname(__FILE__)).'/twitter_small.png" alt="'.$title.'" title="'.$title.'" /> ' : '';
-			if ( $instance['link_title'] === true ) {
-				$link_target = ($instance['link_target_blank']) ? ' target="_blank" ' : '';
-				echo $before_title . '<a href="http://twitter.com/' . $instance['username'] . '" class="twitter_title_link" '.$link_target.'>'. $title_icon . $instance['title'] . '</a>' . $after_title;
-			} else {
-				echo '<h3 class="i_twitter">' . $title_icon . $instance['title'] . '</h3>';
-			}
-		}
-		echo templatic_twitter_messages($instance);
-		
-		echo '</div>';
-		echo $after_widget;
-		echo $after_widget;
+    
+    $a = array( 12 * 30 * 24 * 60 * 60  =>  'year',
+                30 * 24 * 60 * 60       =>  'month',
+                24 * 60 * 60            =>  'day',
+                60 * 60                 =>  'hour',
+                60                      =>  'minute',
+                1                       =>  'second'
+                );
+    
+    foreach ($a as $secs => $str) {
+        $d = $etime / $secs;
+        if ($d >= 1) {
+            $r = round($d);
+            return __($r . ' ' . $str . ($r > 1 ? 's' : '').' ago','templatic');
+        }
     }
+}
+//Function to convert date to time ago format
 
-    /** @see WP_Widget::update */
-    function update($new_instance, $old_instance) {				
-		$instance = $old_instance;
-		
-		foreach ($this->options as $val) {
-			if ($val['type']=='text') {
-				$instance[$val['name']] = strip_tags($new_instance[$val['name']]);
-			} else if ($val['type']=='checkbox') {
-				$instance[$val['name']] = ($new_instance[$val['name']]=='on') ? true : false;
-			}
-		}
-        return $instance;
-    }
-
-    /** @see WP_Widget::form */
-    function form($instance) {
-		if (empty($instance)) {
-			$instance['title']			= __( 'Live Tweet', 'templatic' );			
-			$instance['username']		= 'templatic';
-			$instance['num']			= '5';			
-			$instance['follow_text']	= __('Follow Us','templatic');
-			
-		}					
+function templatic_twitter_messages($options){
+	$twitter_username	 = $options['twitter_username'];
+	$consumer_key		 = $options['consumer_key'];
+	$consumer_secret	 = $options['consumer_secret'];
+	$access_token		 = $options['access_token'];
+	$access_token_secret = $options['access_token_secret'];
+	$twitter_number		 = $options['twitter_number'];
+	$follow_text		 = $options['follow_text'];
 	
-		foreach ($this->options as $val) {
-			$label = '<label for="'.$this->get_field_id($val['name']).'">'.$val['label'].'</label>';
-			if ($val['type']=='separator') {
-				echo '<hr />';
-			} else if ($val['type']=='text') {
-				echo '<p>'.$label.'<br />';
-				echo '<input class="widefat" id="'.$this->get_field_id($val['name']).'" name="'.$this->get_field_name($val['name']).'" type="text" value="'.esc_attr($instance[$val['name']]).'" /></p>';
-			} else if ($val['type']=='checkbox') {
-				$checked = ($instance[$val['name']]) ? 'checked="checked"' : '';
-				echo '<input id="'.$this->get_field_id($val['name']).'" name="'.$this->get_field_name($val['name']).'" type="checkbox" '.$checked.' /> '.$label.'<br />';
-			}
+	function getConnectionWithAccessToken($cons_key, $cons_secret, $oauth_token, $oauth_token_secret) {
+		$connection = new TwitterOAuth($cons_key, $cons_secret, $oauth_token, $oauth_token_secret);
+		return $connection;
+	}
+	$connection = getConnectionWithAccessToken($consumer_key, $consumer_secret, $access_token, $access_token_secret);
+	$tweets = $connection->get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=".$twitter_username."&count=".$twitter_number);
+	$tweet_errors = (array) $tweets->errors;
+	if (empty($tweets)) {
+	    _e('No public tweets','templatic');
+	}elseif(!empty($tweet_errors)){
+		$twitter_error = $tweet_errors;
+		$debug = '<br />Error:('.$twitter_error[0]->code.')<br/> '.$twitter_error[0]->message;
+		_e('Unable to get tweets'.$debug,'templatic');
+	}else{
+		echo '<ul id="twitter_update_list" class="templatic_twitter_widget">';
+		foreach ($tweets  as $tweet) {
+			$exact_link = $tweet->entities->urls[0]->url;
+			$twitter_timestamp = strtotime($tweet->created_at);
+			$tweet_date = time_elapsed_string( $twitter_timestamp );
+			echo '<li>';
+				$msg = $tweet->text;
+				$flag = 0;
+				if(strpos($msg, "http://") !== false){
+					$flag = 1;
+				}
+				if($flag==1){
+					$msg = substr($msg,0,strpos($msg, "http://"));
+				}
+				$msg = utf8_encode($msg);	
+				echo $msg;
+				if($flag==1){
+					echo '<br/><a href="'.$exact_link.'" target="_blank" class="twitter-link" >'.$exact_link.'</a>';
+				}
+				echo '<span class="twit_time" style="display: block;">'.$tweet_date.'</span>';
+			echo '</li>';
+		}
+		echo '</ul>';
+		if($follow_text){				
+			echo "<a href='http://www.twitter.com/$twitter_username/' title='$follow_text' class='b_twitter' target='_blank'>$follow_text</a>";				
 		}
 	}
-
-} // class templatic_twiter
-
-// register templatic_twiter widget
-add_action('widgets_init', create_function('', 'return register_widget("templatic_twiter");'));
-
-
-
-
-
-
-
-
+}
 
 
 // EVENTS CALENDER WIDGET STARTS ================================================================

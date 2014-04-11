@@ -1,58 +1,417 @@
-Templatic theme - Events2      !!
-========================
-17th December 2012 (v:2.1.3)
-----------------------------------------------------------
-resolved the auto install image problem with wordpres 3.5
+Templatic theme - Events2      (Initial released on 20th August 2012)
+========================================================================================================================================================================================================================
+29th june 2013 (V:2.2.4)
+------------------------------------------------------------------------------
+FIX : Featured image was not getting displayed on category page and home page.
+------------------------------------------------------------------------------
+functions.php
+library/functions/custom_functions.php
+library/functions/widgets_functions.php
+library/includes/listing_li_content.php
+
+------------------------------------------------------------------------
+FIX : Issue of "Upload Image" button with minor 1px on submit event page.
+------------------------------------------------------------------------
+monetize/general/post_function.php
+style.css
+
+---------------------------------------------------------------------------------
+FIX : Registration Email were appearing as Incomplete, just added a login/sign up link.
+---------------------------------------------------------------------------------
+language.php
+
 ---------------------------------------------------------
-library/includes/auto_install/auto_install_data.php
-----------------------------------------------------
-image issue on go back and edit page
+FIX : Fatal error comes up when with "PayPal pro" payment.
+---------------------------------------------------------
+library/payment/paypal_pro/DoDirectPayment.php
+monetize/event/preview_buttons_event.php
+
+-----------------------------------------------------------------
+FIX : The category listing page was not working with sorting option.
+-----------------------------------------------------------------
+library/functions/listing_filters.php
+
+--------------------------------------------------
+FIX : Issue of slider and calendar query optimization.
+--------------------------------------------------
+library/calendar/ajax_calendar.php
+library/functions/listing_filters.php
+library/functions/widgets_functions.php
+
+-------------------------------------------------------------------
+FIX : Added twitter guide link in "T>Latest twitter" widget in backend.
+-------------------------------------------------------------------
+library/functions/widgets_functions.php
+
+
+
+15th June 2013 (V:2.2.3)
+------------------------------
+FIX : Image issue of blog posts.
+------------------------------
+library/includes/blog_listing.php
+
+-----------------------------------------------------------
+FIX : Set Default permalink to post name on theme activation.
+-----------------------------------------------------------
+Modified files :
+functions.php
+library/includes/auto_install/auto_install.php
+
+New added file :
+js/admin_notification.js
+
+------------------------------------------------------
+FIX : Changed Version 1.1 for latest twitter feed widget.
+------------------------------------------------------
+Modified file :
+library/functions/widgets_functions.php
+
+New added files :
+library/functions/Oauth
+library/functions/Oauth/LICENSE
+library/functions/Oauth/OAuth.php
+library/functions/Oauth/twitteroauth.php
+
+
+
+
+29th May 2013 (V:2.2.2)
+------------------------------------------------------
+Recuring events not display if sunday selected - Solved.
+------------------------------------------------------
+library/functions/custom_functions.php
+
 ------------------------------------------
-monetize/general/image_uploader.php
---------------------------------------------
-set upload image path properly in upload folder
------------------------------------------------
+Recurring events regenerate issue - Solved.
+------------------------------------------
+monetize/manage_settings/manage_post_custom_fields.php
+library/functions/custom_functions.php
+monetize/general/post_function.php
+
+-------------------
+Price issue - Solved.
+-------------------
+monetize/event/submit_event.php
+
+------------------------------------------------------
+Website custom field not display on detail page - Solved.
+------------------------------------------------------
+single-event.php
+
+----------------------------------------------------
+Package price not display during go back edit - Solved.
+----------------------------------------------------
+monetize/event/submit_event.php
+
+------------------------------------------------
+Custom Fields not display on listing page - Solved.
+------------------------------------------------
+library/includes/listing_li_content.php
+
+---------------------------------------------------
+Transaction invalid when return from paypal - Solved.
+---------------------------------------------------
+monetize/general/return.php
+
+---------------------------------
+Media settings not saved - Solved.
+---------------------------------
+functions.php
+
+----------------------------------------------------------------
+Calendar not showing first date if month starts on sunday - Solved.
+----------------------------------------------------------------
+library/calendar/ajax_calendar.php
+
+------------------------------------------------------------------------------
+Issue of publishing Event after payment if the recurring event is in draft - Solved.
+------------------------------------------------------------------------------
+library/functions/custom_functions.php
+
+------------------------------------------------
+Included child category in advaced search - Done.
+------------------------------------------------
+template_advanced_search.php
+
+---------------------------------------------
+Image not display in go back and edit - Solved.
+---------------------------------------------
+monetize/event/event_preview.php
+
+----------------------------------------
+Issue of featured image cropped - Solved.
+----------------------------------------
+library/functions/widgets_functions.php
+library/includes/listing_li_content.php
+
+---------------------------------------------------------------------------
+Reccurence of event is added as uncategorized after first occurence - Solved.
+---------------------------------------------------------------------------
+library/functions/custom_functions.php
+
+--------------------------------------------------
+Image with latest version of WordPress 3.6 - Solved.
+--------------------------------------------------
 monetize/event/paynow.php
---------------------------------------------
-15th December 2012 (v:2.1.2)
----------------------------------------
-file uploader changes for mac
------------------------------------
+
+-------------------------------
+Fetch user image issue - Solved.
+-------------------------------
+library/functions/custom_functions.php
+
+
+
+
+3rd April 2013 (V:2.2.1)
+----------------------------------------------------
+Feature :
+Default order option added for category pages - Done.
+Issue of custom css link - Solved.
+----------------------------------------------------
+library/functions/listing_filters.php
+library/functions/theme_options/theme-options.xml
+
+------------------------------------------------------------------------------------------------------
+Issue of "Menu" word is shown even if there is no menu created and no default menu is activated - Solved.
+------------------------------------------------------------------------------------------------------
+header.php
+
+
+
+15th March 2013 (V:2.2.0)
+-------------------------------------------------
+Feature - Theme can be updated from Dashboard now
+-------------------------------------------------
+templatic_login.php - Added
+wp-updates-theme.php - Added
+functions.php
+---------------------------
+Added the multiple recurring events - Solved.
+-------------------------------------------
+Done all the improvements regarding the recurring events into theme.
+
+----------------------------------------------------------------------------------------------
+Issue of alive days not inserting properly when free package selected from the front end - Solved.
+----------------------------------------------------------------------------------------------
+monetize/event/paynow.php
+
+---------------------------------------------------------
+category not saved when multicheck box selected - Solved.
+---------------------------------------------------------
+monetize/event/paynow.php
+
+------------------------------------------------------------------------
+My attending event not showing in dashboard attending tab page - Solved.
+------------------------------------------------------------------------
+library/functions/listing_filters.php
+
+--------------------------------
+fetch main event image - Solved.
+--------------------------------
+library/includes/author_listing_li_content.php
+library/includes/listing_li_content.php
+
+---------------------------------------------------------------------
+issue of category not saved when checkbox option is selected - Solved.
+---------------------------------------------------------------------
+monetize/event/paynow.php
+
+----------------------------------------------
+added query to not display past event - Solved.
+----------------------------------------------
+library/functions/widgets_functions.php
+
+
+
+
+23rd February 2013 (v:2.1.5)
+-------------------------------------------
+home tab selected constantly issue - Solved.
+-------------------------------------------
+header.php
+
+----------------------------------
+multi image uploader issue - Solved.
+----------------------------------
 library/js/jqueryupload/ajaxupload.3.5.js
 monetize/general/image_uploader.php
-----------------------------------------
+style.css
+
+--------------------------------------
+event preview page map issue - Solved.
+--------------------------------------
+library/map/google_map_detail.php
+
+
+
+
+8th February 2013 (v:2.1.4)
+--------------------------------------
+Issue of "Peoples is attending" - Solved.
+--------------------------------------
+library/functions/custom_functions.php
+
+-------------------------------------------------------------------------------------------
+Issue of image upload issue in firefox and home page widget not showing past events - Solved.
+-------------------------------------------------------------------------------------------
+library/functions/widgets_functions.php
+library/js/jqueryupload/ajaxupload.3.5.js
+
+-------------------------------------------------
+Calender was not translatable with WPML - Solved.
+-------------------------------------------------
+library/calendar/ajax_calendar.php
+library/calendar/calendar.php
+
+----------------------------------------------------------
+Issue of mobile view - logo width & event tab color - Solved.
+----------------------------------------------------------
+style.css
+skins/blue.css
+skins/brown.css
+skins/green.css
+skins/red.css
+
+----------------------------------------------------------------------
+LATEST EVENTS WIDGET CURRENT TAB NOT SHOWING EVENTS - Solved.
+----------------------------------------------------------------------
+library/functions/widgets_functions.php
+
+---------------------------------------------------
+Issue of image uploader not work in chrome - Solved.
+---------------------------------------------------
+library/js/jqueryupload/ajaxupload.3.5.js
+
+----------------------------------------------------------
+Added start date wise sorting option for home page widgets.
+----------------------------------------------------------
+library/functions/widgets_functions.php
+
+--------------------------------------------------------------------------------------------------
+Include events that start and end on the same day inside the Latest Events List View widget - Solved.
+--------------------------------------------------------------------------------------------------
+library/functions/custom_functions.php
+library/functions/widgets_functions.php
+
+--------------------------
+updated new version of js.
+--------------------------
+js/jquery.simplemodal.js
+
+--------------------------------------------------------------
+facebook call to undefined function error in header.php - Solved.
+facebook sharing image not upload issue - Solved.
+Related events not displaying issue - Solved.
+--------------------------------------------------------------
+library/functions/custom_functions.php
+header.php
+
+----------------------------------------------------------------------------------------------
+Current start date and end date event not fetching in current tab in category/tag pages - Solved.
+----------------------------------------------------------------------------------------------
+library/functions/listing_filters.php
+
+--------------------------------------------------------------------------------
+"Consider this event as" if change the value of radio button in localization - Solved.
+--------------------------------------------------------------------------------
+monetize/manage_settings/manage_post_custom_fields.php
+
+--------------------------------
+Category assigned issue - Solved.
+--------------------------------
+monetize/event/paynow.php
+
+---------------------------------------------
+Issue of showing featured image first - Solved.
+---------------------------------------------
+library/functions/custom_functions.php
+library/functions/widgets_functions.php
+library/includes/author_listing_li_content.php
+library/includes/auto_install/auto_install_data.php
+library/includes/blog_detail.php
+library/includes/blog_listing.php
+library/includes/listing_li_content.php
+library/map/category_listing_map.php
+library/map/home_map_widget.php
+library/map/map_data.php
+monetize/event/event_detail_content.php
+
+--------------------------------------------
+Issue of default field cannot deleted - Solved.
+--------------------------------------------
+monetize/manage_settings/admin_manage_custom_fields_edit.php
+
+-----------------------------------
+An issue with image gallery - Solved.
+-----------------------------------
+library/includes/blog_detail.php
+
+
+
+
+17th December 2012 (v:2.1.3)
+-------------------------------------------------------
+resolved the auto install image problem with wordpres 3.5
+-------------------------------------------------------
+library/includes/auto_install/auto_install_data.php
+
+------------------------------------
+image issue on go back and edit page
+------------------------------------
+monetize/general/image_uploader.php
+
+--------------------------------------------
+set upload image path properly in upload folder
+--------------------------------------------
+monetize/event/paynow.php
+
+
+
+15th December 2012 (v:2.1.2)
+----------------------------
+file uploader changes for mac
+----------------------------
+library/js/jqueryupload/ajaxupload.3.5.js
+monetize/general/image_uploader.php
+
+---------------------------------
 recurring events show on calendar
-------------------------------------------------
+---------------------------------
 library/calendar/ajax_calendar.php
 library/functions/custom_functions.php
 library/includes/single_page_checkout_insertuser.php
-------------------------------------------------------
+
+-----------------------------------------
 removing daily_event field and related code
--------------------------------------------------
+-----------------------------------------
 monetize/event/event_preview.php
 monetize/event/paynow.php
 monetize/general/post_function.php
 monetize/manage_settings/manage_post_custom_fields.php
---------------------------------------------------------
+
+------------------------------------------------------------
 after successful payment not transaction not getting approved
---------------------------------------------------------------
+------------------------------------------------------------
 monetize/general/return.php
 
+
 11th December 2012 (v:2.1.1)
-----------------------------------------------------------
+------------------------------------------------------
 recurring start date and endate issue for set time format
--------------------------------------------------------
+------------------------------------------------------
 library/functions/widgets_functions.php
----------------------------------------------
+
+--------------------------------------------
 changed google checkout from sandbox to live
---------------------------------------------------------
+--------------------------------------------
 library/payment/googlechkout/googlechkout_response.php
---------------------------------------------------------
+
 
 3rd Dec - 2012 (v:2.1.0)
---------------------------------------------------
+------------------------------
 Recurring events Improvements
---------------------------------------------------
+------------------------------
 language.php
 library/functions/listing_filters.php
 library/functions/widgets_functions.php

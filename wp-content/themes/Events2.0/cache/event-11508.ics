@@ -1,16 +1,0 @@
-BEGIN:VCALENDAR
-PRODID:-//98.129.229.176//NONSGML iCalcreator 2.6//
-VERSION:2.0
-BEGIN:VEVENT
-UID:20121022T160306CEST-7611ENZCh6@98.129.229.176
-DTSTAMP:20121022T140306Z
-CATEGORIES:Events
-DESCRIPTION:Celebrate with us. Live band\, free food at 11:30 am\, 65th Ann
- iversary giveaways\, friends and family. Special guests\,Willie G. & Nanc
- y Davidson.
-DTSTART:20121020T090000
-DTEND:20121020T000000
-LOCATION:4930 S.port Crossing Place Indianapolis IN 46237
-SUMMARY:65th Anniversary Open House
-END:VEVENT
-END:VCALENDAR

@@ -24,13 +24,13 @@ define('NEW_USER_TEXT',__("New User? Register Now",'templatic'));
 define('LOGIN_TEXT',__('Login','templatic'));
 define('PASSWORD_TEXT',__('Password','templatic'));
 define('SUBMIT_BUTTON',__('Submit','templatic'));
-define('PRO_PHOTO_TEXT',__('Add Media <small>(You can upload more than one image to create image gallery on detail page)</small>','templatic'));
+define('PRO_PHOTO_TEXT',__('Add Images <small>(You can upload more than one image to create image gallery on detail page)</small>','templatic'));
 define('PRO_ADD_COUPON_TEXT',__('Enter Coupon Code','templatic'));
 define('COUPON_NOTE_TEXT',__('Enter coupon code here (optional)','templatic'));
 define('COUPON_CODE_TITLE_TEXT',__('Coupon Code','templatic'));
 define('ORGANIZER_INFO_TITLE_TEXT',__('Organizer Information','templatic'));
-define('FEATURED_TEXT',__('','templatic'));
-define('FEATURED_MSG',__('','templatic'));
+define('FEATURED_TEXT',__('Would you like to make this event featured?','templatic'));
+define('FEATURED_MSG',__('An additional amount will be charged to make this place featured.You have the option to feature your event on home page or category page or both.','templatic'));
 define('TOTAL_TEXT',__('Total price as per your selection.','templatic'));
 define('FEATURED_H',__('Yes &sbquo; feature this listing on homepage.','templatic'));
 define('FEATURED_C',__('Yes &sbquo; feature this listing on category pages.','templatic'));
@@ -58,7 +58,7 @@ define('EVENT_END_TIME',__('End Time','templatic'));
 define('PRO_DELETE_PRE_MSG',__('Are you really sure want to DELETE this event? Deleted event can not be recovered later','templatic'));
 define('PRO_DELETE_BUTTON',__('Yes, Delete Please!','templatic'));
 define('GET_MAP_MSG',__('Click on "Set Address on Map" and then you can also drag pinpoint to locate the correct address','templatic'));
-define('CATEGORY_MSG',__('Select event category from here. Select one category','templatic'));
+define('CATEGORY_MSG',__('Select event category from here. Select at least one category','templatic'));
 define('ERROR_MSG',__('Apologies, you do not have sufficient permission to modify this event.','templatic'));
 define('DELETE_ERROR_MSG',__('Apologies, you do not have sufficient permission to delete this event.','templatic'));
 
@@ -131,7 +131,7 @@ define('SIGN_IN_BUTTON',__('Sign In','templatic'));
 define('DASHBOARD_TEXT',__('Dashboard','templatic'));
 define('EDIT_PROFILE_PAGE_TITLE',__('Edit Profile','templatic'));
 define('CHANGE_PW_TEXT',__('Change Password','templatic'));
-define('USERNAME_TEXT',__('Your Name','templatic'));
+define('USERNAME_TEXT',__('Username','templatic'));
 
 //sidebar.php
 define('MY_ACCOUNT_TEXT',__('My Account','templatic'));
@@ -140,7 +140,7 @@ define('MY_ACCOUNT_TEXT',__('My Account','templatic'));
 define('LOGOUT_TEXT',__('Logout','templatic'));
 
 //author.php
-define('LISTING_NOT_AVAIL_MSG',sprintf(__('Apologies, you do not have any event in your dashboard. <br/>You can post <a href="%s">New Event from here</a>','templatic'),site_url().'/?ptype=post_event'));
+define('LISTING_NOT_AVAIL_MSG',sprintf(__('Apologies, you do not have any event in your dashboard. <br/>You can post <a href="%s">New Event from here</a>','templatic'),home_url().'/?ptype=post_event'));
 define('EDIT_TEXT',__('edit','templatic'));
 define('RENEW_TEXT',__('renew','templatic'));
 define('DELETE_TEXT',__('delete','templatic'));
@@ -151,7 +151,7 @@ define('USER_NO_FACEBOOK_EVENT',__('Apologies, the user is not having any Facebo
 
 
 //registration.php
-define('USERNAME_EMAIL_TEXT',__('Your Email','templatic'));
+define('USERNAME_EMAIL_TEXT',__('E-mail','templatic'));
 define('REMEMBER_ON_COMPUTER_TEXT',__('Remember me on this computer','templatic'));
 define('GET_NEW_PW_TEXT',__('Get New Password','templatic'));
 define('INDICATES_MANDATORY_FIELDS_TEXT',__('Indicates mandatory fields','templatic'));
@@ -159,7 +159,7 @@ define('REGISTRATION_NOW_TEXT',__('Sign Up Now','templatic'));
 define('EMAIL_TEXT',__('E-mail','templatic'));
 define('REGISTER_NOW_TEXT',__('Register Now','templatic'));
 define('SIGN_IN_PAGE_TITLE',__('Sign In','templatic'));
-define('INVALID_USER_PW_MSG',__('Invalid Username/Password. <a href="http://calendar.thunderpress.net/wp-login.php?action=lostpassword">Lost your Password?</a> ','templatic'));
+define('INVALID_USER_PW_MSG',__('Invalid Username/Password.','templatic'));
 define('REG_COMPLETE_MSG',__('Registration complete. Please check your E-mail for login details.','templatic'));
 define('NEW_PW_EMAIL_MSG',__('We just sent you a new password. Kindly check your e-mail now.','templatic'));
 define('EMAIL_CONFIRM_LINK_MSG',__('A confirmation link has been sent to you via email. Kindly check your e-mail now.','templatic'));
@@ -224,7 +224,7 @@ define('PUBLISHED_TEXT',__('Published','templatic'));
 define('RECENT_EVENTS_TEXT',__('Recent Events','templatic'));
 define('ATTEND_EVENT_MSG',__('are you going to attend','templatic'));
 define('ATTEND_EVENT_TEXT',__('Yes, I am','templatic'));
-define('REMOVE_EVENT_MSG',__('are you going to attend this event?','templatic'));
+define('REMOVE_EVENT_MSG',__('you are going to attend','templatic'));
 define('REMOVE_EVENT_TEXT',__('Not attending','templatic'));
 
 define('PROFILE_EDIT_TEXT',__('Edit Profile','templatic'));
@@ -258,13 +258,12 @@ define('FACEBOOK_EVENT_TEXT',__('Facebook Events','templatic'));
 define('UPCOMING_TEXT',__('Upcoming','templatic'));
 define('UPCOMING_NOT_FOUND_TEXT',__('No Upcoming Regular Event is there.','templatic'));
 define('UPCOMING_RECURRING_NOT_FOUND_TEXT',__('No Upcoming Recurring Event is there.','templatic'));
-define('CURRENT_TEXT',__('Today','templatic'));
+define('CURRENT_TEXT',__('Current','templatic'));
 define('CURRENT_NOT_FOUND_TEXT',__('No Current Regular Event is there.','templatic'));
 define('CURRENT_RECURRING_NOT_FOUND_TEXT',__('No Current Recurring Event is there.','templatic'));
 define('PAST_TEXT',__('Past','templatic'));
 define('PAST_NOT_FOUND_TEXT',__('No Past Regular Event is there.','templatic'));
 define('PAST_RECURRING_NOT_FOUND_TEXT',__('No Past Recurring Event is there.','templatic'));
- 
 
 //widget_functions.php
 define('FEED_ID_TEXT',__('Feedburner ID (For Exa. templatic)','templatic'));
@@ -274,7 +273,7 @@ define('SEARCH_FOR_TEXT',__('Search For','templatic'));
 define('SEARCH_EVENT_TEXT',__('Enter Event name','templatic'));
 define('SELECT_CATEGORY_TEXT',__('Select a Category','templatic'));
 define('EVENT_START_TEXT',__('Event start date','templatic'));
-define('ZIP_OR_ADD_TEXT',__('City or State Abbreviation','templatic'));
+define('ZIP_OR_ADD_TEXT',__('Zip Code or Address','templatic'));
 define('SEARCH_EVENTS_TEXT',__('Search Events','templatic'));
 define('CAT_IDS_TEXT',__('Exclude Category IDs','templatic'));
 define('START_DATE_TEXT',__('Start Date','templatic'));
@@ -289,7 +288,7 @@ define('NUMBER_REVIEWS_TEXT',__('Number of Reviews','templatic'));
 define('WIDGET_TITLE_TEXT',__('Title','templatic'));
 define('DESCRIPTION_TEXT',__('Address','templatic'));
 define('CONTACTNO_TEXT',__('Contact No.','templatic'));
-define('ADDRESS_FOR_MAP_TEXT',__('Address <small>(eg. 230 Vine Street, Philadelphia, PA. 19106)</small>','templatic'));
+define('ADDRESS_FOR_MAP_TEXT',__('Address <small>(eg. 230 Vine Street And locations throughout Old City, Philadelphia, PA 19106)</small>','templatic'));
 define('MAP_HEIGHT_TEXT',__('Map Height in pixcels (eg. 200)','templatic'));
 define('MAP_ZOOM_TEXT',__('Map Zooming Factor','templatic'));
 define('SELECT_MAP_TEXT',__('Select Map Type','templatic'));
@@ -353,9 +352,9 @@ define('SAVE_ALL_CHANGES_TEXT',__('Save All Changes','templatic'));
 define('RESET_OPTIONS_TEXT',__('Reset Options','templatic'));
 define('MANAGE_PERMISSION_TEXT',__('Manage permissions','templatic'));
 define('MANAGE_CAT_SET_TEXT',__('Manage category settings','templatic'));
+
 define('YOUR_NEW_PASS_TEXT',__('Your new password','templatic'));
 define('EMAIL_CONTENT_USER_TEXT',__('A New event has been submitted by you . Here is the information about the event','templatic'));
- 
-define('REGISTRATION_EMAIL_DEFAULT_TEXT',__('[SUBJECT-STR]Registration Email[SUBJECT-END]<p>Dear [#user_name#],</p><p>You can log in  with the following information:</p><p>Username: [#user_login#]</p><p>Password: [#user_password#]</p><br><p>We hope you enjoy. Thanks!</p><p>[#site_name#]</p>','templatic'));
 
+define('REGISTRATION_EMAIL_DEFAULT_TEXT',__('[SUBJECT-STR]Registration Email[SUBJECT-END]<p>Dear [#user_name#],</p><p>You can log in  with the following information:</p><p>Username: [#user_login#]</p><p>Password: [#user_password#]</p><p>You can login from the URL [#site_login_url_link#]</p><br><p>We hope you enjoy. Thanks!</p><p>[#site_name#]</p>','templatic'));
 ?>

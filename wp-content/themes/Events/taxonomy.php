@@ -18,7 +18,7 @@ global $wp_query,$post;
 $current_term = $wp_query->get_queried_object();
 if($_REQUEST['etype']=='')
 {
-	$_REQUEST['etype'] = 'upcoming';   
+	$_REQUEST['etype']=get_option('ptthemes_category_current_tab')?get_option('ptthemes_category_current_tab'):'upcoming';
 }
 ?>
 <div id="wrapper" class="clearfix">
@@ -48,19 +48,19 @@ if($_REQUEST['etype']=='')
 				?>
               <select name="sortby" id="sortby_id" class="category" onchange="sort_as_set()">
                 <option value=""> <?php _e('Select Sorting','templatic');?></option>
-                <!--<option value="title_asc" <?php if($_REQUEST['sortby']=='title_asc'){ echo 'selected="selected"';}?>> <?php _e('Title (Z-A)','templatic');?></option>-->
-                <!--<option value="title_desc" <?php if($_REQUEST['sortby']=='title_desc'){ echo 'selected="selected"';}?>> <?php _e('Title (A-Z)','templatic');?></option>-->
-                <option value="stdate_low_high" <?php if($_REQUEST['sortby']=='stdate_low_high'){ echo 'selected="selected"';}?>> <?php _e('Start Date (present to future)','templatic');?></option>
-                <option value="stdate_high_low" <?php if($_REQUEST['sortby']=='stdate_high_low'){ echo 'selected="selected"';}?>> <?php _e('Start Date (future to present)','templatic');?></option>
-                <!--<option value="address_high_low" <?php if($_REQUEST['sortby']=='address_high_low'){ echo 'selected="selected"';}?>> <?php _e('City (A-Z)','templatic');?></option>-->
-                <!--<option value="address_low_high" <?php if($_REQUEST['sortby']=='address_low_high'){ echo 'selected="selected"';}?>> <?php _e('City (Z-A)','templatic');?></option>-->
+                <option value="title_asc" <?php if($_REQUEST['sortby']=='title_asc'){ echo 'selected="selected"';}?>> <?php _e('Title Ascending','templatic');?></option>
+                <option value="title_desc" <?php if($_REQUEST['sortby']=='title_desc'){ echo 'selected="selected"';}?>> <?php _e('Title Descending','templatic');?></option>
+                <option value="stdate_low_high" <?php if($_REQUEST['sortby']=='stdate_low_high'){ echo 'selected="selected"';}?>> <?php _e('Start Date low to high','templatic');?></option>
+                <option value="stdate_high_low" <?php if($_REQUEST['sortby']=='stdate_high_low'){ echo 'selected="selected"';}?>> <?php _e('Start Date high to low','templatic');?></option>
+                <option value="address_high_low" <?php if($_REQUEST['sortby']=='address_high_low'){ echo 'selected="selected"';}?>> <?php _e('Address (A-Z)','templatic');?></option>
+                <option value="address_low_high" <?php if($_REQUEST['sortby']=='address_low_high'){ echo 'selected="selected"';}?>> <?php _e('Address (Z-A)','templatic');?></option>
               </select>
               </form>
               <ul class="tab">
 		<?php $category_link =  get_term_link( $term, $taxonomy );?>
-        <li class="<?php if($_REQUEST['etype']=='upcoming'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=upcoming";}else{ echo $cat_url = $category_link."?etype=upcoming&sortby=stdate_low_high";}?>"><?php echo UPCOMING_TEXT;?> </a></li>
-        <li class="<?php if($_REQUEST['etype']=='current'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=current";}else{ echo $cat_url = $category_link."?etype=current&sortby=stdate_low_high";}?>"><?php echo CURRENT_TEXT;?> </a></li>
-		<li class="<?php if($_REQUEST['etype']=='past'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=past";}else{ echo $cat_url = $category_link."?etype=past&sortby=stdate_high_low";}?>"><?php echo PAST_TEXT;?> </a></li>
+        <li class="<?php if($_REQUEST['etype']=='upcoming'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=upcoming";}else{ echo $cat_url = $category_link."?etype=upcoming";}?>"><?php echo UPCOMING_TEXT;?> </a></li>
+        <li class="<?php if($_REQUEST['etype']=='current'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=current";}else{ echo $cat_url = $category_link."?etype=current";}?>"><?php echo CURRENT_TEXT;?> </a></li>
+		<li class="<?php if($_REQUEST['etype']=='past'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=past";}else{ echo $cat_url = $category_link."?etype=past";}?>"><?php echo PAST_TEXT;?> </a></li>
 </ul>
 
 
@@ -74,25 +74,7 @@ if($_REQUEST['etype']=='')
 				}
 				</script>
    </div> 
-<div class="event_type">
-	<?php
-		if(strstr($category_link,'?'))
-		{
-			$recurring_event=$category_link."&etype=".$_REQUEST['etype']."&event_type=recurring";
-			$regular_event=$category_link."&etype=".$_REQUEST['etype']."&event_type=regular";
-		}else
-		{
-			$recurring_event=$category_link."?etype=".$_REQUEST['etype']."&event_type=recurring";
-			$regular_event=$category_link."?&etype=".$_REQUEST['etype']."&event_type=regular";
-		}
-		if(isset($_GET['event_type']) && $_GET['event_type']=='recurring')
-			$recurring_class='current';
-		else
-			$regular_class='current';
-	?>
-	<a class="<?php echo $regular_class?> event_type" href="<?php echo $regular_event?>"><?php _e('Regular Events',T_DOMAIN); ?></a>
-     <a class="<?php echo $recurring_class?> event_type" href="<?php echo $recurring_event?>"><?php _e('Recurring Events',T_DOMAIN); ?></a>
-</div>
+
          <?php if(have_posts()) : $pcount=0; ?>
       <?php while(have_posts()) : the_post()  ?>
          <?php get_the_post_content('listing_li')?>

@@ -31,7 +31,7 @@
     <id>4</id>
     <item_id>ptthemes_customcss</item_id>
     <item_title>Use Custom Stylesheet</item_title>
-    <item_desc>Activate this option to enable custom.css stylesheet. &amp;lt;a href=&amp;quot;theme-editor.php?file=custom.css&amp;theme=Events2&amp;amp;dir=style&amp;quot; /&amp;gt;Edit custom.css file here&amp;lt;/a&amp;gt;.</item_desc>
+    <item_desc>Activate this option to enable custom.css stylesheet. &amp;lt;a href=&amp;quot;theme-editor.php?file=custom.css&amp;theme=Events&amp;amp;dir=style&amp;quot; /&amp;gt;Edit custom.css file here&amp;lt;/a&amp;gt;.</item_desc>
     <item_type>radio</item_type>
     <item_options>Activate, Deactivate</item_options>
     <item_sort>4</item_sort>
@@ -613,6 +613,24 @@
     <item_type>radio</item_type>
     <item_options>Yes, No</item_options>
     <item_sort>77</item_sort>
+  </row>
+  <row>
+    <id>72</id>
+    <item_id>ptthemes_category_current_tab</item_id>
+    <item_title>Select default tab</item_title>
+    <item_desc>Select the tab you want to show by default in event category pages.</item_desc>
+    <item_type>select</item_type>
+    <item_options>upcoming,current,past</item_options>
+    <item_sort>72</item_sort>
+  </row>
+  <row>
+    <id>78</id>
+    <item_id>ptthemes_category_default_order</item_id>
+    <item_title>Select default order</item_title>
+    <item_desc>Select the default order of the events that you want on the category pages.</item_desc>
+    <item_type>select</item_type>
+    <item_options>Title Ascending,Title Descending,Start Date low to high,Start Date high to low,Address (A-Z),Address (Z-A)</item_options>
+    <item_sort>78</item_sort>
   </row>
   <row>
     <id>60</id>

@@ -578,7 +578,6 @@ function bdw_get_images($iPostID,$img_size='thumb')
 function get_related_posts($postdata,$my_post_type,$post_tags,$post_category) {
  
 global $wp_query,$post;
-
 $do_not_duplicate[] = $postdata->ID;
 if(strtolower(get_option('ptthemes_related_listing_per')) == strtolower('Tags')){
 $terms = wp_get_post_terms($postdata->ID, $post_tags, array("fields" => "names"));
@@ -586,7 +585,10 @@ $post_category = $post_tags;
 }else{ 
 $terms = wp_get_post_terms($postdata->ID, $post_category, array("fields" => "names"));
 }
-
+$relatedcats = get_the_terms( $postdata->ID,'eventcategory' );
+foreach($relatedcats as $category) {
+	$cat_term[] = $category->term_id;
+}
 if(is_array($terms[0])){
 $terms = implode(',',$terms[0]);
 }else{
@@ -599,8 +601,23 @@ if(!empty($terms)){
 	 $postQuery = array(
                         'post_type'                 => $my_post_type,
                         'post_status'               => 'publish',
-                        $post_category             => $terms,
                         'posts_per_page'            => $count,
+						'meta_query' => array(
+										'relation' => 'AND',
+										array(
+											'key' => 'event_type',
+											'value' => 'Regular event',
+											'compare' => '=',
+											'type'=> 'text'
+										)
+									),
+						'tax_query' => array(
+						array(
+							'taxonomy' => 'eventcategory',
+							'field' => 'id',
+							'terms' => implode(",",$cat_term),
+							'operator'  => 'IN'
+						)),
                         'orderby'                   => 'date',
                         'order'                     => 'DESC',
 						'post__not_in' => array($postdata->ID)
@@ -623,10 +640,16 @@ if(!empty($terms)){
 			$title = $attach_data->post_title;
 			if($title ==''){ $title = @$post->post_title; }
 			if($alt ==''){ $alt = @$post->post_title; } 
-			$relatedprd_count++; ?>
+			$relatedprd_count++; 
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ) , 'single-post-thumbnail'  );
+			if($image[0] != '')
+				$thumb = $image[0];
+			elseif($post_rel_img[0]['file'] != '')
+				$thumb = $post_rel_img[0]['file'];
+			?>
             <li class="clearfix">
-				<?php if($post_rel_img[0]['file']){  ?>
-				<a class="post_img" href="<?php echo get_permalink(get_the_ID());?>"><img  src="<?php echo $post_rel_img[0]['file'];?>" alt="<?php $alt; ?>" title="<?php echo $title; ?>"  /> </a>
+				<?php if($thumb){  ?>
+				<a class="post_img" href="<?php echo get_permalink(get_the_ID());?>"><img  src="<?php echo $thumb;?>" alt="<?php $alt; ?>" title="<?php echo $title; ?>" width="112" height="75" /> </a>
 				<?php 	}else{ ?>
 				<a class="post_img" href="<?php echo get_permalink(get_the_ID());  ?>"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="112" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
 				<?php } ?>
@@ -1298,8 +1321,14 @@ function bdw_get_images_with_info($iPostID,$img_size='thumb')
 				$return_arr[] = $imgarr;
 			}
 	   }
-	  return $return_arr;
+	  
+	}elseif (has_post_thumbnail( $iPostID )){
+				$img_arr = wp_get_attachment_image_src( get_post_thumbnail_id( $iPostID ), $img_size );
+				$imgarr['id'] = $id;
+				$imgarr['file'] = $img_arr[0];
+				$return_arr[] = $img_arr;
 	}
+	return $return_arr;
 }
 /*	Function for Getting the custom added size of image -- END	*/
 
@@ -1847,29 +1876,95 @@ function meta_options()
 
 	if(@$_REQUEST['verified'] == 'yes')
 	{	
-		$clid = $_REQUEST['clid'];
-		$wpdb->get_results("Update $claim_db_table_name set status ='1' where clid = '".$clid."'");
+		$clid = $_REQUEST['user_id'];
+		$wpdb->query("Update $claim_db_table_name set status ='1' where user_id = '".$clid."'");
 		update_post_meta($post->ID,'is_verified',1);
+		$event_type = get_post_meta($post->ID,'event_type',true);
+		$event_id = $post->ID;
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring Event')))
+		{
+			$fetch_status = 'recurring';
+			/* to delete the old recurrences BOF */
+			$args =	array( 
+						'post_type' => 'event',
+						'posts_per_page' => -1	,
+						'post_status' => array($fetch_status),
+						'meta_query' => array(
+						'relation' => 'AND',
+							array(
+									'key' => '_event_id',
+									'value' => $event_id,
+									'compare' => '=',
+									'type'=> 'text'
+								),
+							)
+						);
+			$post_query = null;
+			$post_query = new WP_Query($args);
+			
+			if($post_query){
+				while ($post_query->have_posts()) : $post_query->the_post();
+						update_post_meta($post->ID,'is_verified',1);
+				endwhile;
+				wp_reset_query();
+			}
+		}
 	}else if(@$_REQUEST['verified'] == 'no'){
 		$clid = $_REQUEST['clid'];
-		$wpdb->get_results("DELETE FROM $claim_db_table_name where clid = '".$clid."'");
+		$wpdb->query("DELETE FROM $claim_db_table_name where clid = '".$clid."'");
 		update_post_meta($post->ID,'is_verified',0);
+		$event_type = get_post_meta($post->ID,'event_type',true);
+		$event_id = $post->ID;
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring Event')))
+		{
+			$fetch_status = 'recurring';
+			/* to delete the old recurrences BOF */
+			$args =	array( 
+						'post_type' => 'event',
+						'posts_per_page' => -1	,
+						'post_status' => array($fetch_status),
+						'meta_query' => array(
+						'relation' => 'AND',
+							array(
+									'key' => '_event_id',
+									'value' => $event_id,
+									'compare' => '=',
+									'type'=> 'text'
+								),
+							)
+						);
+			$post_query = null;
+			$post_query = new WP_Query($args);
+			
+			if($post_query){
+				while ($post_query->have_posts()) : $post_query->the_post();
+						update_post_meta($post->ID,'is_verified',0);
+				endwhile;
+				wp_reset_query();
+			}
+		}
 	}
 	if(@$_REQUEST['vpid'] == 1)
 	{
 		$wpdb->query("INSERT INTO $claim_db_table_name(`clid`, `post_id`, `post_title`, `user_id`, `full_name`, `your_email`, `contact_number`, `your_position`, `author_id`,`status`, `comments`) VALUES (NULL, '".$post->ID."', '".$post->post_title."', '', '', '', '', '', '".$post->post_author."', '1', '')");
 		update_post_meta($post->ID,'is_verified',1);
 	}
-	$claimreq = $wpdb->get_row("select * from $claim_db_table_name where post_id = '".$post->ID."' and status = '1'");
-	if(mysql_affected_rows() > 0 || get_post_meta($post->ID,'is_verified',true) == '1')
+	$claimreq = $wpdb->get_row("select * from $claim_db_table_name where post_id = '".$post->ID."' ");
+	if(count($claimreq) > 0 && get_post_meta($post->ID,'is_verified',true) == '1')
 	{ ?>
 	<h4><img src="<?php echo get_template_directory_uri(); ?>/images/verified.png" alt="<?php echo YES_VERIFIED;?>" border="0" align="middle" style="position:relative; top:-4px; margin-right:5px;" /> <?php echo POST_VERIFIED_TEXT; ?></h4>
 	<a href="<?php echo home_url().'/wp-admin/post.php?post='.$post->ID.'&action=edit&verified=no&clid='.$claimreq->clid;?>" title="<?php echo REMOVE_CLAIM_REQUEST; ?>"><?php echo REMOVE_CLAIM_REQUEST; ?></a>
 	<?php }
+	elseif(count($claimreq) > 0)
+	{
+	echo "<p>" . NO_CLAIM . "<p/>"; ?>
+	<a href="<?php echo home_url().'/wp-admin/post.php?post='.$post->ID.'&action=edit&verified=yes&user_id='.$claimreq->user_id;?>" title="<?php echo CLAIM_THIS; ?>">
+    <img src="<?php echo get_template_directory_uri(); ?>/images/accept.png" alt="<?php echo VERIFY_THIS; ?>" border="0" style="position:relative; top:-4px; margin-right:10px; float:left;" />  <strong><?php echo VERIFY_THIS.__(' for ','templatic').get_userdata($claimreq->user_id)->display_name; ?></strong></a>
+	<?php }
 	else
 	{
 	echo "<p>" . NO_CLAIM . "<p/>"; ?>
-	<a href="<?php echo home_url().'/wp-admin/post.php?post='.$post->ID.'&action=edit&verified=yes&vpid=1';?>" title="<?php echo CLAIM_THIS; ?>">
+	<a href="<?php echo home_url().'/wp-admin/post.php?post='.$post->ID.'&action=edit&verified=yes&vpid=1&user_id='.$claimreq->user_id;?>" title="<?php echo CLAIM_THIS; ?>">
     <img src="<?php echo get_template_directory_uri(); ?>/images/accept.png" alt="<?php echo VERIFY_THIS; ?>" border="0" style="position:relative; top:-4px; margin-right:10px; float:left;" />  <strong><?php echo VERIFY_THIS; ?></strong></a>
 	<?php }
 	}
@@ -2168,7 +2263,10 @@ function attend_event_html($user_id,$post_id)
 	global $current_user;
 	$post = get_post($post_id);
 	$user_meta_data = get_user_meta($current_user->ID,'user_attend_event',true);
-	echo get_avatar($current_user->user_email,35,35);
+	 if(get_user_meta($user_id,'user_photo',true) != '') 
+			echo '<img class="avatar" src="'.get_user_meta($user_id,'user_photo',true).'" width="35" height="35" />';
+	else
+		echo get_avatar($current_user->user_email,35,35);
 	if($user_meta_data && in_array($post_id,$user_meta_data))
 	{
 		?>
@@ -2234,7 +2332,7 @@ function event_atended_persons($post_id){
 		if($peoples == 1){
 			return $peoples." <a href='".$userlist_url."' target='_blank'>".__('person is attending.',T_DOMAIN)." </a>";
 		}else{
-			return $peoples." <a href='".$userlist_url."' target='_blank'>".__('peoples is attending.',T_DOMAIN)." </a>";			
+			return $peoples." <a href='".$userlist_url."' target='_blank'>".__('peoples are attending.',T_DOMAIN)." </a>";			
 		}
 	}else{
 		return __('No one is attending yet.',T_DOMAIN);
@@ -2299,8 +2397,9 @@ function event_get_hour_format(){
 }
 
 function event_get_days_names(){
-	return array (1 => __ ( 'Mon' ,'templatic'), 2 => __ ( 'Tue','templatic' ), 3 => __ ( 'Wed','templatic' ), 4 => __ ( 'Thu' ,'templatic'), 5 => __ ( 'Fri','templatic' ), 6 => __ ( 'Sat','templatic' ), 7 => __ ( 'Sun','templatic' ) );
+return array ( 0 => __ ( 'Sun','templatic' ) ,1 => __ ( 'Mon' ,'templatic'), 2 => __ ( 'Tue','templatic' ), 3 => __ ( 'Wed','templatic' ), 4 => __ ( 'Thu' ,'templatic'), 5 => __ ( 'Fri','templatic' ), 6 => __ ( 'Sat','templatic' ));
 }
+
 add_action('wp_footer','recurring_event_js');
 function recurring_event_js(){
 	wp_enqueue_script('recurring_js', get_template_directory_uri().'/library/js/recurring_event.js');
@@ -2707,7 +2806,7 @@ function recurrence_event($post_id)
 			$class= ($i%2) ? "odd" : "even";
 			if(($i%$recurrence_per) == 0 )
 			{
-				$j = $i+$recurrence_days;
+				$j = ($i+$recurrence_days-1);
 				$st_date1 = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) . " +$i day");
 				$st_date = date('l dS \o\f F Y', $st_date1);
 				$end_date1 = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) . " +$j day");
@@ -3430,7 +3529,7 @@ if($today_executed && $today_executed>0)
 			{
 				$number_of_grace_days=1;	
 			}
-			$postid_str = $wpdb->get_results("select p.ID,p.post_author,p.post_date, p.post_title from $wpdb->posts p where p.post_type='event' and p.post_status='publish' and datediff(\"$current_date\",date_format(p.post_date,'%Y-%m-%d')) = (select meta_value from $wpdb->postmeta pm where post_id=p.ID  and meta_key='alive_days')-$number_of_grace_days");
+			$postid_str = $wpdb->get_results("select p.ID,p.post_author,p.post_date, p.post_title from $wpdb->posts p where p.post_type='event' and (p.post_status='publish' or p.post_status='recurring') and datediff(\"$current_date\",date_format(p.post_date,'%Y-%m-%d')) = (select meta_value from $wpdb->postmeta pm where post_id=p.ID  and meta_key='alive_days')-$number_of_grace_days");
 			foreach($postid_str as $postid_str_obj)
 			{
 				$ID = $postid_str_obj->ID;
@@ -3463,7 +3562,8 @@ if($today_executed && $today_executed>0)
 				@mail($user_email,$subject,$client_message,$headers);///To client email
 			}
 		}
-		$postid_str = $wpdb->get_var("select group_concat(p.ID) from $wpdb->posts p where p.post_type='event' and p.post_status='publish' and datediff(\"$current_date\",date_format(p.post_date,'%Y-%m-%d')) = (select meta_value from $wpdb->postmeta pm where post_id=p.ID  and meta_key='alive_days')");
+		
+		$postid_str = $wpdb->get_var("select group_concat(p.ID) from $wpdb->posts p where p.post_type='event' and (p.post_status='publish' or p.post_status='recurring') and datediff(\"$current_date\",date_format(p.post_date,'%Y-%m-%d')) = (select meta_value from $wpdb->postmeta pm where post_id=p.ID  and meta_key='alive_days')");
 		
 		if($postid_str)
 		{
@@ -3529,6 +3629,8 @@ function get_company_logo($files)
 				$upload_path = get_option('upload_path');
 				return $imagepath1;
 			}
+		}else{
+			_e('Incurrect file format','templatic');
 		}
 	}	
 }
@@ -3760,4 +3862,1157 @@ function templ_recurrence_dates($post_id)
 	}
 	return $st_date;
 }
+/* function to show facebook share button BOF */
+
+function facebook_meta_tags($post){
+	global $post; 
+	$post_title = $post->post_title;
+	$img = bdw_get_images($post->ID,'thumb');
+	echo '<meta property="og:title" content="'.$post_title.'" /> 
+	<meta property="og:image" content="'.$img[0].'" /> ';
+}
+/* function to show facebook share button EOF */
+if(strstr($_SERVER['REQUEST_URI'],'wp-admin') && isset($_REQUEST['event_type']) && ($_REQUEST['post_type'] ==  'event') && isset($_REQUEST['action'])  && $_REQUEST['action'] == 'editpost') 
+{
+	//$pID = $_POST['post_ID'];
+	//save_recurring_event($pID);
+}
+function save_recurring_event($last_postid,$recurring_event_type='')
+{
+	global $wpdb,$last_postid,$post;
+	
+	/* save editional data when submit event from front end */
+	if(!strstr($_SERVER['REQUEST_URI'],'wp-admin') && get_post_type( $last_postid) == CUSTOM_POST_TYPE1)
+	{
+	 	$post_address 	= $_SESSION['theme_info']['address'];
+		$latitude 		= $_SESSION['theme_info']['geo_latitude'];
+		$longitude 		= $_SESSION['theme_info']['geo_longitude'];
+		
+		$event_type = $_SESSION['theme_info']['event_type'];
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring event')))
+		{
+			
+			$st_date = get_post_meta($last_postid,'st_date',true);
+			$end_date = get_post_meta($last_postid,'end_date',true);
+			$args =	array( 
+							'post_type' => 'event',
+							'posts_per_page' => 1	,
+							'post_status' => 'recurring',
+							'meta_query' => array(
+							'relation' => 'AND',
+								array(
+										'key' => '_event_id',
+										'value' => $last_postid,
+										'compare' => '=',
+										'type'=> 'text'
+									),
+								)
+							);
+				$post_query = null;
+				$child_data = new WP_Query($args);
+		//	if(($_SESSION['theme_info']['st_date'] != $st_date  || $_SESSION['theme_info']['end_date'] != $end_date) || ($child_data->posts[0]->post_title != get_the_title($last_postid) ) || ($child_data->posts[0]->post_content != get_post_field('post_content', $last_postid)) || $_SESSION['theme_info']['allow_to_create_rec'] =='yes' )
+			{
+				$parent_data = get_post($last_postid);
+				$parent_post_status = get_post_meta($last_postid,'tmpl_post_status',true);
+				$fetch_status = 'recurring';
+				/* to delete the old recurrences BOF */
+				$args =	array( 
+							'post_type' => 'event',
+							'posts_per_page' => -1	,
+							'post_status' => array($fetch_status),
+							'meta_query' => array(
+							'relation' => 'AND',
+								array(
+										'key' => '_event_id',
+										'value' => $last_postid,
+										'compare' => '=',
+										'type'=> 'text'
+									),
+								)
+							);
+				$post_query = null;
+				$post_query = new WP_Query($args);
+				
+				if($post_query){
+					while ($post_query->have_posts()) : $post_query->the_post();
+							wp_delete_post($post->ID);
+					endwhile;
+					wp_reset_query();
+				}
+				update_post_meta($last_postid, 'recurrence_occurs', $_SESSION['theme_info']['recurrence_occurs']);
+				update_post_meta($last_postid, 'recurrence_per', $_SESSION['theme_info']['recurrence_per']);
+				update_post_meta($last_postid, 'recurrence_onday', $_SESSION['theme_info']['recurrence_onday']);
+		
+				update_post_meta($last_postid, 'recurrence_bydays', implode(',',$_SESSION['theme_info']['recurrence_bydays']));
+				if($_SESSION['theme_info']['featured_type'])
+				{ 
+					if($_SESSION['theme_info']['featured_type']):
+						if($_SESSION['theme_info']['featured_type'] == 'both'):
+							 update_post_meta($last_postid, 'featured_c', 'c');
+							 update_post_meta($last_postid, 'featured_h', 'h');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;
+						if($_SESSION['theme_info']['featured_type'] == 'c'):
+							 update_post_meta($last_postid, 'featured_c', 'c');
+							 update_post_meta($last_postid, 'featured_h', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;	 
+						if($_SESSION['theme_info']['featured_type'] == 'h'):
+							 update_post_meta($last_postid, 'featured_h', 'h');
+							 update_post_meta($last_postid, 'featured_c', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;
+						if($_SESSION['theme_info']['featured_type'] == 'none'):
+							 update_post_meta($last_postid, 'featured_h', 'n');
+							 update_post_meta($last_postid, 'featured_c', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;	 
+					else:
+						 update_post_meta($last_postid, 'featured_type', 'none');
+						 update_post_meta($last_postid, 'featured_c', 'n');
+						 update_post_meta($last_postid, 'featured_h', 'n');
+					endif;
+				}
+				update_post_meta($last_postid, 'recurrence_onweekno', $_SESSION['theme_info']['recurrence_onweekno']);
+				update_post_meta($last_postid, 'recurrence_days', $_SESSION['theme_info']['recurrence_days']);	
+				update_post_meta($last_postid, 'monthly_recurrence_byweekno', $_SESSION['theme_info']['monthly_recurrence_byweekno']);	
+				update_post_meta($last_postid, 'recurrence_byday', $_SESSION['theme_info']['recurrence_byday']);	
+				update_post_meta($last_postid, 'st_date', $_SESSION['theme_info']['st_date']);	
+				update_post_meta($last_postid, 'end_date', $_SESSION['theme_info']['end_date']);	
+				update_post_meta($last_postid, 'st_time', $_SESSION['theme_info']['st_time']);	
+				update_post_meta($last_postid, 'end_time', $_SESSION['theme_info']['end_time']);	
+				update_post_meta($last_postid, 'address', $_SESSION['theme_info']['address']);
+				templ_save_recurrence_events( $_SESSION['theme_info'],$last_postid);// to save event recurrences - front end
+			}
+			/* to delete the old recurrences EOF */
+		
+			$start_date = templ_recurrence_dates($last_postid);
+			update_post_meta($last_postid,'recurring_search_date',$start_date);
+	
+			
+		}
+		 $event_type_regular = get_post_meta($last_postid,'event_type',true);
+		if(trim(strtolower($event_type_regular)) == trim(strtolower('Recurring event')) && trim(strtolower($event_type)) == trim(strtolower('Regular event')))
+		{
+			
+			$st_date = get_post_meta($last_postid,'st_date',true);
+			$end_date = get_post_meta($last_postid,'end_date',true);
+			
+				$parent_data = get_post($last_postid);
+				$parent_post_status = get_post_meta($last_postid,'tmpl_post_status',true);
+				$fetch_status = 'recurring';
+				/* to delete the old recurrences BOF */
+				$args =	array( 
+							'post_type' => 'event',
+							'posts_per_page' => -1	,
+							'post_status' => array($fetch_status),
+							'meta_query' => array(
+							'relation' => 'AND',
+								array(
+										'key' => '_event_id',
+										'value' => $last_postid,
+										'compare' => '=',
+										'type'=> 'text'
+									),
+								)
+							);
+				$post_query = null;
+				$post_query = new WP_Query($args);
+				if($post_query){
+					while ($post_query->have_posts()) : $post_query->the_post();
+							wp_delete_post($post->ID);
+					endwhile;
+					wp_reset_query();
+				}
+				
+				update_post_meta($last_postid, 'recurrence_occurs', $_SESSION['theme_info']['recurrence_occurs']);
+				update_post_meta($last_postid, 'recurrence_per', $_SESSION['theme_info']['recurrence_per']);
+				update_post_meta($last_postid, 'recurrence_onday', $_SESSION['theme_info']['recurrence_onday']);
+		
+				update_post_meta($last_postid, 'recurrence_bydays', implode(',',$_SESSION['theme_info']['recurrence_bydays']));
+				if($_SESSION['custom_fields']['featured_type'])
+				{ 
+					if($_SESSION['theme_info']['featured_type']):
+						if($_SESSION['theme_info']['featured_type'] == 'both'):
+							 update_post_meta($last_postid, 'featured_c', 'c');
+							 update_post_meta($last_postid, 'featured_h', 'h');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;
+						if($_SESSION['theme_info']['featured_type'] == 'c'):
+							 update_post_meta($last_postid, 'featured_c', 'c');
+							 update_post_meta($last_postid, 'featured_h', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;	 
+						if($_SESSION['theme_info']['featured_type'] == 'h'):
+							 update_post_meta($last_postid, 'featured_h', 'h');
+							 update_post_meta($last_postid, 'featured_c', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;
+						if($_SESSION['theme_info']['featured_type'] == 'none'):
+							 update_post_meta($last_postid, 'featured_h', 'n');
+							 update_post_meta($last_postid, 'featured_c', 'n');
+							 update_post_meta($last_postid, 'featured_type', $_SESSION['theme_info']['featured_type']);
+						endif;	 
+					else:
+						 update_post_meta($last_postid, 'featured_type', 'none');
+						 update_post_meta($last_postid, 'featured_c', 'n');
+						 update_post_meta($last_postid, 'featured_h', 'n');
+					endif;
+				}
+				update_post_meta($last_postid, 'recurrence_onweekno', $_SESSION['theme_info']['recurrence_onweekno']);
+				update_post_meta($last_postid, 'recurrence_days', $_SESSION['theme_info']['recurrence_days']);	
+				update_post_meta($last_postid, 'monthly_recurrence_byweekno', $_SESSION['theme_info']['monthly_recurrence_byweekno']);	
+				update_post_meta($last_postid, 'recurrence_byday', $_SESSION['theme_info']['recurrence_byday']);	
+				update_post_meta($last_postid, 'st_date', $_SESSION['theme_info']['st_date']);	
+				update_post_meta($last_postid, 'end_date', $_SESSION['theme_info']['end_date']);	
+				update_post_meta($last_postid, 'st_time', $_SESSION['theme_info']['st_time']);	
+				update_post_meta($last_postid, 'end_time', $_SESSION['theme_info']['end_time']);	
+				update_post_meta($last_postid, 'address', $_SESSION['theme_info']['address']);	
+			//	templ_save_recurrence_events( $_SESSION['custom_fields'],$last_postid);// to save event recurrences - front end
+			
+			/* to delete the old recurrences EOF */
+		
+			$start_date = templ_recurrence_dates($last_postid);
+			update_post_meta($last_postid,'recurring_search_date',$start_date);
+	
+			
+		}
+		
+	}
+	
+	/* save editional data when submit event from backend */
+	if(strstr($_SERVER['REQUEST_URI'],'wp-admin') && isset($_REQUEST['event_type']) && isset($_REQUEST['action'])  && $_REQUEST['action'] == 'editpost') 
+	{
+		$event_type = $_POST['event_type'];
+		$pID = $_POST['post_ID'];
+		
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring event')) && isset($_POST['post_type']) &&  $_POST['post_type'] == 'event')
+		{
+			update_post_meta($pID, 'recurrence_occurs', $_POST['recurrence_occurs']);
+			update_post_meta($pID, 'recurrence_per', $_POST['recurrence_per']);
+			update_post_meta($pID, 'recurrence_onday', $_POST['recurrence_onday']);
+	
+			update_post_meta($pID, 'recurrence_bydays', implode(',',$_POST['recurrence_bydays']));
+	
+			update_post_meta($pID, 'recurrence_onweekno', $_POST['recurrence_onweekno']);
+			update_post_meta($pID, 'recurrence_days', $_POST['recurrence_days']);	
+			update_post_meta($pID, 'monthly_recurrence_byweekno', $_POST['monthly_recurrence_byweekno']);	
+			update_post_meta($pID, 'recurrence_byday', $_POST['recurrence_byday']);	
+			update_post_meta($pID, 'allow_to_create_rec', $_POST['allow_to_create_rec']);
+		}
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring event')) && isset($_POST['post_type']) &&  $_POST['post_type'] == 'event' )
+		{ 
+			$start_date = templ_recurrence_dates($pID);
+			$post_data = $_POST;
+			$parent_data = get_post($pID);
+			$st_date = get_post_meta($pID,'st_date',true);
+			$end_date = get_post_meta($pID,'end_date',true);
+			//if($_POST['old_st_date'] != $st_date  || $_POST['old_end_date'] != $end_date || $_POST['allow_to_create_rec'] =='yes')
+			{
+				$parent_post_status = get_post_meta($pID,'tmpl_post_status',true);
+				
+					$fetch_status = 'recurring,pending';
+				
+				/* to delete the old recurrences BOF */
+				$args =	array( 
+							'post_type' => 'event',
+							'posts_per_page' => -1	,
+							'post_status' => array($fetch_status),
+							'meta_query' => array(
+							'relation' => 'AND',
+								array(
+										'key' => '_event_id',
+										'value' => $pID,
+										'compare' => '=',
+										'type'=> 'text'
+									),
+								)
+							);
+				$post_query = null;
+				$post_query = new WP_Query($args);
+				if($post_query){
+					while ($post_query->have_posts()) : $post_query->the_post();
+							wp_delete_post($post->ID);
+						 
+					endwhile;
+					wp_reset_query();
+				}
+				/* to delete the old recurrences EOF */
+				templ_save_recurrence_events($post_data,$pID);// to save event recurrences
+			}
+			
+			update_post_meta($pID,'recurring_search_date',$start_date);
+			
+		}
+		
+		if(trim(strtolower($recurring_event_type)) == trim(strtolower('Recurring event')) && trim(strtolower($event_type)) == trim(strtolower('Regular event')))
+		{
+			$pID = $_REQUEST['post'];
+			$event_type = get_post_meta($pID,'event_type',true);
+			$post_type = get_post_type($pID);
+
+				/* to delete the old recurrences BOF */
+				$args =	array( 
+							'post_type' => 'event',
+							'posts_per_page' => -1	,
+							'post_status' => array('recurring'),
+							'meta_query' => array(
+							'relation' => 'AND',
+								array(
+										'key' => '_event_id',
+										'value' => $pID,
+										'compare' => '=',
+										'type'=> 'text'
+									),
+								)
+							);
+				$post_query = null;
+				$post_query = new WP_Query($args);
+				if($post_query){
+					while ($post_query->have_posts()) : $post_query->the_post();
+						wp_delete_post($post->ID);
+					endwhile;
+					wp_reset_query();
+				
+				/* to delete the old recurrences EOF */
+			}
+		}
+	}
+	/* delete additional data event from backend */
+	if(strstr($_SERVER['REQUEST_URI'],'wp-admin')  && isset($_REQUEST['action'])  && $_REQUEST['action'] == 'trash') 
+	{
+		$pID = $_REQUEST['post'];
+		$event_type = get_post_meta($pID,'event_type',true);
+		$post_type = get_post_type($pID);
+
+		if(trim(strtolower($event_type)) == trim(strtolower('Recurring event')) && isset($post_type) &&  $post_type == 'event' )
+		{ 
+			/* to delete the old recurrences BOF */
+			$args =	array( 
+						'post_type' => 'event',
+						'posts_per_page' => -1	,
+						'post_status' => array('recurring'),
+						'meta_query' => array(
+						'relation' => 'AND',
+							array(
+									'key' => '_event_id',
+									'value' => $pID,
+									'compare' => '=',
+									'type'=> 'text'
+								),
+							)
+						);
+			$post_query = null;
+			$post_query = new WP_Query($args);
+			if($post_query){
+				while ($post_query->have_posts()) : $post_query->the_post();
+					wp_delete_post($post->ID);
+				endwhile;
+				wp_reset_query();
+			}
+			/* to delete the old recurrences EOF */
+		}
+	}
+}
+
+
+
+
+/*
+ *Function Name : templ_recurrence_dates
+ *Description : return recurrence dates.
+ */
+function templ_save_recurrence_events($post_data,$pID)
+{
+
+	global $wpdb,$current_user;
+	$post_id = $pID;
+	$start_date = strtotime(get_post_meta($post_id,'st_date',true));
+	$end_date = strtotime(get_post_meta($post_id,'end_date',true));
+	$tmpl_end_date = strtotime(get_post_meta($post_id,'end_date',true));
+    $recurrence_occurs = get_post_meta($post_id,'recurrence_occurs',true);//reoccurence type
+	$recurrence_per = get_post_meta($post_id,'recurrence_per',true);//no. of occurence.
+	$current_date = date('Y-m-d');
+	$recurrence_days = get_post_meta($post_id,'recurrence_days',true);	//on which day
+	$recurrence_list = "";
+	
+	
+	if($recurrence_occurs == 'daily' )
+	{
+		$days_between = ceil(abs($end_date - $start_date) / 86400);
+		for($i=0;$i<($days_between);$i++)
+		{
+			$class= ($i%2) ? "odd" : "even";
+			if(($i%$recurrence_per) == 0 )
+			{
+				$j = $i+$recurrence_days;
+				$st_date1 = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) . " +$i day");
+				if($recurrence_days==0)
+					$recurrence_days=1;
+				
+				$st_date2 = strtotime(date("Y-m-d", $st_date1) );
+				$st_date = date('Y-m-d',$st_date2);
+				if($recurrence_days ==1):
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date))));
+					else:
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date)) . " +".($recurrence_days-1)." day"));
+				
+					endif;
+				if($tmpl_end_date < strtotime($end_date)){
+					$end_date = date("Y-m-d", $tmpl_end_date);
+				}
+				templ_update_rec_data($post_data,$post_id,$st_date,$end_date);
+
+			}
+			else
+			{
+				continue;
+			}
+		}
+	}
+	if($recurrence_occurs == 'weekly' )
+	{ 
+		$recurrence_interval = get_post_meta($post_id,'recurrence_per',true);//no. of occurence.
+		$days_between = ceil(abs($end_date - $start_date) / 86400);
+		$l = 0;
+		$count_recurrence = 0;
+		$current_week = 0;
+		$recurrence_list .= "<ul>";
+		
+		if(strstr(get_post_meta($post_id,'recurrence_bydays',true),","))
+			$recurrence_byday = explode(',',get_post_meta($post_id,'recurrence_byday',true));	//on which day
+		else
+			$recurrence_byday = get_post_meta($post_id,'recurrence_byday',true);	//on which day
+		$start_date = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) );
+		$end_date = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'end_date',true))) );
+		
+		//sort out week one, get starting days and then days that match time span of event (i.e. remove past events in week 1)
+		$weekdays = explode(",", get_post_meta($post_id,'recurrence_bydays',true));
+		$matching_days = array(); 
+		$aDay = 86400;  // a day in seconds
+		$aWeek = $aDay * 7;
+			$start_of_week = get_option('start_of_week'); //Start of week depends on WordPress
+			//first, get the start of this week as timestamp
+			$event_start_day = date('w', $start_date);
+			$offset = 0;
+			if( $event_start_day > $start_of_week ){
+				$offset = $event_start_day - $start_of_week; //x days backwards
+			}elseif( $event_start_day < $start_of_week ){
+				$offset = $start_of_week;
+			}
+			$start_week_date = $start_date - ( ($event_start_day - $start_of_week) * $aDay );
+			//then get the timestamps of weekdays during this first week, regardless if within event range
+			$start_weekday_dates = array(); //Days in week 1 where there would events, regardless of event date range
+			for($i = 0; $i < 7; $i++){
+				$weekday_date = $start_week_date+($aDay*$i); //the date of the weekday we're currently checking
+				$weekday_day = date('w',$weekday_date); //the day of the week we're checking, taking into account wp start of week setting
+				if( in_array( $weekday_day, $weekdays) ){
+					$start_weekday_dates[] = $weekday_date; //it's in our starting week day, so add it
+				}
+			}
+	
+			//for each day of eventful days in week 1, add 7 days * weekly intervals
+			foreach ($start_weekday_dates as $weekday_date){
+				//Loop weeks by interval until we reach or surpass end date
+				
+				while($weekday_date <= $end_date){
+					if( $weekday_date >= $start_date && $weekday_date <= $end_date ){
+						$matching_days[] = $weekday_date;
+					}					
+					$weekday_date = $weekday_date + strtotime("+$recurrence_interval week", date("Y-m-d",$weekday_date));
+				}
+			}//done!
+			 sort($matching_days);
+			 $tmd = count($matching_days);
+			 for($z=0;$z<count($matching_days);$z++)
+			{
+				$st_date1 = $matching_days[$z];
+				if($z <= ($tmd-1)){
+					if($recurrence_days==0)
+						$recurrence_days=1;
+				
+					$st_date2 = strtotime(date("Y-m-d", $matching_days[$z]));
+					$st_date = date('Y-m-d',$st_date2);
+					if($recurrence_days ==1):
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date))));
+					else:
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date)) . " +".($recurrence_days-1)." day"));
+				
+					endif;
+					if($tmpl_end_date < strtotime($end_date)){
+						$end_date = date("Y-m-d", $tmpl_end_date);
+					}
+					templ_update_rec_data($post_data,$post_id,$st_date,$end_date);
+				
+				}
+			}
+
+	}
+
+	if($recurrence_occurs == 'monthly' )
+	{
+		$recurrence_interval = get_post_meta($post_id,'recurrence_per',true);//no. of occurence.
+		$days_between = ceil(abs($end_date - $start_date) / 86400);
+		$recurrence_byweekno = get_post_meta($post_id,'monthly_recurrence_byweekno',true);	//on which day
+		$l = 0;
+		$month_week = 0;
+		$count_recurrence = 0;
+		$current_month = 0;
+		$recurrence_list .= "<ul>";
+		
+			if(strstr(get_post_meta($post_id,'recurrence_bydays',true),","))
+				$recurrence_byday = explode(',',get_post_meta($post_id,'recurrence_byday',true));	//on which day
+			else
+				$recurrence_byday = get_post_meta($post_id,'recurrence_byday',true);	//on which day
+			$start_date = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) );
+			$end_date = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'end_date',true))) );
+		
+		$matching_days = array(); 
+		$aDay = 86400;  // a day in seconds
+		$aWeek = $aDay * 7;		 
+		$current_arr = getdate($start_date);
+		$end_arr = getdate($end_date);
+		$end_month_date = strtotime( date('Y-m-t', $end_date) ); //End date on last day of month
+		$current_date = strtotime( date('Y-m-1', $start_date) ); //Start date on first day of month
+		while( $current_date <= $end_month_date ){
+			 $last_day_of_month = date('t', $current_date);
+			//Now find which day we're talking about
+			$current_week_day = date('w',$current_date);
+			$matching_month_days = array();
+			//Loop through days of this years month and save matching days to temp array
+			for($day = 1; $day <= $last_day_of_month; $day++){
+				if((int) $current_week_day == $recurrence_byday){
+					$matching_month_days[] = $day;
+				}
+				$current_week_day = ($current_week_day < 6) ? $current_week_day+1 : 0;							
+			}
+			//Now grab from the array the x day of the month
+			$matching_day = ($recurrence_byweekno > 0) ? $matching_month_days[$recurrence_byweekno-1] : array_pop($matching_month_days);
+			$matching_date = strtotime(date('Y-m',$current_date).'-'.$matching_day);
+			if($matching_date >= $start_date && $matching_date <= $end_date){
+				$matching_days[] = $matching_date;
+			}
+			//add the number of days in this month to make start of next month
+			$current_arr['mon'] += $recurrence_interval;
+			if($current_arr['mon'] > 12){
+				//FIXME this won't work if interval is more than 12
+				$current_arr['mon'] = $current_arr['mon'] - 12;
+				$current_arr['year']++;
+			}
+			$current_date = strtotime("{$current_arr['year']}-{$current_arr['mon']}-1"); 
+			
+		}
+		sort($matching_days);
+			$tmd = count($matching_days);
+			 for($z=0;$z<count($matching_days);$z++)
+			{
+				$class= ($z%2) ? "odd" : "even";
+				$st_date1 = $matching_days[$z];
+				date("Y-m-d", $matching_days[$z]);
+				if($z <= ($tmd-1)){
+					if($recurrence_days==0)
+						$recurrence_days=1;
+				
+					$st_date2 = strtotime(date("Y-m-d", $matching_days[$z]) );
+					$st_date = date("Y-m-d", $st_date2);
+					if($recurrence_days ==1):
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date))));
+					else:
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date)) . " +".($recurrence_days-1)." day"));
+				
+					endif;
+					if($tmpl_end_date < strtotime($end_date)){
+						$end_date = date('Y-m-d',strtotime(date("Y-m-d", $tmpl_end_date)));
+					}
+
+					templ_update_rec_data($post_data,$post_id,$st_date,$end_date);
+
+				}
+
+			}
+			
+	}
+	if($recurrence_occurs == 'yearly' )
+	{
+
+		$date1 = get_post_meta($post_id,'st_date',true);
+		$date2 = get_post_meta($post_id,'end_date',true);
+		$st_startdate1 = explode("-",$date1);
+		$st_year = $st_startdate1[0];
+		$st_month = $st_startdate1[1];
+		$st_day = $st_startdate1[2];
+		$st_date1 = mktime(0, 0, 0, $st_month, $st_day, $st_year);
+		$st_date__month = (int)date('n', $st_date1); //get the current month of start date.
+		$diff = abs(strtotime($date2) - strtotime($date1));
+		$years_between = floor($diff / (365*60*60*24));
+		$recurrence_list .= "<ul>";
+		for($i=0;$i<($years_between+1);$i++)
+		{
+			$class= ($i%2) ? "odd" : "even";
+			$startdate = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))) . " +$i year");
+			$startdate1 = explode("-",date('Y-m-d',$startdate));
+			$year = $startdate1[0];
+			$month = $startdate1[1];
+			$day = $startdate1[2];
+			$date2 = mktime(0, 0, 0, $month, $day, $year);
+			$month = (int)date('n', $date2); //get the current month.
+			
+			if($month == $st_date__month  && $i%$recurrence_per == 0 )
+			{				
+				$st_date1 = strtotime(date("Y-m-d", strtotime(get_post_meta($post_id,'st_date',true))). " +$i year");
+				if($recurrence_days==0)
+					$recurrence_days=1;
+				
+				$st_date2 = strtotime(date("Y-m-d", $st_date1));
+				$st_date = date("Y-m-d", $st_date2);
+				if($recurrence_days ==1):
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date))));
+				else:
+						$end_date =  date('Y-m-d',strtotime(date("Y-m-d", strtotime($st_date)) . " +".($recurrence_days-1)." day"));
+				
+				endif;
+				if($tmpl_end_date < strtotime($end_date)){
+					$end_date = date("Y-m-d", $tmpl_end_date);
+				}
+				$main_event_end_date = strtotime(get_post_meta($post_id,'end_date',true));
+			
+				if($main_event_end_date >= $st_date2)
+					templ_update_rec_data($post_data,$post_id,$st_date,$end_date);
+
+			}
+			else
+			{
+				continue;
+			}
+		}
+	}
+
+}
+/*
+Name : templ_update_rec_data
+Description : it's update other recurrances while update the evenets
+*/	
+
+function templ_update_rec_data($post_data,$post_id,$st_date,$end_date){
+	
+	global $wpdb,$post;
+	remove_action('save_post', 'ptthemes_event_metabox_insert');
+	$recurring_update = $_REQUEST['recurring_update'];
+	$parent_data = get_post($post_id);
+	if(!strstr($_SERVER['REQUEST_URI'],'wp-admin'))
+		update_post_meta($post_id,'tmpl_post_status',$parent_data->post_status);
+	
+	$parent_post_status = get_post_meta($parent_data->ID,'tmpl_post_status',true);
+	$p_status = $parent_data->post_status;
+	if($parent_post_status =='draft' && $p_status == 'draft'){
+		$child_status = 'pending';
+	}else{
+		$child_status = 'recurring';
+	}
+	if(strstr($_SERVER['REQUEST_URI'],'wp-admin') && isset($_REQUEST['publish']) && trim(strtolower($_REQUEST['publish'])) == trim(strtolower('Publish')))
+		$child_status = 'recurring';
+	if((isset($recurring_update) && $recurring_update != ''))
+	{
+		$post_details = array('post_title' => $post_data->post_title,
+					'post_content' => $post_data->post_content,
+					'post_status' => $child_status,
+					'post_type' => 'event',
+					'post_name' => str_replace(' ','-',$post_data->post_title)."-".$st_date,
+					'post_parent' => $post_id,
+				  );
+	}
+	elseif(strstr($_SERVER['REQUEST_URI'],'wp-admin'))
+	{
+		
+		$post_details = array('post_title' => $post_data['post_title'],
+					'post_content' => $post_data['post_content'],
+					'post_status' => $child_status,
+					'post_type' => 'event',
+					'post_name' => str_replace(' ','-',$post_data['post_title'])."-".$st_date,
+					'post_parent' => $post_id,
+				  );
+	}
+	else
+	{
+		$post_details = array('post_title' => stripslashes($post_data['event_name']),
+					'post_content' => stripslashes($post_data['proprty_desc']),
+					'post_status' => $child_status,
+					'post_type' => 'event',
+					'post_name' => str_replace(' ','-',stripslashes($post_data['post_title']))."-".$st_date,
+					'post_parent' => $post_id,
+				  );
+	}
+	$alive_days = get_post_meta($post_id,'alive_days',true);
+	$last_rec_post_id = wp_insert_post($post_details); // insert recurrences of events 
+	$tl_dummy_content = get_post_meta($post_id,'tl_dummy_content',true);
+	
+	$where = array( 'post_parent' => $post_id , 'post_type' => 'event' );
+	$wpdb->update( $wpdb->posts, array( 'post_status' => $child_status ), $where );
+	
+	if(isset($recurring_update) && $recurring_update != '')
+		tmpl_set_my_categories($last_rec_post_id,$post_id); // assign category of parent post
+	if((isset($_REQUEST['tax_input']['eventcategory']) && $_REQUEST['tax_input']['eventcategory']!='') || $_SESSION['theme_info']['category'] !='' || $_SESSION['category'])
+		tmpl_set_my_categories($last_rec_post_id,$post_id); // assign category of parent post
+	if(isset($_SESSION['theme_info']['pid']) && $_SESSION['theme_info']['pid'] != '')
+		tmpl_set_my_categories($last_rec_post_id,$post_id); 
+
+	if(isset($tl_dummy_content) && $tl_dummy_content != '')
+	{
+		tmpl_set_my_categories($last_rec_post_id,$post_id); 
+		update_post_meta($last_rec_post_id,'tl_dummy_content',1);
+	}
+	$st_time = get_post_meta($post_id,'st_time',true);
+	$end_time = get_post_meta($post_id,'end_time',true);
+	$address = get_post_meta($post_id,'address',true);
+	$featured_type = get_post_meta($post_id,'featured_type',true);
+	$featured_h = get_post_meta($post_id,'featured_h',true);
+	$featured_c = get_post_meta($post_id,'featured_c',true);
+	/* add parent post valy with different date and time */
+	update_post_meta($last_rec_post_id,'event_type','Regular event'); 
+	update_post_meta($last_rec_post_id,'end_date',$end_date); 
+	update_post_meta($last_rec_post_id,'st_date',$st_date);
+	update_post_meta($last_rec_post_id,'st_time',$st_time);
+	update_post_meta($last_rec_post_id,'end_time',$end_time);
+	update_post_meta($last_rec_post_id,'_event_id',$post_id); 
+	update_post_meta($last_rec_post_id,'address',$address); 
+	update_post_meta($last_rec_post_id,'alive_days',$alive_days); 
+	update_post_meta($last_rec_post_id,'featured_type',$featured_type); 
+	update_post_meta($last_rec_post_id,'featured_h',$featured_h); 
+	update_post_meta($last_rec_post_id,'featured_c',$featured_c); 
+}
+/*
+Name : tmpl_set_my_categories
+Description : set the categories of recurrence events 
+*/
+function tmpl_set_my_categories($last_rec_post_id,$post_id=''){
+global $wpdb,$post;
+	$cat_1 = "";
+		$recurring_update = $_REQUEST['recurring_update'];
+		$tl_dummy_content = get_post_meta($post_id,'tl_dummy_content',true);
+		$event_type = get_post_meta($post_id,'event_type',true);
+		if(strstr($_SERVER['REQUEST_URI'],'wp-admin') && !isset($recurring_update) && $recurring_update == ''  && $tl_dummy_content == '' && trim(strtolower($event_type)) == trim(strtolower('Recurring Event'))){
+			$cats = $_REQUEST['tax_input']['eventcategory']; 
+			$tags = $_REQUEST['tax_input']['eventtags']; 
+			$tags = explode(',',$tags);
+		}else if(isset($recurring_update) && $recurring_update != '' && trim(strtolower($event_type)) == trim(strtolower('Recurring Event')))
+		{
+			$terms = wp_get_post_terms( $post_id, 'eventcategory' , array("fields" => "all"));
+			$terms_tag = wp_get_post_terms( $post_id, 'eventtags' );
+			
+			$cat_count = count($terms);
+			$sep =",";
+			
+				for($c=0; $c < $cat_count ; $c++){
+					
+					if(($cat_count - 1)  == $c)
+						$sep = "";
+					$cat_1 .= $terms[$c]->term_id.$sep;
+				
+				}
+			
+			$sep =",";
+			$term_count = count($terms_tag);
+			{
+				for($c=0; $c < $term_count ; $c++){
+				
+					if(($term_count - 1)  == $c)
+						$sep = "";
+					$tag_1 .= $terms_tag[$c]->name.$sep;
+				
+				}
+				
+			}
+			$cats = explode(',',$cat_1);
+			$tags = explode(',',$tag_1);
+		}
+		elseif((isset($_SESSION['theme_info']['pid']) && $_SESSION['theme_info']['pid'] != '') || (isset($tl_dummy_content) && $tl_dummy_content != '') && trim(strtolower($event_type)) == trim(strtolower('Recurring Event')))
+		{
+			$terms = wp_get_post_terms( $post_id, 'eventcategory' );
+			$terms_tag = wp_get_post_terms( $post_id, 'eventtags' );
+			
+			$cat_count = count($terms);
+			$sep =",";
+			
+				for($c=0; $c < $cat_count ; $c++){
+					
+					if(($cat_count - 1)  == $c)
+						$sep = "";
+					$cat_1 .= $terms[$c]->term_id.$sep;
+				
+				}
+			
+			$sep =",";
+			$term_count = count($terms_tag);
+			{
+				for($c=0; $c < $term_count ; $c++){
+				
+					if(($term_count - 1)  == $c)
+						$sep = "";
+					$tag_1 .= $terms_tag[$c]->name.$sep;
+				
+				}
+				
+			}
+			$cats = explode(',',$cat_1);
+			$tags = explode(',',$tag_1);
+		}
+		else{
+			if($_SESSION['theme_info']['category']){
+				$cats = $_SESSION['theme_info']['category']; 
+			}else{
+				$cats = $_SESSION['theme_info']['category']; 
+			}
+			$tags = $_SESSION['theme_info']['e_tags']; 
+			$sep =",";
+			for($c=0; $c < count($cats) ; $c++){
+				$cat_0 = explode(',',$cats[$c]);
+				if((count($cats) - 1)  == $c)
+					$sep = "";
+				$cat_1 .= $cat_0[0].$sep;
+				
+			}
+			$cats = explode(',',$cat_1);
+		
+		}
+
+		wp_set_post_terms( $last_rec_post_id, $cats,'eventcategory' ,false);
+		wp_set_post_terms( $last_rec_post_id, $tags,'eventtags' ,false);
+}
+
+/*
+Name : delete_recurring_event
+Description : to delete recurring data from front end.
+*/
+if(!strstr($_SERVER['REQUEST_URI'],'wp-admin') ){
+	//add_action('delete_post', 'delete_recurring_event'); // to delete the post of old recurrencies
+}	
+
+function delete_recurring_event()
+{
+	global $wpdb,$post,$post_id;
+
+	/* to delete the old recurrences BOF */
+	$args =	array( 
+				'post_type' => 'event',
+				'posts_per_page' => -1	,
+				'post_status' => array('recurring'),
+				'meta_query' => array(
+				'relation' => 'AND',
+					array(
+							'key' => '_event_id',
+							'value' => $_REQUEST['pid'],
+							'compare' => '=',
+							'type'=> 'text'
+						),
+					)
+				);
+	$post_query = null;
+	$post_query = new WP_Query($args);
+	if($post_query){
+		while ($post_query->have_posts()) : $post_query->the_post();
+			wp_delete_post($post->ID);
+		endwhile;wp_reset_query();
+	}
+	remove_action('delete_post', 'delete_recurring_event');
+	/* to delete the old recurrences EOF */
+}
+
+/*
+Name : delete_recurring_event
+Description : to delete recurring data from front end.
+*/
+if(strstr($_SERVER['REQUEST_URI'],'wp-admin') )
+{
+	add_action('trash_event', 'delete_admin_recurring_event',1,1); // to delete the post of old recurrencies
+}
+function delete_admin_recurring_event($post_id)
+{
+	global $wpdb,$post,$post_id;
+
+	if(!is_array($_REQUEST['post']))
+	{
+		$_REQUEST['post'] = array($_REQUEST['post']);
+	}
+	 for($i=0;$i<count($_REQUEST['post']);$i++)
+	 {
+		/* to delete the old recurrences BOF */
+		$args =	array( 
+					'post_type' => 'event',
+					'posts_per_page' => -1	,
+					'post_status' => array('recurring'),
+					'meta_query' => array(
+					'relation' => 'AND',
+						array(
+								'key' => '_event_id',
+								'value' =>$_REQUEST['post'][$i],
+								'compare' => '=',
+								'type'=> 'text'
+							),
+						)
+					);
+		$post_query = null;
+		$post_query = new WP_Query($args);
+		if($post_query){
+			while ($post_query->have_posts()) : $post_query->the_post();
+				wp_delete_post($post->ID);
+			endwhile;wp_reset_query();
+		}
+	}
+	remove_action('delete_post', 'delete_recurring_event');
+	/* to delete the old recurrences EOF */
+}
+// for Custom Post Types
+// add_filter('cpt_name_row_actions', 'tmpl_qe_download_link', 10, 2);
+
+function tmpl_qe_download_link($actions, $post) {
+	$post_status = trim(strtolower('Recurring'));
+	if(trim(strtolower($post->post_status)) == $post_status  && $post->post_type =='event'){
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); 
+		$plugin = "woocommerce/woocommerce.php";
+		$url = get_edit_post_link( $post->ID );
+		if(is_plugin_active($plugin)){
+			$actions['edit'] = "<a href='".$url."'>".__('Manage tickets',T_DOMAIN)."</a>";
+		}else{
+			unset($actions['edit'],$actions['trash']);
+			$actions['status'] = "<strong>".__('Recurrence',T_DOMAIN)."</strong>";
+		}
+		unset($actions['inline hide-if-no-js'],$actions['trash']);
+		
+	}
+    return $actions; 
+}
+/* code for remove the edit link from recurring events */
+add_filter('post_row_actions', 'tmpl_qe_download_link', 10, 2);
+add_action( 'admin_menu', 'tmpl_remove_meta_boxes' );
+function tmpl_remove_meta_boxes($post_id)
+{ 	
+	//remove custom setting metabox in staff custom post type echo "asdhasdghasfdgh";
+	global $post;
+	if(isset($_REQUEST['post']) && $_REQUEST['post'] != '')
+	{
+		$post_edit = $_REQUEST['post'];
+		$post = get_post($post_edit);
+		if($post_edit !='' && $post->post_type =='event' && $post->post_parent != 0){
+			global $post;
+			$post_edit = $_REQUEST['post'];
+			$post = get_post($post_edit);
+			$post_status = trim(strtolower('Recurring'));
+			if(trim(strtolower($post->post_status)) == $post_status && $_REQUEST['action'] =='edit'){
+				remove_meta_box('ptthemes-settings', 'event', 'normal');
+				remove_meta_box('trackbacksdiv', 'event', 'normal');
+				remove_meta_box('slugdiv', 'event', 'normal');
+				remove_meta_box('revisionsdiv', 'event', 'normal');
+				remove_meta_box('authordiv', 'event', 'normal');
+				remove_meta_box('ecategorydiv', 'event', 'normal');
+				remove_meta_box('tagsdiv', 'event', 'normal');
+				remove_meta_box('postimagediv', 'event', 'normal');
+				remove_meta_box('post-stylesheets', 'event', 'normal');
+			
+				add_action('admin_init', 'remove_all_media_buttons');
+			}
+		}
+	}
+}
+
+/* remove add media button for recurring post for events */
+function remove_all_media_buttons()
+{
+    remove_all_actions('media_buttons');	
+	add_meta_box('tmpl_recurring_dates','Event is on','tmpl_recurring_on','event','side','high');
+}
+/*
+Name :tmpl_recurring_on
+description : show recurring dates
+*/
+function tmpl_recurring_on($post){
+	global $post;
+	echo "<p class='error'>";
+	_e('This event is the recurrence of the event.',T_DOMAIN);
+	echo "</p>";
+	$st_date = get_post_meta($post->ID,'st_date',true);
+	$end_date =  get_post_meta($post->ID,'end_date',true);
+	$st_time =  get_post_meta($post->ID,'st_time',true);
+	$end_time =  get_post_meta($post->ID,'end_time',true);
+	$address =  get_post_meta($post->ID,'address',true);
+	if($st_date){
+		echo "<p>";
+		_e('Start date',DOMAIN); echo ": <b>". $st_date." ".$st_time."</b>"; 
+		echo "</p>";
+	}
+	if($end_date){
+		echo "<p>";
+			_e('End date',DOMAIN); echo ": <b>".$end_date." ".$end_time."</b>";
+		echo "</p>";
+	}
+	if($address){
+		echo "<p>";
+			_e('Address',DOMAIN); echo ": <b>".$address."</b>";
+		echo "</p>";
+	}
+}
+/*
+Name : tmpl_is_parent
+Description : return true if post have parent post
+*/
+function tmpl_is_parent($post){
+	if($post->post_parent){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/*
+Name :tmpl_the_title_trim
+Desc : remove the title trim from post title when post is recurring
+*/
+function tmpl_the_title_trim($title) {
+	$title = esc_attr($title);
+	$findthese = array(
+		'#Protected:#',
+		'#Private:#'
+	);
+	$replacewith = array(
+		'', // What to replace "Protected:" with
+		'' // What to replace "Private:" with
+	);
+	
+	$title = preg_replace($findthese, $replacewith, $title);
+	return $title;
+}
+/*
+ * add action for recurring event to reinsert if when start or end date is changed
+ */
+add_action('admin_init','event_add_old_st_date');
+function event_add_old_st_date()
+{
+	add_action('tmpl_custom_fields_st_date_after','admin_event_old_date');
+}
+function admin_event_old_date()
+{
+	$post_id = $_REQUEST['post'];
+	echo  '<input  type="hidden" value="'.get_post_meta($post_id,'st_date',true).'" name="old_st_date" id="old_st_date" />'."\n";
+	echo  '<input  type="hidden" value="'.get_post_meta($post_id,'end_date',true).'" name="old_end_date" id="old_end_date" />'."\n";
+}
+add_action('init','tmpl_single_page_title',11); // remove Private text form recurring post 
+function tmpl_single_page_title(){
+	add_filter('the_title', 'tmpl_the_title_trim');
+	
+	/* upgrade old database querries */
+	
+	if(isset($_REQUEST['recurring_update']) && $_REQUEST['recurring_update'] == 'true'){
+		global $wpdb,$post;
+		/* to delete the old recurrences BOF */
+		$args =	array( 
+					'post_type' => 'event',
+					'posts_per_page' => -1	,
+					'post_status' => array('publish'),
+					'meta_query' => array(
+					'relation' => 'AND',
+						array(
+								'key' => 'event_type',
+								'value' => 'Recurring event',
+								'compare' => 'LIKE',
+								'type'=> 'text'
+							),
+						)
+					);
+		$rec_query = null;
+		$rec_query = new WP_Query($args);
+		
+		if($rec_query){
+			while ($rec_query->have_posts()) : $rec_query->the_post();
+			
+				$post_data = get_post($post->ID);
+				$postt = $post->post_title;
+				templ_save_recurrence_events($post_data,$post->ID);
+			endwhile;
+			wp_reset_query();
+		}
+		add_option('tmpl_recurring_updates','completed');
+	}
+}
+function tmpl_showMessage($message, $errormsg = false)
+{
+	if ($errormsg) {
+		echo '<div id="tmessage" class="error" style="color:#2A6AA0; position:relative; padding:0px;">';
+	}
+	else {
+		echo '<div id="message" class="updated fade">';
+	}
+
+	echo "<p><strong>$message</strong><a class='templatic-dismiss' style='margin-right:10px;' href='".site_url()."/wp-admin/themes.php?dismiss_update=yes"."' >Dismiss</a></p></div>";
+}    
+function tmpl_show_admin_recurring()
+{
+	$theme_data = get_theme_data(get_stylesheet_directory().'/style.css');
+
+	$nightlife_version = $theme_data['Version'];
+	
+    // Shows as an error message. You could add a link to the right page if you wanted.
+	if(get_option('tmpl_recurring_updates') ==''  && !get_option('dismiss_update')){
+		tmpl_showMessage("Events has been updated with a new system for handling recurring events. To make your existing events compatible with the new system please  <a href='".site_url()."/wp-admin/edit.php?post_type=event&recurring_update=true'>Click Here</a>.", true);
+	}
+  
+}
+
+/*
+	Call showAdminMessages() when showing other admin messages. 
+*/
+add_action('admin_notices', 'tmpl_show_admin_recurring'); 
+if(isset($_REQUEST['dismiss_update']) && $_REQUEST['dismiss_update']!=''){
+	update_option('dismiss_update','yes');
+}
+
+// Display any errors
+	function admin_notice_handler($post) {
+		global $post;
+
+		$errors = __('Modification in this event will be applied to all other occurrences of this recurring event.',T_DOMAIN);
+	
+		if(isset($_REQUEST['post']) && $_REQUEST['post'] != '') {
+			
+			$post_type = get_post_type($_REQUEST['post']);
+			
+			$event_type = get_post_meta($_REQUEST['post'],'event_type',true);
+			
+			$_event_id = get_post_meta($_REQUEST['post'],'_event_id',true);
+			
+			if($post_type == 'event' && trim(strtolower($event_type)) == trim(strtolower('Recurring Event')) )
+			{
+	
+				echo '<div class="error"><p>' . $errors . '</p></div>';
+				
+			}	
+			elseif($post_type == 'event' && trim(strtolower($event_type)) == trim(strtolower('Regular event'))  && $_event_id == $post->post_parent)
+			{
+				$errors = __('As this is an occurrence, you can edit only the description of this event. To edit other fields go to main event of <a target="_blank" href="'.site_url("/wp-admin/post.php?post=".$post->post_parent."&action=edit").'">this</a>  occurrence .',T_DOMAIN);
+
+				echo '<div class="error"><p>' . $errors . '</p></div>';
+				
+			}	
+		}   
+	
+	}
+	function recurring_notices($post) {
+		global $post;
+
+		$errors = __('Modification in this event will be applied to all other occurrences of this recurring event.',T_DOMAIN);
+	
+		if(isset($_REQUEST['pid']) && $_REQUEST['pid'] != '') {
+			
+			$post_type = get_post_type($_REQUEST['pid']);
+			
+			$event_type = get_post_meta($_REQUEST['pid'],'event_type',true);
+			
+			if($post_type == 'event' && trim(strtolower($event_type)) == trim(strtolower('Recurring Event')) )
+			{
+	
+				echo '<div class="error"><p>' . $errors . '</p></div>';
+				
+			}	
+		}   
+	}
+	add_action( 'admin_notices', 'admin_notice_handler' );
+	add_action( 'submit_form_before_content', 'recurring_notices' );
 ?>

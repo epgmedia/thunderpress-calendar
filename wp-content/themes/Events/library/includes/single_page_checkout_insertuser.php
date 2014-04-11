@@ -146,7 +146,7 @@ if($_POST && !$userInfo)
 		$store_login_link = '<a href="'.$store_login.'">'.__('Login').'</a>';
 		/////////////customer email//////////////
 		$search_array = array('[#user_name#]','[#user_login#]','[#user_password#]','[#site_name#]','[#site_login_url#]','[#site_login_url_link#]');
-		$replace_array = array($_POST['user_fname'],$user_login,$user_pass,$store_name,$store_login,$store_login_link);
+		$replace_array = array($user_fname,$user_login,$user_pass,$store_name,$store_login,$store_login_link);
 		$client_message = str_replace($search_array,$replace_array,$client_message);	
 		sendEmail($fromEmail,$fromEmailName,$user_email,$userName,$subject,$client_message,$extra='');///To clidne email
 		//////REGISTRATION EMAIL END////////

@@ -1,6 +1,6 @@
 <?php
 session_start();
-global $wpdb;
+global $wpdb,$last_postid;
 $property_price_info = get_property_price_info($_SESSION['theme_info']['price_select'],$_SESSION['theme_info']['total_price']);
 $property_price_info = $property_price_info[0];
 $payable_amount = $_SESSION['theme_info']['total_price'];
@@ -226,11 +226,12 @@ if($_POST)
 			 $custom['featured_c'] = 'n';
 			 $custom['featured_h'] = 'n';
 		 }
-
+		save_recurring_event($last_postid);
 		foreach($custom as $key=>$val)
 		{				
 			update_post_meta($last_postid, $key, $val);
 		}
+		
 		/*Update recurring search date after insert event custom field */
 		if(trim(strtolower($event_type)) == trim(strtolower('Recurring event'))){
 		/* Store Recurring Event search date*/
@@ -268,7 +269,8 @@ if($_POST)
 		/* End Transaction Report */
 		
 		/* Insert the post categories BOF */
-		$cat_display = get_option('ptthemes_category_dislay');
+		$cat_display = get_option('ptthemes_category_display');
+		
 		if($post_category != '' )
 		{
 			if($cat_display == 'checkbox')
@@ -278,9 +280,7 @@ if($_POST)
 					$cat_exp = explode(",",$_post_category);
 					wp_set_post_terms($last_postid,$cat_exp[0],'eventcategory',true);
 				 }
-			 }
-			 else
-			 {
+			 }else{
 					$cat_exp = explode(",",$post_category);
 					wp_set_post_terms($last_postid,$cat_exp[0],'eventcategory',true);
 			 }
@@ -307,7 +307,7 @@ if($_POST)
 					
 					$post_img = move_original_image_file($src,$dest_path);
 					
-					$post_img['post_status'] = 'attachment';
+					$post_img['post_status'] = 'inherit';
 					$post_img['post_parent'] = $last_postid;
 					$post_img['post_type'] = 'attachment';
 					$post_img['post_mime_type'] = 'image/jpeg';

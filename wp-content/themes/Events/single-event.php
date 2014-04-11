@@ -172,7 +172,13 @@ foreach($event_meta_info as $post_meta_info_obj)
 
 <?php $author_info = get_author_info($post->post_author);?>
 
- <?php echo get_post_meta($post->ID,'video',true);?>         
+ <?php
+ $is_parent = $post->post_parent;
+	if($is_parent)
+		$post_id = $post->post_parent;
+	else
+		$post_id = $post->ID;
+  echo get_post_meta($post_id,'video',true);?>         
  <div class="basicinfo">
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			<?php	global $custom_post_meta_db_table_name;
@@ -198,10 +204,10 @@ foreach($event_meta_info as $post_meta_info_obj)
 								 if($i%2 == 0){?><tr><?php } ?><td>
 									<?php
                                     if($post_meta_info_obj->ctype =='texteditor' || $post_meta_info_obj->ctype =='textarea') {
-                                        echo "<div class='i_customlable'><span>".$post_meta_info_obj->site_title.": "."</span>".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true)."</div>";
+                                        echo "<div class='i_customlable'><span>".$post_meta_info_obj->site_title.": "."</span>".get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true)."</div>";
                                     } else {
 										if($post_meta_info_obj->ctype == 'multicheckbox'):
-										    $checkArr = get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true);
+										    $checkArr = get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true);
 											$check = "";
 											if($checkArr):
 												foreach($checkArr as $_checkArr)
@@ -212,7 +218,7 @@ foreach($event_meta_info as $post_meta_info_obj)
 											$check = substr($check,0,-1);
 											echo "<div class='i_customlable'><span>".$post_meta_info_obj->site_title." :"."</span>".$check."</div>";
 										else:
-                                        	echo "<div class='i_customlable'><span>".$post_meta_info_obj->site_title.": "."</span>".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true)."</div>";
+                                        	echo "<div class='i_customlable'><span>".$post_meta_info_obj->site_title.": "."</span>".get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true)."</div>";
 										endif;	
                                     } 
 						}?>
@@ -221,34 +227,34 @@ foreach($event_meta_info as $post_meta_info_obj)
 					 }
 		} ?></table></div>
 <h3><?php _e('Organizers','templatic');?></h3>
-         <?php if(get_post_meta($post->ID,'organizer_logo',true))
+         <?php if(get_post_meta($post_id,'organizer_logo',true))
 		 {
-		 $post_img = get_post_meta($post->ID,'organizer_logo',true); ?>
+		 $post_img = get_post_meta($post_id,'organizer_logo',true); ?>
 			<img src="<?php echo $post_img; ?>" style="height:105px;width:105px;" alt="" class="organized_logo"  title=""  />
        <?php } ?>
 	  
         	<div class="organized_content" >
-              <p class="org_con_mar"><strong class="float"><?php _e('Organized by : ','templatic');?></strong>&nbsp;<span class="float2"><?php echo get_post_meta($post->ID,'organizer_name',true);?></span>
-               <?php if(get_post_meta($post->ID,'organizer_address',true)){?>
-			   <strong class="float"><?php _e("Organizer's Address : ",'templatic');?></strong><span class="float2"><?php echo get_post_meta($post->ID,'organizer_address',true);?>
+              <p class="org_con_mar"><strong class="float"><?php _e('Organized by : ','templatic');?></strong>&nbsp;<span class="float2"><?php echo get_post_meta($post_id,'organizer_name',true);?></span>
+               <?php if(get_post_meta($post_id,'organizer_address',true)){?>
+			   <strong class="float"><?php _e("Organizer's Address : ",'templatic');?></strong><span class="float2"><?php echo get_post_meta($post_id,'organizer_address',true);?>
               <?php }?></span>
-<?php if(get_post_meta($post->ID,'organizer_contact',true)  && get_option('ptthemes_contact_on_detailpage')=='Yes'){?>
-<strong class="float"><?php _e('Tel : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post->ID,'organizer_contact',true);?></span> 
+<?php if(get_post_meta($post_id,'organizer_contact',true)  && get_option('ptthemes_contact_on_detailpage')=='Yes'){?>
+<strong class="float"><?php _e('Tel : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post_id,'organizer_contact',true);?></span> 
 <?php }?>
-<?php if(get_post_meta($post->ID,'organizer_mobile',true)){?>
-<strong class="float"><?php _e('Mobile : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post->ID,'organizer_mobile',true);?></span>
+<?php if(get_post_meta($post_id,'organizer_mobile',true)){?>
+<strong class="float"><?php _e('Mobile : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post_id,'organizer_mobile',true);?></span>
 <?php }?>
-<?php if(get_post_meta($post->ID,'organizer_email',true) && get_option('ptthemes_email_on_detailpage')=='Yes'){?>
-<strong class="float"><?php _e('Email : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post->ID,'organizer_email',true);?></span>
+<?php if(get_post_meta($post_id,'organizer_email',true) && get_option('ptthemes_email_on_detailpage')=='Yes'){?>
+<strong class="float"><?php _e('Email : ','templatic');?></strong><span class="float2"><?php echo get_post_meta($post_id,'organizer_email',true);?></span>
 <?php }?>
-<?php if(get_post_meta($post->ID,'organizer_website',true)){?>
-<strong class="float"><?php _e('Website : ','templatic');?></strong><span class="float2"><a href=" <?php echo get_post_meta($post->ID,'organizer_website',true);?>"><?php echo get_post_meta($post->ID,'organizer_website',true);?></a></span>
-<?php }?>
-<div class="clearfix"></div></p>
-<?php echo get_post_meta($post->ID,'organizer_desc',true);?>
+<?php if(get_post_meta($post_id,'organizer_website',true)){?>
+<strong class="float"><?php _e('Website : ','templatic');?></strong><span class="float2"><a href=" <?php echo get_post_meta($post_id,'organizer_website',true);?>"><?php echo get_post_meta($post_id,'organizer_website',true);?></a></span>
+<?php }?><div class="clearfix"></div></p>
+<h3><?php _e('About the Organizers : ','templatic');?></h3>
+<?php echo get_post_meta($post_id,'organizer_desc',true);?>
 <div class="clearfix"></div>
 </p>
-<?php if(get_post_meta($post->ID,'organizer_email',true) && get_option('ptthemes_email_on_detailpage')=='Yes'){?>
+<?php if(get_post_meta($post_id,'organizer_email',true) && get_option('ptthemes_email_on_detailpage')=='Yes'){?>
 <a class="b_contact b_send_inquiry" href="javascript:void(0);" onclick="show_hide_popup('basic-modal-content2');" ><?php _e('Contact the Organizer','templatic');?></a>
 <?php } ?>
 </div>
@@ -278,10 +284,10 @@ foreach($event_meta_info as $post_meta_info_obj)
 								 if($i%2 == 0){?><tr><?php } ?><td>
 									<?php
                                     if($post_meta_info_obj->ctype =='texteditor' || $post_meta_info_obj->ctype =='textarea') {
-                                        echo "<div class='i_customlable'><strong><span>".$post_meta_info_obj->site_title.": "."</span></strong>".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true)."</div>";
+                                        echo "<div class='i_customlable'><strong><span>".$post_meta_info_obj->site_title.": "."</span></strong>".get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true)."</div>";
                                     } else {
 										if($post_meta_info_obj->ctype == 'multicheckbox'):
-										    $checkArr = get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true);
+										    $checkArr = get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true);
 											$check = "";
 											if($checkArr):
 												foreach($checkArr as $_checkArr)
@@ -292,7 +298,7 @@ foreach($event_meta_info as $post_meta_info_obj)
 											$check = substr($check,0,-1);
 											echo "<div class='i_customlable'><strong><span>".$post_meta_info_obj->site_title." :"."</span></strong>".$check."</div>";
 										else:
-                                        	echo "<div class='i_customlable'><strong><span>".$post_meta_info_obj->site_title.": "."</span></strong>".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,true)."</div>";
+                                        	echo "<div class='i_customlable'><strong><span>".$post_meta_info_obj->site_title.": "."</span></strong>".get_post_meta($post_id,$post_meta_info_obj->htmlvar_name,true)."</div>";
 										endif;	
                                     } 
 						}?>
@@ -304,7 +310,7 @@ foreach($event_meta_info as $post_meta_info_obj)
 foreach($event_meta_info as $post_meta_info_obj)
 {
 	if($post_meta_info_obj->htmlvar_name == 'reg_desc'){ ?>		
-<?php if(get_post_meta($post->ID,'reg_desc',true)){ ?>
+<?php if(get_post_meta($post_id,'reg_desc',true)){ ?>
 	<div class="register_msg clearfix" ><?php echo get_post_meta($post->ID,'reg_desc',true);?></div>
 <?php } } ?>
 <?php } ?>
@@ -317,10 +323,10 @@ foreach($event_meta_info as $post_meta_info_obj)
 		<?php } ?>
 		<?php if (get_option('ptthemes_facebook') == 'Yes') { ?>
          <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c873bb26489d97f"></script>
-        <a href="<?php echo get_post_meta($post->ID,'facebook',true);?>"><img src="<?php bloginfo('template_directory'); ?>/images/i_facebook2.png" alt="facebook"  /></a>
+        <a href="<?php echo get_post_meta($post_id,'facebook',true);?>"><img src="<?php bloginfo('template_directory'); ?>/images/i_facebook2.png" alt="facebook"  /></a>
         <?php } ?>
 		<?php if (get_option('ptthemes_twitter') == 'Yes') {?>
-        <a href="<?php echo get_post_meta($post->ID,'twitter',true);?>"><img src="<?php bloginfo('template_directory'); ?>/images/i_twitter2.png" alt="twitter"  /></a>
+        <a href="<?php echo get_post_meta($post_id,'twitter',true);?>"><img src="<?php bloginfo('template_directory'); ?>/images/i_twitter2.png" alt="twitter"  /></a>
         <?php }  ?>
 		<?php if ( get_option('ptthemes_email_on_detailpage') == 'Yes' ) { ?>
         <a href="javascript:void(0);" onclick="show_hide_popup('basic-modal-content');" class="b_sendtofriend"><img src="<?php bloginfo('template_directory'); ?>/images/i_emailtofriend.png" alt="email to friend"  /> </a>

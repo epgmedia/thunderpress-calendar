@@ -689,7 +689,7 @@ table.calendar_widget td.date_n { color:#1e3c53;  border-right:1px solid #fff; b
 	#top_strip_in ul li a { background: #1E8364; }
 	#top_strip_in ul li ul.sub-menu li a:hover, #top_strip_in ul li ul.sub-menu li.current-menu-item a, #top_strip_in ul li ul.sub-menu ul.sub-menu li a:hover, #top_strip_in ul li ul.children li.current-cat-parent li a { color: #000 }
 	
-	#content .tab li a, #content .tab li.active a { background:#1e8263 url(2-green/buttonbg.png) repeat-x left top; border:2px solid #1e8364; border-bottom:none; color:#1e8364; }
+	#content .tab li a, #content .tab li.active a { background:#1e8263 url(2-green/buttonbg.png) repeat-x left top; border:2px solid #1e8364; border-bottom:none; color:#1e8364 !important; }
 	#content .tab li a:hover, #content .tab li.active a:hover { background:#0a513b; }
 
 }

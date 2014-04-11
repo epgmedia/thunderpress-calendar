@@ -115,7 +115,7 @@ var Demo = {
  	var marker = new google.maps.Marker({
         position: latLng, 
         map: Demo.map,
-        title:"<?php echo trim($post->post_title);?>"
+        title:"<?php echo convert_chars(addslashes(iconv('', 'utf-8',$post->post_title)));?>"
     });   
 	
     // Show directions onload

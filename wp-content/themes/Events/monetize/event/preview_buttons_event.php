@@ -41,7 +41,9 @@ if($_REQUEST['pid'] || $_POST['renew'])
 	<?php 
 	$event_price_info = get_event_price_info($_REQUEST['price_select']);
 	$alive_days = $event_price_info[0]['alive_days'];
-	
+	if($_REQUEST['paypalerror'] == 'yes' && isset($_SESSION['paypal_errors'])){
+		echo "<b>".$_SESSION['paypal_errors']."</b>";
+	}
 	if($is_delet_property)
 	{		
 	}else
@@ -66,6 +68,7 @@ if($_REQUEST['pid'] || $_POST['renew'])
 	?> 
 	<?php
 	}
+	
 	?>
 	
 	<?php
@@ -78,9 +81,7 @@ if($_REQUEST['pid'] || $_POST['renew'])
 		?>
   <h5 class="payment_head"> <?php echo SELECT_PAY_MEHTOD_TEXT; ?></h5>
   <?php 
-		if($_REQUEST['paypalerror'] == 'yes' && isset($_SESSION['paypal_errors'])){
-			echo "<b>".$_SESSION['paypal_errors']."</b>";
-		}
+		
   ?>
   <ul class="payment_method">
 	<?php

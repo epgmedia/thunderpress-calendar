@@ -56,7 +56,7 @@ $paymethodinfo[] = array(
 					"display_order"=>'2',
 					"payOpts"	=>	$payOpts,
 					);
-//////////google checkout end////////
+//////////google checkout end/////// /
 //////////authorize.net start////////
 $payOpts = array();
 $payOpts[] = array(
@@ -185,6 +185,8 @@ $dummy_image_path = get_template_directory_uri().'/images/dummy/';
 
 $post_array = array();
 $blog_image = array();
+$post_meta = array();
+$post_meta = array("tl_dummy_content" => 1);
 $post_author = $wpdb->get_var("SELECT ID FROM $wpdb->users order by ID asc limit 1");
 $post_info = array();
 $blog_image[] = "dummy/blg1.jpg";
@@ -192,39 +194,99 @@ $post_info[] = array(
 					"post_title"	=>	'An Exhibition',
 					"post_content"	=>	"<p>An exhibition, in the most general sense, is an organized presentation and display of a selection of items. In practice, exhibitions usually occur within museums, galleries and exhibition halls, and World's Fairs. Exhibitions include [whatever as in major art museums and small art galleries; interpretive exhibitions, as at natural history museums and history museums], for example; and commercial exhibitions, or trade fairs.</p> <p>The word &quot;exhibition&quot; is usually, but not always, the word used for a collection of items. Sometimes &quot;exhibit&quot; is synonymous with &quot;exhibition&quot;, but &quot;exhibit&quot; generally refers to a single item being exhibited within an exhibition. Exhibitions may be permanent displays or temporary, but in common usage, &quot;exhibitions&quot; are considered temporary and usually scheduled to open and close on specific dates. While many exhibitions are shown in just one venue, some exhibitions are shown in multiple locations and are called travelling exhibitions, and some are online exhibitions.</p> <p>Though exhibitions are common events, the concept of an exhibition is quite wide and encompasses many variables. Exhibitions range from an extraordinarily large event such as a World's Fair exposition to small one-artist solo shows or a display of just one item. Curators are sometimes involved as the people who select the items in an exhibition. Writers and editors are sometimes needed to write text, labels and accompanying printed material such as catalogs and books. Architects, exhibition designers, graphic designers and other designers may be needed to shape the exhibition space and give form to the editorial content. Exhibition also means a scholarship.</p>",
 					"post_category"	=>	array('Blog'),
-					"post_image"	=>	$blog_image
+					"post_image"	=>	$blog_image,
+					"post_meta" => $post_meta
 					);
 $blog_image = array();
 $blog_image[] = "dummy/blg2.jpg";
+$post_meta = array();
+$post_meta = array("tl_dummy_content" => 1);
 $post_info[] = array(
 					"post_title"	=>	'Festivals',
 					"post_content"	=>	'<p>A festival or gala is an event, usually and ordinarily staged by a local community, which centers on and celebrates some unique aspect of that community and the Festival. Among many religions, a feast is a set of celebrations in honour of God or gods. A feast and a festival are historically interchangeable. However, the term &quot;feast&quot; has also entered common secular parlance as a synonym for any large or elaborate meal. When used as in the meaning of a festival, most often refers to a religious festival rather than a film or art festival. In the Christian liturgical calendar there are two principal feasts, properly known as the Feast of the Nativity of our Lord (Christmas) and the Feast of the Resurrection, (Easter). In the Catholic, Eastern Orthodox, and Anglican liturgical calendars there are a great number of lesser feasts throughout the year commemorating saints, sacred events, doctrines, etc.</p>',
 					"post_category"	=>	array('Blog'),
-					"post_image"	=>	$blog_image
+					"post_image"	=>	$blog_image,
+					"post_meta" => $post_meta
+					
 					);
 $blog_image = array();
 $blog_image[] = "dummy/blg3.jpg";
+$post_meta = array();
+$post_meta = array("tl_dummy_content" => 1);
 $post_info[] = array(
 					"post_title"	=>	'Nightlife',
 					"post_content"	=>	'Nightlife is the collective term for any entertainment that is available and more popular from the late evening into the early hours of the morning. It includes the public houses, nightclubs, discothèques, bars, live music, concert, cabaret, small theatres, small cinemas, shows, and sometimes restaurants a specific area may have; these venues often require cover charge for admission, and make their money on alcoholic beverages. Nightlife encompasses entertainment from the fairly tame to the risque to the seedy. Nightlife entertainment is inherently edgier than daytime amusements, and usually more oriented to adults, including "adult entertainment" in red-light districts. People who prefer to be active during the night-time are called night owls.',
 					"post_category"	=>	array('Blog'),
-					"post_image"	=>	$blog_image
+					"post_image"	=>	$blog_image,
+					"post_meta" => $post_meta
 					);
 $blog_image = array();
 $blog_image[] = "dummy/blg4.jpg";
+$post_meta = array();
+$post_meta = array("tl_dummy_content" => 1);
 $post_info[] = array(
 					"post_title"	=>	'Life Beyond Earth',
 					"post_content"	=>	'<p>Extraterrestrial life is defined as life that does not originate from Earth. Referred to as alien life, or simply aliens (or space aliens, to differentiate from other definitions of alien or aliens) these hypothetical forms of life range from simple bacteria-like organisms to beings far more complex than humans. The development and testing of hypotheses on extraterrestrial life is known as exobiology or astrobiology; the term astrobiology, however, includes the study of life on Earth viewed in its astronomical context. Many scientists consider extraterrestrial life to be plausible, but there is no conclusive evidence of the existence of extraterrestrial life.</p>',
 					"post_category"	=>	array('Blog'),
-					"post_image"	=>	$blog_image
+					"post_image"	=>	$blog_image,
+					"post_meta" => $post_meta
 					);
 $blog_image = array();
-$blog_image[] = "dummy/blg5.jpg";
+$blog_image[] = "dummy/Templatic-Theme-Gallery.png";
+$post_meta = array();
+$post_meta = array("tl_dummy_content" => 1);
 $post_info[] = array(
-					"post_title"	=>	'Social Innovation',
-					"post_content"	=>	'<p>Social innovation refers to new strategies, concepts, ideas and organizations that meet social needs of all kinds - from working conditions and education to community development and health - and that extend and strengthen civil society. The term has overlapping meanings. It can be used to refer to social processes of innovation, such as open source methods and techniques. Alternatively it refers to innovations which have a social purpose - like microcredit or distance learning. The concept can also be related to social entrepreneurship (entrepreneurship is not necessarily innovative, but it can be a means of innovation) and it also overlaps with innovation in public policy and governance. Social innovation can take place within government, the for-profit sector, the nonprofit sector (also known as the third sector), or in the spaces between them. Research has focused on the types of platforms needed to facilitate such cross-sector collaborative social innovation. Social innovation is gaining visibility within academia. Prominent innovators associated with the term include Bangladeshi Muhammad Yunus, the founder of Grameen Bank which pioneered the concept of microcredit for supporting innovators in multiple developing countries in Asia, Africa and Latin America and Stephen Goldsmith, former Indianapolis mayor who engaged the private sector in providing many city services.</p>',
+					"post_title"	=>	'Wordpress Themes Club',
+					"post_content"	=>	'<p>The Templatic <a href="http://templatic.com/premium-themes-club/">Wordpress Themes Club</a> membership is ideal for any WordPress developer and freelancer that needs access to a wide variety of Wordpress themes. This themes collection saves you hundreds of dollars and also gives you the fantastic deal of allowing you to install any of our themes on unlimited domains.
+
+You can see below just a few of our WordPress themes that are included in the club membership
+
+&nbsp;
+<strong>GeoPlaces</strong> - <a href="http://templatic.com/app-themes/geo-places-city-directory-wordpress-theme">Business Directory Theme</a>
+The popular business directory theme that lets you have your very own local business listings directory or an international companies pages directory. This elegant and responsive design theme gives you powerful admin features to run a free or paid local business directory or both. GeoPlaces even has its own integrated events section so you not only get a business directory but an events directory too.
+
+
+<strong>Automotive</strong> - <a href="http://templatic.com/cms-themes/automotive-responsive-vehicle-directory">Car Classifieds Theme</a>
+A responsive auto classifieds theme that gives you the ability of allowing vehicles submission on free or paid listing packages which you decide on the price and duration. This sleek auto classifieds and car directory theme is also WooCommerce compatible so you can even use part of your site to run as a car spares online store. Details
+
+
+<strong>Daily Deal</strong> - <a href="http://templatic.com/app-themes/daily-deal-premium-wordpress-app-theme">Deals Theme</a>
+A powerful Deals theme for WordPress which lets your visitors buy or sell deals on your deals website. Daily Deal is by far the easiest and cheapest way to create a deals site where you can earn money by creating different deals submission price packages but you can also allow free deal submissions. Details
+
+
+<strong>Events V2</strong> - <a href="http://templatic.com/app-themes/events">Events Directory Theme</a>
+Launch a successful Events directory portal with this elegant responsive events theme. The theme has many powerful admin features including allowing event organizers to submit events on free or paid payment packages. This theme is simple to setup and you can get your events site up in no time.
+
+
+<strong>NightLife</strong> - <a href="http://templatic.com/cms-themes/nightlife-events-directory-wordpress-theme">Events Directory Theme</a>
+A beautifully designed events management theme which is responsive and allows you to run an events website. Allow event organizers free or paid event listing submissions and offer online event registrations. Nightlife is feature-packed with all the features you can expect from an events directory theme.
+
+
+<strong>5 Star</strong> - <a href="http://templatic.com/app-themes/5-star-responsive-hotel-theme">Online Hotel Booking and Reservations Theme</a>
+A well designed hotel booking theme which is ideal for showcasing and promoting a hotel online in style. This responsive design hotel reservation Wordpress theme will surely impress your guests and is also a theme that gives you a lot of powerful features including an advanced online booking system and a booking calendar.
+
+
+<strong>Job Board</strong> - <a href="http://templatic.com/app-themes/job-board">Job Classifieds Theme</a>
+Start your job classifieds or job board site with this responsive premium jobs board theme. Allow employers to submit job listings for free, paid or both and also allow job seekers to apply for jobs or submit their resumes. Packed with great features you would expect from a premium jobs board theme. Details
+
+
+<strong>TechNews</strong> - <a href="http://templatic.com/magazine-themes/technews-advanced-blog-theme">Blogging and News Theme</a>
+A news theme that is an ideal solution for your a news blog. An elegant theme which is ideal for news blogs, magazine or newspaper sites. This mobile friendly theme is both responsive and WooCommerce compatible. Impress your visitors with the stylish layout and available color schemes. Details
+
+
+<strong>Real Estate V2</strong> - <a href="http://templatic.com/app-themes/real-estate-wordpress-theme-templatic">Property Classifieds Listings Theme</a>
+This powerful IDX/MLS compatible real estate classifieds theme is both unique and powerful in the features it provides. With this real estate listings theme for WordPress, you can allow estate agencies and home sellers an opportunity to submit properties to your site. This real estate theme comes with many features including powerful search filter.
+
+
+<strong>e-Commerece</strong> - <a href="http://templatic.com/ecommerce-themes/e-commerce">Online Store Theme</a>
+A powerful and elegant WooCoomerce compatible e-commerce WordPress theme with many features advanced features. This online store theme offers various modes of product display such as a shopping Cart, digital Shop or catalog mode. This theme for e-commerce offers multiple payment gateways, coupon codes. Details
+
+
+
+See the full collection of the <a href="http://templatic.com/premium-themes-club/">WordPress Themes Club Membership</a></p>',
 					"post_category"	=>	array('Blog'),
-					"post_image"	=>	$blog_image
+					"post_image"	=>	$blog_image,
+					"post_meta" => $post_meta
 					);
 /***- Insert Blog post BOF-***/
 insert_posts($post_info);
@@ -414,7 +476,8 @@ $post_meta = array(
 					"featured_type"		=> 'both',
 					"featured_h"		=> 'h',
 					"featured_c"		=> 'c',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 				);
 $post_info[] = array(
 					"post_title"	=>	'An Art Exhibition',
@@ -465,7 +528,8 @@ $post_meta = array(
 					"featured_type"		=> 'both',
 					"featured_h"		=> 'h',
 					"featured_c"		=> 'c',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 				);
 $post_info[] = array(
 					"post_title"	=>	'Weekly Karate Classes',
@@ -515,7 +579,8 @@ $post_meta = array(
 					"featured_type"		=> 'h',
 					"featured_h"		=> 'h',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Christmas Carnival',
@@ -562,7 +627,8 @@ $post_meta = array(
 					"featured_type"		=> 'h',
 					"featured_h"		=> 'h',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'The Royal Casinos',
@@ -610,7 +676,8 @@ $post_meta = array(
 					"featured_type"		=> 'c',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'c',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Birthday Party on the Rocks',
@@ -661,7 +728,8 @@ $post_meta = array(
 					"featured_type"		=> 'c',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'c',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Painting Exhibition',
@@ -708,7 +776,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Summer Dance Week',
@@ -758,7 +827,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'La Tomatina',
@@ -805,7 +875,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Food Streets at Night',
@@ -857,7 +928,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Community Meeting',
@@ -904,7 +976,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Old Cars Exhibition',
@@ -950,7 +1023,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Colorful Holi',
@@ -997,7 +1071,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'Baseball Champs',
@@ -1049,7 +1124,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'The Dance Floor',
@@ -1097,7 +1173,8 @@ $post_meta = array(
 					"featured_type"		=> 'none',
 					"featured_h"		=> 'n',
 					"featured_c"		=> 'n',
-					"alive_days"		=> '30'
+					"alive_days"		=> '30',
+					"tl_dummy_content" => 1
 					);
 $post_info[] = array(
 					"post_title"	=>	'The Wedding',
@@ -1146,7 +1223,19 @@ function insert_taxonomy_posts($post_info)
 					update_post_meta($last_postid, $mkey, $mval);
 				}
 			}
-			
+			if($post_meta)
+			{
+				foreach($post_meta as $mkey=>$mval)
+				{
+					if(trim(strtolower($mval)) == trim(strtolower('Recurring event')))
+					{
+						$start_date = templ_recurrence_dates($last_postid);
+						update_post_meta($last_postid,'recurring_search_date',$start_date);
+						update_post_meta($last_postid,'tmpl_post_status','publish');
+						//templ_save_recurrence_events($my_post,$last_postid);// to save event recurrences
+					}
+				}
+			}
 			$post_image1 = $post_info_arr['post_image'];
 			if($post_image1)
 			{
@@ -1220,7 +1309,7 @@ function set_post_tag($pid,$post_tags)
 
 /* ========================================= ADDING PAGE TEMPLATES =========================================== */
 $pages_array = array();
-$pages_array = array('Page Templates','Contact Us','About Us', 'Archives', 'Sitemap', 'Short Codes', 'Map' );
+$pages_array = array('Page Templates','Contact Us','Wordpress Themes Club', 'Archives', 'Sitemap', 'Short Codes', 'Map' );
 $page_info_arr = array();
 $page_info_arr['Page Templates'] = '
 <p>We are providing the following page templates with this theme : <br>
@@ -1248,9 +1337,53 @@ $page_info_arr['Contact Us'] = '
 $page_info_arr['Map'] = '
 <p>Here is for you, a page template that displays a large map with the <strong>Pin Points</strong> of the <strong>Event Locations</strong> added in your site. You can use this page template the same way mentioned in "Page Templates" page. You just need to select <strong>Map</strong> template to use it.</p><br><p>You need to click on the RED pin points to see the event locations.</p>';
 
-$page_info_arr['About Us'] = "<p>An <strong>About Us</strong> page template where you can briefly write about the services you provide on your site.</p>
-<br />
-<strong>What we do?</strong><br /><p>An event is normally a large gathering of people, who have come to a particular place at a particular time for a particular reason. Having said that, there's very little that's normal about an event. In our experience, each one is different and their variety is enormous. And that's as it should be: an event is something special. Aone - off. We plan these occasions in meticulous details, manage them from the ground, dismantle them when they are over and assess the result.</p><br /> <strong>How we do it?</strong><br /> <p>Events can be used to communicate key message, faster community relations, motivate work forces or raise funds. One of the first things we ask our clients is, what they want to achieve from their event. This is the cornerstone of the whole operation for us, our starting point and most importantly, it's the way success can be measured.</p>";
+$page_info_arr['Wordpress Themes Club'] = '<p>The Templatic <a href="http://templatic.com/premium-themes-club/">Wordpress Themes Club</a> membership is ideal for any WordPress developer and freelancer that needs access to a wide variety of Wordpress themes. This themes collection saves you hundreds of dollars and also gives you the fantastic deal of allowing you to install any of our themes on unlimited domains.
+
+You can see below just a few of our WordPress themes that are included in the club membership
+
+&nbsp;
+<strong>GeoPlaces</strong> - <a href="http://templatic.com/app-themes/geo-places-city-directory-wordpress-theme">Business Directory Theme</a>
+The popular business directory theme that lets you have your very own local business listings directory or an international companies pages directory. This elegant and responsive design theme gives you powerful admin features to run a free or paid local business directory or both. GeoPlaces even has its own integrated events section so you not only get a business directory but an events directory too.
+
+
+<strong>Automotive</strong> - <a href="http://templatic.com/cms-themes/automotive-responsive-vehicle-directory">Car Classifieds Theme</a>
+A responsive auto classifieds theme that gives you the ability of allowing vehicles submission on free or paid listing packages which you decide on the price and duration. This sleek auto classifieds and car directory theme is also WooCommerce compatible so you can even use part of your site to run as a car spares online store. Details
+
+
+<strong>Daily Deal</strong> - <a href="http://templatic.com/app-themes/daily-deal-premium-wordpress-app-theme">Deals Theme</a>
+A powerful Deals theme for WordPress which lets your visitors buy or sell deals on your deals website. Daily Deal is by far the easiest and cheapest way to create a deals site where you can earn money by creating different deals submission price packages but you can also allow free deal submissions. Details
+
+
+<strong>Events V2</strong> - <a href="http://templatic.com/app-themes/events">Events Directory Theme</a>
+Launch a successful Events directory portal with this elegant responsive events theme. The theme has many powerful admin features including allowing event organizers to submit events on free or paid payment packages. This theme is simple to setup and you can get your events site up in no time.
+
+
+<strong>NightLife</strong> - <a href="http://templatic.com/cms-themes/nightlife-events-directory-wordpress-theme">Events Directory Theme</a>
+A beautifully designed events management theme which is responsive and allows you to run an events website. Allow event organizers free or paid event listing submissions and offer online event registrations. Nightlife is feature-packed with all the features you can expect from an events directory theme.
+
+
+<strong>5 Star</strong> - <a href="http://templatic.com/app-themes/5-star-responsive-hotel-theme">Online Hotel Booking and Reservations Theme</a>
+A well designed hotel booking theme which is ideal for showcasing and promoting a hotel online in style. This responsive design hotel reservation Wordpress theme will surely impress your guests and is also a theme that gives you a lot of powerful features including an advanced online booking system and a booking calendar.
+
+
+<strong>Job Board</strong> - <a href="http://templatic.com/app-themes/job-board">Job Classifieds Theme</a>
+Start your job classifieds or job board site with this responsive premium jobs board theme. Allow employers to submit job listings for free, paid or both and also allow job seekers to apply for jobs or submit their resumes. Packed with great features you would expect from a premium jobs board theme. Details
+
+
+<strong>TechNews</strong> - <a href="http://templatic.com/magazine-themes/technews-advanced-blog-theme">Blogging and News Theme</a>
+A news theme that is an ideal solution for your a news blog. An elegant theme which is ideal for news blogs, magazine or newspaper sites. This mobile friendly theme is both responsive and WooCommerce compatible. Impress your visitors with the stylish layout and available color schemes. Details
+
+
+<strong>Real Estate V2</strong> - <a href="http://templatic.com/app-themes/real-estate-wordpress-theme-templatic">Property Classifieds Listings Theme</a>
+This powerful IDX/MLS compatible real estate classifieds theme is both unique and powerful in the features it provides. With this real estate listings theme for WordPress, you can allow estate agencies and home sellers an opportunity to submit properties to your site. This real estate theme comes with many features including powerful search filter.
+
+
+<strong>e-Commerece</strong> - <a href="http://templatic.com/ecommerce-themes/e-commerce">Online Store Theme</a>
+A powerful and elegant WooCoomerce compatible e-commerce WordPress theme with many features advanced features. This online store theme offers various modes of product display such as a shopping Cart, digital Shop or catalog mode. This theme for e-commerce offers multiple payment gateways, coupon codes. Details
+
+
+
+See the full collection of the <a href="http://templatic.com/premium-themes-club/">WordPress Themes Club Membership</a></p>';
 
 $page_info_arr['Archives'] = 'This is Archives page template. Just select <strong>Page - Archives</strong> page template from templates section and you&rsquo;re good to go.';
 
@@ -1533,6 +1666,7 @@ function set_page_info_autorun($pages_array,$page_info_arr_arg)
 					$ter_relation_sql = "insert into $wpdb->term_relationships (object_id,term_taxonomy_id) values (\"$last_post_id\",\"$last_tt_id\")";
 					$wpdb->query($ter_relation_sql);
 					update_post_meta( $last_post_id, 'pt_dummy_content', 1 );
+					update_post_meta( $last_post_id, 'tl_dummy_content', 1 );
 				}
 			}
 		}
@@ -2098,7 +2232,7 @@ function full_copy( $source, $target )
 	  if($imagepatharr[$i]!='wp-content' && $imagepatharr[$i]!='uploads' && $imagepatharr[$i]!='')
 	  {
 		  $year_path .= $imagepatharr[$i]."/";		 
-		  if (!file_exists($year_path)){
+		  if (!file_exists($year_path) && strstr($year_path,"wp-content")){
 			  mkdir($year_path, 0777);
 		  }     
 		}

@@ -55,7 +55,11 @@ function get_category_home()
 	
 
 					$post_img = bdw_get_images_with_info($postinfo_obj->ID,'thumb');
-					$thumb = $post_img[0]['file'];
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ) , 'thumb'  );
+					if($image[0] != '')
+						$thumb = $image[0];
+					elseif($post_img[0]['file'] != '')
+						$thumb = $post_img[0]['file'];
 					$attachment_id = $post_img[0]['id'];
 					$attach_data = get_post($attachment_id);
 					$img_title = $attach_data->post_title;

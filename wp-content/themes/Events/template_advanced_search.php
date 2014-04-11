@@ -53,7 +53,7 @@ function templ_header_tpl_advsearch()
             </div>
            <div class="form_row clearfix"> <label><?php echo CATEGORY;?></label>
          
-              <?php wp_dropdown_categories( array('name' => 'catdrop','orderby'=> 'name','show_option_all' => __('select category','templatic'), 'taxonomy'=> CUSTOM_CATEGORY_TYPE1,) ); ?>
+              <?php wp_dropdown_categories( array('name' => 'catdrop','orderby'=> 'name','show_option_all' => __('select category','templatic'), 'taxonomy'=> CUSTOM_CATEGORY_TYPE1,'hierarchical'  => 1, 'depth' => 4,) ); ?>
             </div>
             <div class="form_row select_advt clearfix">
               <label><?php echo DATE_TEXT;?></label>

@@ -132,6 +132,7 @@ function ptthemes_event_meta_box_content($post, $metabox ) {
 				echo  "\t".'<div class="row">';
                 echo  "\t\t".'<p><label for="'.$pt_id.'">'.$pt_metabox['label'].'</label></p>'."\n";
                 echo  "\t\t".'<p><input size="40" class="pt_input_text cal_input" type="text" value="'.$pt_metaboxvalue.'" name="'.$pt_metabox["name"].'" /><img src="'.get_template_directory_uri().'/images/cal.gif" class="calendar_img" alt="Calendar"  onclick="displayCalendar(document.post.'.$pt_metabox["name"].',\'yyyy-mm-dd\',this)" style="cursor: pointer;" align="absmiddle" border="0" /></p>'."\n";
+				do_action('tmpl_custom_fields_'.$pt_metabox["name"].'_after');
                 echo  "\t\t".'<p class="note">'.$pt_metabox['desc'].'</p>'."\n";
                 echo  "\t".'</div>'."\n";
                               
@@ -141,13 +142,20 @@ function ptthemes_event_meta_box_content($post, $metabox ) {
 					echo  "\t\t".'<p><label for="'.$pt_id.'">'.$pt_metabox['label'].'</label></p>'."\n";
 					 $array = $pt_metabox['options'];
 					if($array){ $chkcounter = 0;
+						$i=0;
 						foreach ( $array as $id => $option ) {
 						   $checked='';
 						   $chkcounter ++;
 						   if($pt_metabox['default'] == $option){$checked = 'checked="checked"';} 
-							if(trim($pt_metaboxvalue) == trim($option)){$checked = 'checked="checked"';}
-							echo  "\t\t".'<label class="input_radio"><input id="'.$pt_metabox["name"].'_'.$chkcounter.'" type="radio" '.$checked.' class="pt_input_radio" value="'.$option.'" name="'. $pt_metabox["name"] .'" />  ' . $option .'</label>'."\n";
-
+						    if($pt_metabox['htmlvar_name']=='event_type'):
+								$event_type = array("Regular event", "Recurring event");
+								if(trim($pt_metaboxvalue) == trim($event_type[$i])){$checked = 'checked="checked"';}
+								echo  "\t\t".'<label class="input_radio"><input id="'.$pt_metabox["name"].'_'.$chkcounter.'" type="radio" '.$checked.' class="pt_input_radio" value="'.$event_type[$i].'" name="'. $pt_metabox["name"] .'" />  ' . $option .'</label>'."\n";
+							else:
+								if(trim($pt_metaboxvalue) == trim($option)){$checked = 'checked="checked"';}
+								echo  "\t\t".'<label class="input_radio"><input id="'.$pt_metabox["name"].'_'.$chkcounter.'" type="radio" '.$checked.' class="pt_input_radio" value="'.$option.'" name="'. $pt_metabox["name"] .'" />  ' . $option .'</label>'."\n";
+							endif;	
+							$i++;
 						}
 					}
 					echo  '<p class="note">'.$pt_metabox['desc'].'</p>'."\n";
@@ -224,6 +232,7 @@ function ptthemes_event_meta_box_content($post, $metabox ) {
 							
 					?>
                     <div class="form_row clearfix" id="recurring_event" <?php if(trim(strtolower($event_type)) == trim(strtolower('Recurring event'))){ ?>style="display:block;" <?php }else{ ?> style="display:none;" <?php } ?>>
+					
 						 <div class="form_row_rec form_row clearfix">
 							 <?php _e('Event will repeat','templatic'); ?>
 							 <select id="recurrence-occurs" name="recurrence_occurs">
@@ -276,8 +285,26 @@ function ptthemes_event_meta_box_content($post, $metabox ) {
 							<input id="end_days" type="text"  size="8" maxlength="8" name="recurrence_days" value="<?php echo $recurrence_days; ?>" style="width:100px; "/>
 							<?php _e('day(s)','templatic'); ?>
 						</div>
+						<?php global $pagenow; 
+						if($pagenow =='post.php'):
+					?>
+						<p><span style="color:red;font-weight:bold;"><?php _e('Please note',T_DOMAIN);  ?>: </span> <?php _e('Updating these recurring properties will generate new URLs for instances of this recurring event. When that happens external links to those instances will stop working.',T_DOMAIN); ?></p>
+					<?php endif; ?>
+						<?php	
+								if($pagenow =='post-new.php'): ?>
+								<div style="color:red;"><?php _e('Each occurrence of this recurring event will be created as a separate event.',T_DOMAIN); ?></div>
+							<?php endif; 
 						
-						<em><?php _e( 'For a recurring event, a one day event will be created on each recurring date within this date range.', 'templatic' ); ?></em><br/>
+
+						  if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit' || $_REQUEST['pid'] !=''){
+									global $post;
+									$chk_sel = get_post_meta($post->ID,'allow_to_create_rec',true);
+									if($chk_sel == 'yes'){ $checked = "checked=checked";  }else{ $checked = ""; }
+								
+						?>
+							<!--<input type="checkbox" id="allow_to_create_rec" name="allow_to_create_rec" value="yes" <?php //echo $checked; ?>/><?php //_e('Allow to create new recurrences',T_DOMAIN); ?>-->
+							
+						<?php } ?>
                     </div>
 					<?php }
         }
@@ -367,7 +394,7 @@ function ptthemes_event_metabox_insert($post_id) {
 				longitude="'.$longitude.'"';
 				$wpdb->prepare($wpdb->query($postcodes_insert));
 			}
-			
+			$recurring_event_type = get_post_meta($pID, 'event_type',true);
 			/* Insert data for radius search EOF*/
 		foreach ($pt_metaboxes as $pt_metabox) { // On Save.. this gets looped in the header response and saves the values submitted
 		if($pt_metabox['type'] == 'text' OR $pt_metabox['type'] == 'select' OR $pt_metabox['type'] == 'checkbox' OR $pt_metabox['type'] == 'textarea' OR $pt_metabox['type'] == 'radio'  OR $pt_metabox['type'] == 'upload' OR $pt_metabox['type'] == 'date' OR $pt_metabox['type'] == 'multicheckbox' OR $pt_metabox['type'] == 'geo_map' OR $pt_metabox['type'] == 'texteditor') // Normal Type Things...
@@ -442,13 +469,23 @@ function ptthemes_event_metabox_insert($post_id) {
 					if(trim(strtolower($event_type)) == trim(strtolower('Recurring event'))){
 					
 					update_post_meta($pID, 'recurrence_occurs', $_POST['recurrence_occurs']);
-					update_post_meta($pID, 'recurrence_per', $_POST['recurrence_per']);
+					if(isset($_POST['recurrence_per']) && $_POST['recurrence_per'] !=''){
+						update_post_meta($pID, 'recurrence_per', $_POST['recurrence_per']);
+					}else{
+						update_post_meta($pID, 'recurrence_per', 1);
+					}
 					update_post_meta($pID, 'recurrence_onday', $_POST['recurrence_onday']);
 			
 					update_post_meta($pID, 'recurrence_bydays', implode(',',$_POST['recurrence_bydays']));
 			
 					update_post_meta($pID, 'recurrence_onweekno', $_POST['recurrence_onweekno']);
-					update_post_meta($pID, 'recurrence_days', $_POST['recurrence_days']);	
+					
+					if(isset($_POST['recurrence_days']) && $_POST['recurrence_days'] !=''){
+						update_post_meta($pID, 'recurrence_days', $_POST['recurrence_days']);	
+					}else{
+						update_post_meta($pID, 'recurrence_days', 1);	
+					}
+				
 					update_post_meta($pID, 'monthly_recurrence_byweekno', $_POST['monthly_recurrence_byweekno']);	
 					update_post_meta($pID, 'recurrence_byday', $_POST['recurrence_byday']);	
 					
@@ -458,6 +495,9 @@ function ptthemes_event_metabox_insert($post_id) {
 					}	
 				/** ---- Save the variables of recurring event EOF -----**/
         } 
+		$event_type = $_POST['event_type']; 
+			save_recurring_event($pID,$recurring_event_type);
+		
     }
 }
 
@@ -482,11 +522,13 @@ add_action('admin_menu', 'ptthemes_event_meta_box');
 add_action('save_post', 'ptthemes_event_metabox_insert');
 ?>
 <?php
-function modify_form(){
-echo  '<script type="text/javascript">
-      jQuery("#post").attr("enctype", "multipart/form-data");
-        </script>
-  ';
+if(!function_exists('modify_form')){
+	function modify_form(){
+		echo  '<script type="text/javascript">
+		  jQuery("#post").attr("enctype", "multipart/form-data");
+			</script>
+		';
+	}
+	add_action('admin_footer','modify_form');
 }
-add_action('admin_footer','modify_form');
 ?>

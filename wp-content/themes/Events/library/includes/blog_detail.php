@@ -17,7 +17,11 @@
         <div class="single_post_blog">
       <?php if(have_posts()) : ?>
          <?php $post_images = bdw_get_images_with_info($post->ID,'detail_page_image');//fetch post detail page image.
-				$thumb = $post_images[0]['file']; ?>
+				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ) , 'detail_page_image'  );
+				if($image[0] != '')
+					$thumb = $image[0];
+				elseif($post_images[0]['file'] != '')
+					$thumb = $post_images[0]['file']; ?>
 		  <?php while(have_posts()) : the_post() ?>
               <div id="post-<?php the_ID(); ?>" class="posts post_spacer">
               
@@ -27,8 +31,9 @@
             <?php echo get_post_meta($post->ID,'video',true);?>
             </div>
          <?php }?>
+		 <?php if($thumb!=''):?>
 			<img class="alignleft wp-post-image" src="<?php echo $thumb; ?>" alt="<?php the_title(); ?>"   />
-			
+		<?php endif;?>	
 			<?php the_content(); ?>
                    <p class="post_bottom clearfix"> <span class="category"> <?php the_category(" "); ?> </span>   <?php the_tags('<span class="tags">', ', ', '<br /> </span>'); ?>   </p>
               </div> <!-- post #end -->

@@ -24,23 +24,7 @@
                     <h1 class="cat_head" ><?php _e('Search Result','templatic');?> <?php if(isset($_REQUEST['skw']) && $_REQUEST['skw']!=''){   _e(" for: ".$_REQUEST['skw'],"templatic");  }?></h1>
                     <?php }?>
                     <?php } ?>
-                    
-<div class="event_type">
-<?php
-	foreach($_REQUEST as $key=>$value)
-	{
-		if($key!='paged')
-			$str.=$key."=".$value."&";	
-	}	
-	$permalink=get_bloginfo('url')."?". substr($str,0,-1);	
-	$URI= $permalink;
-	$event_type_=trim($_REQUEST['event_type']);
-	if($event_type_ =='recurring'){ $rec_active ='current'; }else{   $reg_active ='current'; }
-	$URI=str_replace('&event_type=recurring','',$URI);
-?>
-     <a href="<?php echo $URI; ?>&event_type=regular"  class="event_type <?php echo $reg_active?>"><?php _e('Regular Events',T_DOMAIN); ?></a>
-     <a href="<?php echo $URI; ?>&event_type=recurring"  class="event_type <?php echo $rec_active;?>"><?php _e('Recurring Events',T_DOMAIN); ?></a>
-</div>
+
  
  <ul class="category_list_view">
 

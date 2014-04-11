@@ -88,7 +88,7 @@ echo $filecontent;
                                     }
                                     elseif($post_meta_info_obj->ctype =='textarea') {
 										if(get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,$single = true) !=''){
-											echo "<p><span>".$post_meta_info_obj->site_title."</span></p><p class='text-width'>: ".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,$single = true)."</p>";
+											echo "<p><span>".$post_meta_info_obj->site_title.":</span></p><p class='text-width'> ".get_post_meta($post->ID,$post_meta_info_obj->htmlvar_name,$single = true)."</p>";
 										}
                                     }
                                     else {
@@ -102,11 +102,11 @@ echo $filecontent;
                                             endif;	
 											$check = substr($check,0,-1);
 											if($check):
-	                                            echo "<p><span>".$post_meta_info_obj->site_title."</span></p><p class='text-width'>: ".$check."</p>";
+	                                            echo "<p><span>".$post_meta_info_obj->site_title.":</span></p><p class='text-width'> ".$check."</p>";
 											endif;	
                                         else:
                                             if(get_post_meta($order_id,$post_meta_info_obj->htmlvar_name,$single = true) != ""):
-                                                echo "<p><span>".$post_meta_info_obj->site_title."</span></p><p class='text-width'>: ".get_post_meta($order_id,$post_meta_info_obj->htmlvar_name,$single = true)."</p>";
+                                                echo "<p><span>".$post_meta_info_obj->site_title.":</span></p><p class='text-width'> ".get_post_meta($order_id,$post_meta_info_obj->htmlvar_name,$single = true)."</p>";
                                             endif;	
                                         endif;	
                                     } 

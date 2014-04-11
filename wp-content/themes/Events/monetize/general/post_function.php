@@ -132,11 +132,20 @@ function display_custom_post_field($custom_metaboxes,$session_variable,$geo_lati
 					}
 					
 					if($default_value == $option_values_arr[$i] || in_array($option_values_arr[$i],$default_value)){ $seled="checked=checked";}							
-					if (trim(@$value) == trim($option_values_arr[$i])){ $seled="checked=checked";}	
+					if (trim(@$value) == trim($option_values_arr[$i])){ $seled="checked=checked";}
+					$event_type = array("Regular event", "Recurring event");
+					if($key == 'event_type'):
+						if (trim(@$value) == trim($event_type[$i])){ $seled="checked=checked";}
+						echo '
+							<label class="r_lbl_option">
+								<input name="'.$key.'"  id="'.$key.'_'.$chkcounter.'" type="radio" value="'.$event_type[$i].'" '.$seled.'  '.$extra_parameter.' /> '.$option_values_arr[$i].'
+							</label>';
+					else:
 					echo '
 						<label class="r_lbl_option">
 							<input name="'.$key.'"  id="'.$key.'_'.$chkcounter.'" type="radio" value="'.$option_values_arr[$i].'" '.$seled.'  '.$extra_parameter.' /> '.$option_values_arr[$i].'
-						</label>';							
+						</label>';
+					endif;
 				}
 				
 			}
@@ -169,7 +178,7 @@ function display_custom_post_field($custom_metaboxes,$session_variable,$geo_lati
 		}else if($type=='upload'){ ?>
 		 <label><?php echo $site_title.$is_required; ?></label>
          <div class="upload" style="overflow:hidden; position:relative;" ><span>Upload Image</span>
-		 <input type="file" value="<?php echo @$value; ?>" name="<?php echo $name; ?>" style="font-size:28px; cursor:pointer;opacity:0;position:absolute; bottom:0; right:3px;" onchange="check_file_type(this,'<?php echo $name; ?>');"/>
+		 <input type="file" value="<?php echo @$value; ?>" name="<?php echo $name; ?>" style="font-size:28px; cursor:pointer;opacity:0;position:absolute; bottom:0; right:-2px; top:-6px;" onchange="check_file_type(this,'<?php echo $name; ?>');"/>
 		 </div>           
            <span id="<?php echo $name; ?>" class="status_message message_note"></span>
 		<?php }else if($type=='checkbox'){ ?>
@@ -221,6 +230,8 @@ function display_custom_post_field($custom_metaboxes,$session_variable,$geo_lati
 
 					?>
                     <div class="form_row clearfix" id="recurring_event" <?php if(trim(strtolower($event_type)) == trim(strtolower('Recurring event'))){  ?>style="display:block;" <?php }else{ ?> style="display:none;" <?php } ?>>
+					
+						
 						 <div class="form_row_rec form_row clearfix">
 							 <?php _e('Event will repeat','templatic'); ?>
 							 <select id="recurrence-occurs" name="recurrence_occurs">
@@ -272,9 +283,27 @@ function display_custom_post_field($custom_metaboxes,$session_variable,$geo_lati
 							<?php _e('day(s)','templatic'); ?>
 						</div>
 						
-						
-						
-						<em><?php _e( 'For a recurring event, a one day event will be created on each recurring date within this date range.', 'templatic' ); ?></em><br/>
+
+						<?php global $pagenow; 
+						if((isset($_REQUEST['pid']) && $_REQUEST['pid'] != '') || (isset($_REQUEST['renew']) && $_REQUEST['renew'] == 1)):
+					?>
+						<p><span style="color:red;font-weight:bold;"><?php _e('Please note',T_DOMAIN);  ?>: </span> <?php _e('Updating these recurring properties will generate new URLs for instances of this recurring event. When that happens external links to those instances will stop working.',T_DOMAIN); ?></p>
+					<?php endif; 
+
+							if(!isset($_REQUEST['pid'])): ?>
+								<div style="color:red;"><?php _e('Each occurrence of this recurring event will be created as a separate event.',T_DOMAIN); ?></div>
+							<?php endif;  
+
+							if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit' || $_REQUEST['pid'] !=''){
+
+									global $post;
+									$chk_sel = get_post_meta($post->ID,'allow_to_create_rec',true);
+									if($chk_sel == 'yes'){ $checked = "checked=checked";  }else{ $checked = ""; }
+								
+						?>
+							<!--<input type="checkbox" id="allow_to_create_rec" name="allow_to_create_rec" value="yes" <?php //echo $checked; ?>/><?php //_e('Allow to create new recurrences',T_DOMAIN); ?>-->
+							
+						<?php } ?>
                     </div>
                     <script type="text/javascript">
 				 function getExtension(filename) {
@@ -477,6 +506,7 @@ function search_custom_post_field($custom_metaboxes){
 		?>
 		 <label><?php echo $site_title; ?></label>
 		<select name="<?php echo $name;?>" class="textfield textfield_x <?php echo $style_class;?>" <?php echo $extra_parameter;?>>
+		<option value="" ><?php echo __('Select','templatic')." ".$name;?></option>
 		<?php if($option_values){
 		
 		$option_values_arr = explode(',',$option_values);

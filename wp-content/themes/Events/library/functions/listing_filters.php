@@ -46,15 +46,11 @@ function search_cal_event_where($where)
 	$pd = substr($m,6,2);
 	$the_req_date = "$py-$pm-$pd";
 	$event_of_month_sql = "select p.ID from $wpdb->posts p where (p.post_type='".CUSTOM_POST_TYPE1."' || p.post_type ='ads') and p.ID in (select pm.post_id from $wpdb->postmeta pm where pm.meta_key like 'st_date' and pm.meta_value <= \"$the_req_date\" and pm.post_id in ((select pm.post_id from $wpdb->postmeta pm where pm.meta_key like 'end_date' and pm.meta_value>=\"$the_req_date\")))";
-	$where = " AND ($wpdb->posts.post_type='".CUSTOM_POST_TYPE1."' || $wpdb->posts.post_type='ads') AND $wpdb->posts.ID in ($event_of_month_sql) and $wpdb->posts.post_status in ('publish','private')";
-	if(isset($_REQUEST['event_type']) && $_REQUEST['event_type']=='recurring')
-	{		
-		$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value LIKE '%$the_req_date%') )";
+	
+	$where = " AND ($wpdb->posts.post_type='".CUSTOM_POST_TYPE1."' || $wpdb->posts.post_type='ads') AND $wpdb->posts.ID in ($event_of_month_sql) and $wpdb->posts.post_status in ('publish','private','recurring')";
+	
+	$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
 		
-	}else
-	{
-		$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
-	}		
 	return $where;
 }
 function searching_filter_orderby($orderby) {
@@ -69,7 +65,7 @@ function author_filter_where($where)
 
 	$user_id = $query_var['author'];
 	$where = " AND ($wpdb->posts.post_author = $user_id) ";
-	$post_ids = get_user_meta($user_id,'user_attend_event');
+	$post_ids = get_user_meta($user_id,'user_attend_event',true);
 	$final_ids = '';
 	if($post_ids)
 	  {
@@ -87,7 +83,7 @@ function author_filter_where($where)
 		//if($current_user->ID==$user_id)
 		{
 			$where = '';
-			$where .= " AND ($wpdb->posts.ID in ($post_ids)) AND ($wpdb->posts.post_type = 'event') AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'draft') ";
+			$where .= " AND ($wpdb->posts.ID in ($post_ids)) AND ($wpdb->posts.post_type = 'event' ) AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'recurring' OR $wpdb->posts.post_status = 'draft') ";
 		}
 	}
 	else
@@ -126,7 +122,7 @@ function searching_filter_where($where) {
 	}
 	
 	$where = '';
-	$where = " AND $wpdb->posts.post_type in ('".CUSTOM_POST_TYPE1."') AND ($wpdb->posts.post_status = 'publish') ";
+	$where = " AND $wpdb->posts.post_type in ('".CUSTOM_POST_TYPE1."') AND ($wpdb->posts.post_status = 'publish' or $wpdb->posts.post_status = 'recurring') ";
 	if($skw)
 	{
 		$where .= " AND (($wpdb->posts.post_title LIKE \"%$skw%\") OR ($wpdb->posts.post_content LIKE \"%$skw%\")) ";
@@ -159,11 +155,7 @@ function searching_filter_where($where) {
 		}
 	}
 	/* Recurring and regular event filter*/
-	if(isset($_REQUEST['event_type']) && $_REQUEST['event_type']=='recurring')
-	{
-		$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value LIKE '%$sdate%') )";
-		
-	}else
+	
 	{
 		$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
 	}	
@@ -183,34 +175,39 @@ function searching_no_filter_where($where) {
 
 function category_filter_orderby($orderby)
 {      
-	global $wpdb;
-	if ( @$_REQUEST['sortby'] == 'title_asc' )
+	global $wpdb; 
+	if(isset($_REQUEST['sortby']) && @$_REQUEST['sortby']!=""){
+		$var_sorting_order = $_REQUEST['sortby'];
+	}else{
+		$var_sorting_order = get_option('ptthemes_category_default_order');
+	}
+	if ( @$var_sorting_order == 'title_asc' || @$var_sorting_order == 'Title Ascending')
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=$wpdb->posts.ID and $wpdb->postmeta.meta_key = 'featured_c') ASC, $wpdb->posts.post_title ASC";
 	}
-	elseif ( @$_REQUEST['sortby'] == 'title_desc' )
+	elseif ( @$var_sorting_order == 'title_desc' || @$var_sorting_order == 'Title Descending' )
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=$wpdb->posts.ID and $wpdb->postmeta.meta_key = 'featured_c') ASC, $wpdb->posts.post_title DESC";
 	}
-	elseif ( @$_REQUEST['sortby'] == 'stdate_low_high' )
+	elseif ( @$var_sorting_order == 'stdate_low_high' || @$var_sorting_order == 'Start Date low to high' )
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = $wpdb->posts.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC";
 	}
-	elseif ( @$_REQUEST['sortby'] == 'stdate_high_low' )
+	elseif ( @$var_sorting_order == 'stdate_high_low' || @$var_sorting_order == 'Start Date high to low' )
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = $wpdb->posts.ID and $wpdb->postmeta.meta_key like \"st_date\") DESC";
 	}
-	elseif ( @$_REQUEST['sortby'] == 'address_high_low' )
+	elseif ( @$var_sorting_order == 'address_high_low' || @$var_sorting_order == 'Address (A-Z)' )
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = $wpdb->posts.ID and $wpdb->postmeta.meta_key like \"address\") ASC";
 	}
-	elseif ( @$_REQUEST['sortby'] == 'address_low_high' )
+	elseif ( @$var_sorting_order == 'address_low_high' || @$var_sorting_order == 'Address (Z-A)' )
 	{
 		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = $wpdb->posts.ID and $wpdb->postmeta.meta_key like \"address\") DESC";
 	}
 	else
 	{
-		//$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=$wpdb->posts.ID and $wpdb->postmeta.meta_key = 'featured_c') ASC";
+		$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=$wpdb->posts.ID and $wpdb->postmeta.meta_key = 'featured_c') ASC";
 	}
 	return $orderby;
 }
@@ -227,12 +224,12 @@ function event_where($where)
 		{
 			if(@$_REQUEST['etype']=='')
 			{
-				$_REQUEST['etype']='upcoming';
+				$_REQUEST['etype']=get_option('ptthemes_category_current_tab')?get_option('ptthemes_category_current_tab'):'upcoming';
 			}
 			if(@$_REQUEST['etype']=='upcoming')
 			{
 				$today = date('Y-m-d');
-				$where .= " AND ($wpdb->posts.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."' and $wpdb->posts.post_status = 'publish')) ";
+				$where .= " AND ($wpdb->posts.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."' and ($wpdb->posts.post_status = 'publish' or $wpdb->posts.post_status = 'recurring'))) ";
 			}
 			elseif($_REQUEST['etype']=='current')
 			{
@@ -249,13 +246,7 @@ function event_where($where)
 			$where = str_replace("'post'","'".CUSTOM_POST_TYPE1."'",$where); 
 		}
 		
-		if(isset($_REQUEST['event_type']) && $_REQUEST['event_type']=='recurring')
-		{
-			if($_REQUEST['etype']=='current')
-			{  $to_day = date('Y-m-d');}
-			$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta inner join $wpdb->postmeta p1 on $wpdb->postmeta.post_id=p1.post_id where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value LIKE '%Recurring event%' AND p1.meta_key='recurring_search_date' AND p1.meta_value LIKE '%$to_day%') )";
-			
-		}else
+		
 		{
 			$where.=" AND ($wpdb->posts.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
 		}
@@ -331,5 +322,15 @@ function searching_filter_where1($where) {
 	$where .= " OR  ($wpdb->posts.ID in (select p.ID from $wpdb->terms c,$wpdb->term_taxonomy tt,$wpdb->term_relationships tr,$wpdb->posts p ,$wpdb->postmeta t where c.name like '".$_REQUEST['tag_s']."' and c.term_id=tt.term_id and tt.term_taxonomy_id=tr.term_taxonomy_id and tr.object_id=p.ID and p.ID = t.post_id and p.post_status = 'publish' group by  p.ID))";
 	}
 	return $where;
+}
+function remove_recurring_event( $clauses, $wp_query ) {
+	
+	global $wpdb;
+
+	$clauses['join'] .= " INNER JOIN $wpdb->postmeta m4 ON ($wpdb->posts.ID = m4.post_id AND m4.meta_key = 'event_type')";
+
+	$clauses['where'] .= " AND (m4.meta_value = 'Regular event' )";
+
+  return $clauses;
 }
 ?>

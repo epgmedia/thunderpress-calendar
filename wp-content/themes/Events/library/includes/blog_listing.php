@@ -34,7 +34,13 @@
 		<?php if(have_posts()) : ?>
 		<?php while(have_posts()) : the_post() ?>
 		<?php $post_images = bdw_get_images_with_info($post->ID,'thumb');//fetch post thumb imae.
-			$thumb = $post_images[0]['file'];?>
+			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ) , 'thumb'  );
+			$thumb = '';
+				if($image[0] != '')
+					$thumb = $image[0];
+				elseif($post_images[0]['file'] != '')
+					$thumb = $post_images[0]['file'];
+					?>
       
       <div id="post-<?php the_ID(); ?>" class="posts">
               		<h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>">
@@ -60,8 +66,12 @@
                             </div>
                             
                             
-                            <?php } else { ?>
+                            <?php } elseif($thumb) { ?>
 							<img class="alignleft wp-post-image" src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
+							 <p> <?php echo bm_better_excerpt(275, '...'); ?>
+                            <a style="text-decoration:underline;" href="<?php the_permalink(); ?>"><?php _e('Read more &raquo;','templatic');?> </a></p>
+							<?php  }else { ?>
+							<a href="<?php echo get_permalink($post->ID); ?>" class="alignleft wp-post-image"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>"  width="125" height="125" /></a>
                             <p> <?php echo bm_better_excerpt(275, '...'); ?>
                             <a style="text-decoration:underline;" href="<?php the_permalink(); ?>"><?php _e('Read more &raquo;','templatic');?> </a></p>
                             <?php } ?>

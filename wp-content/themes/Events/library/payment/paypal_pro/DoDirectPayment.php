@@ -104,21 +104,26 @@ $PayPalRequestData = array(
 						   );
 
 // Pass data into class for processing with PayPal and load the response array into $PayPalResult
-$PayPalResult = $PayPal->DoDirectPayment($PayPalRequestData);
-
+if(function_exists('curl_version')){
+	$PayPalResult = $PayPal->DoDirectPayment($PayPalRequestData);
+}
 // Write the contents of the response array to the screen for demo purposes.
 //echo $PayPalResult['L_ERRORCODE0']."aezaz"; 
 /* echo "<br>";
 echo '<pre />';
 print_r($PayPalResult); */
-//exit; 
-$ack = @strtoupper($PayPalResult["ACK"]);
-$failureMessage = @$PayPalResult['L_LONGMESSAGE0'];
-
+//exit;
+if(function_exists('curl_version')){
+	$ack = @strtoupper($PayPalResult["ACK"]);
+	$failureMessage = @$PayPalResult['L_LONGMESSAGE0'];
+}else{
+	$ack = 'FAILURE';
+	$failureMessage = 'cUrl is not enable on your server. Please contact your host provider to resolve this.';
+}
 $status_pro = '';
 if( @$PayPalResult["ACK"] == 'Success'){
 	$status_pro = '&status_pro=Success';
-}	
+}
 if($ack=='FAILURE'){
 	$_SESSION['paypal_errors'] = $failureMessage;
 	wp_redirect(home_url()."/?ptype=preview&paypalerror=yes");
@@ -130,8 +135,23 @@ if($ack=='FAILURE'){
 		$sql_data = $wpdb->get_row($sql);
 		//$General->set_ordert_status($sql_data->oid,'approve');		
 		$last_order_id = $sql_data->oid;
-		$fromEmail = $General->get_site_emailId();
-		$fromEmailName = $General->get_site_emailName();
+		$fromEmail = '';
+		if(function_exists('get_site_emailId')){
+			$fromEmail = $General->get_site_emailId();
+		}elseif(get_option('ptthemes_sender_email')){
+			$fromEmail = get_option('admin_email');
+		}else{
+			$fromEmail = get_option('admin_email');
+		}
+		
+		$fromEmailName = '';
+		if(function_exists('get_site_emailName')){
+			$fromEmailName = $General->get_site_emailName();
+		}elseif(get_option('ptthemes_sender_name')){
+			$fromEmailName = stripslashes(get_option('blogname'));
+		}else{
+			$fromEmailName = stripslashes(get_option('blogname'));
+		}
 		
 		$supplier_subject = get_option('order_success_ipn_supplier_email_subject');
 		$supplier_message = get_option('order_success_ipn_supplier_email_content');
