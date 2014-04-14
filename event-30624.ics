@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140414T021018CEST-8958Bear7O@68.233.251.81
+DTSTAMP:20140414T001018Z
+CATEGORIES:Events
+DESCRIPTION:3rd Legacy Motorcycle Club is a clean and sober motorcycle club
+  that originated in February 1985 in Concord California
+DTSTART:20121205T073000
+DTEND:20121205T103000
+LOCATION:875 Howe Road\, Martinez\, CA
+SUMMARY:3rd Legacy Motorcycle Club-Diablo Valley
+END:VEVENT
+END:VCALENDAR

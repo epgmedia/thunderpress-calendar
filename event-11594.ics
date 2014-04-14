@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140413T194841CEST-13932fv3Hv@68.233.251.81
+DTSTAMP:20140413T174841Z
+CATEGORIES:Events
+DESCRIPTION:Celebrate Beatty's birthday with bikes\, cars\, cook-offs\, bed
+  and tricycle races\, contests\, gunfighters\, parades\, food\, vendors\, 
+ music and more.
+DTSTART:20121026T140000
+DTEND:20121028T000000
+LOCATION:Third & Amargosa St.\, Beatty\, NV 89003
+SUMMARY:Beatty Days 2012
+END:VEVENT
+END:VCALENDAR

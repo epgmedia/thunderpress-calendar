@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140412T192049CEST-7339Kr9lXt@68.233.251.81
+DTSTAMP:20140412T172049Z
+CATEGORIES:Events
+DESCRIPTION:Social hour starts at 10 am with free hot drinks and donuts. Pa
+ rade leaves at noon and ends at the Eagle's Lodge at 2000 TableRock Road f
+ or toy drop off\, free lunch\, live music\, raffles\, etc. All toys go to 
+ Toys For Tots Jackson County and all cash proceeds go to the Children's Mi
+ racle Network. Limited edition T-shirts available the day of the event.
+DTSTART:20121201T100000
+DTEND:20121201T150000
+LOCATION:4922 Crater Lake Ave.\, Medford\, OR 97501
+SUMMARY:32nd Annual Original Rogue Valley Toy Run
+END:VEVENT
+END:VCALENDAR

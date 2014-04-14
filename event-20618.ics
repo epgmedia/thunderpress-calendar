@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140413T152852CEST-1064Tp03zn@68.233.251.81
+DTSTAMP:20140413T132852Z
+CATEGORIES:Events
+DESCRIPTION:All riders are welcome to stop down at our lodge to enjoy live 
+ entertainment and food and drink specials
+DTSTART:20130115T060000
+DTEND:20130115T090000
+LOCATION:1500 Brooks Blvd\, Hillsborough\, NJ
+SUMMARY:Manville&#047\;Hillsborough ELKS Bike Night
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+PRODID:-//68.233.251.81//NONSGML iCalcreator 2.6//
+VERSION:2.0
+BEGIN:VEVENT
+UID:20140413T145724CEST-5066SVhcu3@68.233.251.81
+DTSTAMP:20140413T125724Z
+CATEGORIES:Events
+DESCRIPTION:We ride to three senior homes bearing gifts and singing Christm
+ as carols. Please bring wrapped gifts\, male green bow\, female red bow\, 
+ for all three homes. Meet at IHOP at 9 am for breakfast\, 2290 Loveridge R
+ d. Pitts\, California.
+DTSTART:20121222T103000
+DTEND:20121222T000000
+LOCATION:Leland & Loveridge Pittsberg CA 94565
+SUMMARY:The Old Folks Toy Run 24th Annual Senior Citizen Run
+END:VEVENT
+END:VCALENDAR
