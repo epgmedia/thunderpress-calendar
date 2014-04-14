@@ -935,42 +935,30 @@ class featuredslider extends WP_Widget {
 	if($category)
 	{
 		$args=
-		array( 
-		'post_type' => 'event',
-		'posts_per_page' => $post_number,
-		'post_status' => array('publish','recurring'),
-		'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key' => 'st_date',
-					'value' => $today,
-					'compare' => '<=',
-					'type'=> 'text'
-				),
-				array(
-					'key' => 'end_date',
-					'value' =>  $today,
-					'compare' => '>='
-				),
-					array(
-						'key' => 'featured_h',
-						'value' =>  'h',
-						'compare' => 'text'
-					)
-			),
-		'tax_query' => array(
-			array(
-				'taxonomy' => 'eventcategory',
-				'field' => 'id',
-				'terms' => array($category),
-				'operator'  => 'IN'
-			)
-			),
-			'meta_key' => 'featured_h',
-			'orderby' => 'meta_value',
-			'order' => 'ASC'
-		);
-		
+            array(
+                'post_type' => 'event',
+                'posts_per_page' => $post_number,
+                'post_status' => array('publish','recurring'),
+                'meta_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'key' => 'end_date',
+                        'value' =>  $today,
+                        'compare' => '>='
+                    )
+                ),
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'eventcategory',
+                        'field' => 'id',
+                        'terms' => array($category),
+                        'operator'  => 'IN'
+                    )
+                ),
+                'meta_key' => 'featured_h',
+                'orderby' => 'meta_value',
+                'order' => 'ASC'
+        );
 	}
 	else
 	{
@@ -980,34 +968,29 @@ class featuredslider extends WP_Widget {
 			'posts_per_page' => $post_number,
 			'post_status' => array('publish','recurring'),
 			'meta_query' => array(
-					'relation' => 'AND',
-					array(
-						'key' => 'st_date',
-						'value' => $today,
-						'compare' => '<='
-						
-					),
-					array(
-						'key' => 'end_date',
-						'value' =>  $today,
-						'compare' => '>='
-					),
-					array(
-						'key' => 'featured_h',
-						'value' =>  'h',
-						'compare' => 'text'
-					)
-				),
-				'meta_key' => 'featured_h',
-				'orderby' => 'meta_value',
-				'order' => 'ASC'
+                'relation' => 'AND',
+                array(
+                    'key' => 'st_date',
+                    'value' => $today,
+                    'compare' => '>='
+
+                ),
+                array(
+                    'key' => 'end_date',
+                    'value' =>  $today,
+                    'compare' => '>='
+                )
+            ),
+            'meta_key' => 'featured_h',
+            'orderby' => 'meta_value',
+            'order' => 'ASC'
 			);
 	}
-			$post_query = null;
-			add_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
-			$post_query = new WP_Query($args);
-			remove_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
-			
+    $post_query = null;
+    add_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
+    $post_query = new WP_Query($args);
+    remove_filter( 'posts_clauses', 'remove_recurring_event',10,2 );
+
 	$latest_menus = $wpdb->get_results($sql);
 	if($post_query)
 	{ ?>
@@ -1023,12 +1006,12 @@ class featuredslider extends WP_Widget {
         <div class="pikachoose">
 		<span class="h_featured"><?php echo $title; ?> </span>
 		<ul id="pikame" class="jcarousel-skin-pika">
-        <?php 
-			while($post_query->have_posts()): $post_query->the_post();
-							setup_postdata($post);
+        <?php
+        while($post_query->have_posts()): $post_query->the_post();
+                        setup_postdata($post);
 	    ?>
          <?php 
-		 	$is_parent = $post->post_parent; 
+	     	$is_parent = $post->post_parent;
 			if($is_parent)
 				$post_id = $is_parent;
 			else
