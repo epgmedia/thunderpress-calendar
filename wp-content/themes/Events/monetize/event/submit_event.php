@@ -528,7 +528,7 @@ if(isset($_REQUEST['invalid']) == 'playthru') {
 				 <?php }?>
               </div>
               <div class="login_submit clearfix" id="login_user_frm_id">
-              <form name="loginform" id="loginform" action="<?php echo get_ssl_normal_url(home_url().'/index.php?page=login'); ?>" method="post" >
+              <form name="loginform" id="loginform" action="<?php echo get_ssl_normal_url(home_url().'/wp-login.php'); ?>" method="post" >
 			   <?php
 				if(strtolower(get_option('ptttheme_fb_opt')) == strtolower('Yes'))
 				  { ?>
@@ -1510,23 +1510,22 @@ $validation_info = array();
 include_once(TT_MODULES_FOLDER_PATH.'event/submition_validation.php'); 
 ?>
 </div> <!-- wrapper #end -->
-<div id="bottom"></div> 
+<div id="bottom"></div>
+    <script type="text/javascript">
+        function check_date(str='') {
+            if( str == 'end_date' ) {
+                if( jQuery("#st_date").val() !='' ) {
+                    jQuery("#st_date_error").removeClass("message_error2");
+                    jQuery("#st_date_error").text("");
+                }
+                jQuery("#end_date_error").removeClass("message_error2");
+                jQuery("#end_date_error").text("");
+            }
+
+            if(jQuery("#"+str).val() !=''){
+                jQuery("#"+str+"_error").removeClass("message_error2");
+                jQuery("#"+str+"_error").text("");
+            }
+        }
+    </script>
 <?php get_footer(); ?>
-<script type="text/javascript">
-function check_date(str='')
-{
-	if(str =='end_date'){
-		if(jQuery("#st_date").val() !=''){
-			jQuery("#st_date_error").removeClass("message_error2");
-			jQuery("#st_date_error").text("");
-		}
-			jQuery("#end_date_error").removeClass("message_error2");
-			jQuery("#end_date_error").text("");
-	}
-	
-	if(jQuery("#"+str).val() !=''){
-		jQuery("#"+str+"_error").removeClass("message_error2");
-		jQuery("#"+str+"_error").text("");
-	}
-}
-</script> 
