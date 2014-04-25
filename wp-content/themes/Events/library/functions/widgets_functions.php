@@ -504,29 +504,36 @@ class news2columns extends WP_Widget {
             }
 
         </script>
-        <?php
-        //$type = get_option('event_sorting');
-        if ( $sorting != '' ) {
+	<?php //$type = get_option('event_sorting');
+	if ( $sorting != '' )
+	{
             global $wpdb;
-            if ( $sorting == 'Random' ) {
+		if ( $sorting == 'Random' )
+		{
                 $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC, rand()";
-            } elseif ( $sorting == 'Alphabetical' ) {
+		}
+		elseif ( $sorting == 'Alphabetical' )
+		{
                 $orderby = "p.post_title ASC";
             } elseif($sorting =='s_date') {
                  $today = date('Y-m-d');
                  $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC";
-            } else {
+		}
+		else
+		{
                 $today = date('Y-m-d');
                 $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and $wpdb->postmeta.meta_key = 'featured_h') ASC, p.post_date DESC";
             }
         }
         ?>
+    
         <ul class="category_list_view" id="upcomming_event_type">
         <?php
             global $post,$wpdb;
             $category1 = $category;
             $today = date('Y-m-d G:i:s');
-            if($category) {
+		if($category)
+		{
                 $category = "'".str_replace(",","','",$category)."'";
                 $where .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
             }
@@ -534,11 +541,9 @@ class news2columns extends WP_Widget {
             @$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
             $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where order by $orderby limit $post_number";
             $latest_menus = $wpdb->get_results($sql);
-            ?>
-            <li class="" id="widget_index_upcomming_regular_events_id">
-                <ul>
-            <?php
-            if($latest_menus) {
+		echo '<li class="" id="widget_index_upcomming_regular_events_id">  <ul>';
+		if($latest_menus)
+		{			
                 foreach($latest_menus as $post) :
                     setup_postdata($post);
                     $is_parent = $post->post_parent;
@@ -547,17 +552,17 @@ class news2columns extends WP_Widget {
                     else
                         $post_id = $post->ID;
                     $post_img = bdw_get_images_with_info($post_id,'thumb');
+		
                     $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
                     $thumb = '';
+		
                     if($image[0] != '')
                         $thumb = $image[0];
                     elseif($post_img[0]['file'] != '')
                         $thumb = $post_img[0]['file']; ?>
                     <li class="clearfix">
-                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
-                        <div class="featured_tag"></div>
-                    <?php }
-                    if ( $thumb != '' ) { ?>
+		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
+		<?php if ( $thumb != '' ) { ?>
                         <a class="post_img" href="<?php the_permalink(); ?>">
                         <?php if($image[0]):
                             echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
@@ -565,66 +570,63 @@ class news2columns extends WP_Widget {
                             <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
                         <?php endif; ?>
                         </a>
-                    <?php } else { ?>
-                        <a href="<?php echo get_permalink($post->ID); ?>" class="post_img">
-                            <img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" />
-                        </a>
+		<?php
+		} else { ?>
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
                     <?php } ?>
                         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <?php if(get_post_meta($post->ID,'address',true)) {
+		<?php
+		if(get_post_meta($post->ID,'address',true))
+		{
                         $from_add = get_post_meta($post->ID,'address',true);
                     }
-                    if ($from_add) { ?>
-                        <p class="timing">
-                            <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?>
-                            <br /><span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?>
-                            <br /><span><?php echo TIME_TEXT;?>: </span>
-                            <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+		if($from_add)
+		{ ?>
+		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br /><span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?><br />
+		<span><?php echo TIME_TEXT;?>: </span>
+		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
+		{
                                 echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-                            } else if(get_post_meta($post->ID,'st_time',true) ) {
+		}
+		else if(get_post_meta($post->ID,'st_time',true) )
+		{
                                 echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-                            } else {
+		}
+		else
+		{
                                 echo ' - ';
-                            } ?>
-                            <br />
-                        </p>
-                        <p class="address">
-                            <span><?php echo LOCATION_TEXT;?> :</span>
-                            <br /><?php echo get_post_meta($post->ID,'address',true);?>
-                        </p>
+		} ?><br /></p>
+		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
                     <?php } ?>
                         <p class="bottom">
                             <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-                        <?php
-                        $taxonomy_category = get_the_taxonomies();
+		<?php  $taxonomy_category = get_the_taxonomies();
                         $taxonomy_category = @$taxonomy_category[CUSTOM_CATEGORY_TYPE1];
                         $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
                         $taxonomy_category = str_replace(', and',',',$taxonomy_category);
                         $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-                        //$taxonomy_category = str_replace('.','',$taxonomy_category);
-                        ?>
+			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
                             <span class="post-category"><?php echo $taxonomy_category; ?> </span>
-                        <?php
-                        $taxonomy_tags = get_the_taxonomies();
+		<?php  $taxonomy_tags = get_the_taxonomies();
                         @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
                         $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':','in ',$taxonomy_tags);
                         $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
                         $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-                        //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
-                        ?>
+			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
                             <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
-                        </p>
+		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
                     </li>
                 <?php endforeach; ?>
-            <?php } else { ?>
-                    <li>
-                        <p><?php echo UPCOMING_NOT_FOUND_TEXT ?></p>
-                    </li>
-            <?php } ?>
+		<?php }
+		else
+		{
+			echo "<li><p>".UPCOMING_NOT_FOUND_TEXT."</p></li>";
+		} 		
+		?>
                 </ul>
             </li>
         <!-- Upcomming Recurring evenet list-->
+          
         </ul>
 
               <!--Current Event theme -->
@@ -633,21 +635,24 @@ class news2columns extends WP_Widget {
         <?php
             global $post,$wpdb;
             $today = date('Y-m-d');
-            if($category1) {
+		if($category1)
+				{
                 $category1 = "'".str_replace(",","','",$category1)."'";
                 $where1 .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category1))";
             }
+		
             $today = date('Y-m-d');
             $where1 .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') <='".$today."')) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >= '".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
             $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where1 order by $orderby limit $post_number";
+		
             $latest_menus = $wpdb->get_results($sql);
-            ?>
-            <li id='widget_index_current_regular_events_id'>
-                <ul>
-            <?php
-            if($latest_menus) {
+		echo "<li id='widget_index_current_regular_events_id'>";
+		echo "<ul>";
+		if($latest_menus)
+		{
                 foreach($latest_menus as $post) :
                     setup_postdata($post);
+
                     $is_parent = $post->post_parent;
                     if($is_parent)
                         $post_id = $is_parent;
@@ -661,9 +666,7 @@ class news2columns extends WP_Widget {
                     elseif($post_img[0]['file'] != '')
                         $thumb = $post_img[0]['file']; ?>
                     <li class="clearfix">
-                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
-                        <div class="featured_tag"></div>
-                    <?php }?>
+		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
                     <?php if ( $thumb != '' ) { ?>
                         <a class="post_img" href="<?php the_permalink(); ?>">
                         <?php if($image[0]):
@@ -672,86 +675,87 @@ class news2columns extends WP_Widget {
                             <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
                         <?php endif; ?>
                         </a>
-                    <?php } else { ?>
-                        <a href="<?php echo get_permalink($post->ID); ?>" class="post_img">
-                            <img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" />
-                        </a>
+		<?php
+		} else { ?>
+		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
                     <?php } ?>
                         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <?php if(get_post_meta($post->ID,'address',true)) {
+		<?php
+		if(get_post_meta($post->ID,'address',true))
+		{
                         $from_add = get_post_meta($post->ID,'address',true);
                     }
-                    if($from_add) { ?>
-                        <p class="timing">
-                            <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?>
-                            <br /> <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?>
-                            <br /> <span><?php echo TIME_TEXT;?>: </span>
-                        <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+		if($from_add)
+		{ ?>
+		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
+		<span><?php echo TIME_TEXT;?>: </span>
+		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
+		{
                             echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-                        } else if(get_post_meta($post->ID,'st_time',true) ) {
+		}
+		else if(get_post_meta($post->ID,'st_time',true) )
+		{
                             echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-                        } else {
+		}
+		else
+		{
                             echo ' - ';
-                        } ?>
-                        </p>
-                        <p class="address">
-                            <span><?php echo LOCATION_TEXT;?> :</span>
-                            <br /><?php echo get_post_meta($post->ID,'address',true);?>
-                        </p>
+		} ?></p>
+		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
                     <?php }?>
                         <p class="bottom">
                             <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-                            <?php
-                            $taxonomy_category = get_the_taxonomies();
+		<?php  $taxonomy_category = get_the_taxonomies();
                             $taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
                             $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
                             $taxonomy_category = str_replace(', and',',',$taxonomy_category);
                             $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-                            //$taxonomy_category = str_replace('.','',$taxonomy_category);
-                            ?>
+			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
                             <span class="post-category"><?php echo $taxonomy_category; ?> </span>
-                            <?php
-                            $taxonomy_tags = get_the_taxonomies();
+		<?php  $taxonomy_tags = get_the_taxonomies();
                             @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
                             $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
                             $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
                             $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-                            //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
-                            ?>
+			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
                             <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
-                        </p>
+		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
                     </li>
                 <?php endforeach; ?>
-            <?php } else { ?>
-                    <li>
-                        <p><?php echo CURRENT_NOT_FOUND_TEXT ?></p>
-                    </li>
-            <?php } ?>
+		<?php }
+		else
+		{
+			echo "<li><p>".CURRENT_NOT_FOUND_TEXT."</p></li>";
+		} ?>
                 </ul>
             </li>
         <!--Current Recurring Event List -->
+               
+          
         </ul>
 
+          
         <!--Past Event Type -->
 
         <ul class="category_list_view" id="past_event_type" style="display:none;">
             <?php
             global $post,$wpdb;
             $today = date('Y-m-d');
-            if($category) {
+			 if($category)
+					{
                $category = str_replace("","','",$category);
                $sqlsql = "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
             }
             $today = date('Y-m-d');
-            $sqlsql = $sqlsql . " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."')  AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') ) ";
+					$sqlsql .= " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."')  AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') ) ";
             $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $sqlsql order by $orderby limit $post_number";
             $latest_menus = $wpdb->get_results($sql);
+			echo '<li id="widget_index_past_regular_events_id">';
+				echo "<ul>";
+			if($latest_menus)
+			{
             ?>
-            <li id="widget_index_past_regular_events_id">
-                <ul>
             <?php
-            if($latest_menus) {
                 foreach($latest_menus as $post) :
                     setup_postdata($post);
                     $is_parent = $post->post_parent;
@@ -767,65 +771,69 @@ class news2columns extends WP_Widget {
                     elseif($post_img[0]['file'] != '')
                         $thumb = $post_img[0]['file']; ?>
                     <li class="clearfix">
-                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
-                        <div class="featured_tag"></div>
-                    <?php }?>
+		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
                     <?php if ( $thumb != '' ) { ?>
                         <a class="post_img" href="<?php the_permalink(); ?>">
                         <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
-                    <?php } else { ?>
+		<?php
+		} else { ?>
                         <a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
                     <?php } ?>
                         <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <?php if(get_post_meta($post->ID,'address',true)) {
-                        $from_add = get_post_meta($post->ID,'address',true); }
-                    if($from_add) { ?>
+		<?php
+		if(get_post_meta($post->ID,'address',true))
+		{
+			$from_add = get_post_meta($post->ID,'address',true);
+		}
+		if($from_add)
+		{ ?>
                         <p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
                         <span><?php echo TIME_TEXT;?>: </span>
-                        <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
+		{
                             echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-                        } else if(get_post_meta($post->ID,'st_time',true) ) {
+		}
+		else if(get_post_meta($post->ID,'st_time',true) )
+		{
                             echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-                        } else {
+		}
+		else
+		{
                             echo ' - ';
-                        } ?>
-                        </p>
+		} ?></p>
                         <p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
                     <?php } ?>
                         <p class="bottom">
                             <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-                        <?php
-                        $taxonomy_category = get_the_taxonomies();
+		<?php  $taxonomy_category = get_the_taxonomies();
                         $taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
                         $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
                         $taxonomy_category = str_replace(', and',',',$taxonomy_category);
                         $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-                        //$taxonomy_category = str_replace('.','',$taxonomy_category);
-                        ?>
+			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
                             <span class="post-category"><?php echo $taxonomy_category; ?> </span>
-                        <?php
-                        $taxonomy_tags = get_the_taxonomies();
+		<?php  $taxonomy_tags = get_the_taxonomies();
                         @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
                         $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
                         $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
                         $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-                        //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
-                        ?>
+			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
                             <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
-                        </p>
+		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
                     </li>
                 <?php endforeach; ?>
-            <?php } else { ?>
-                    <li>
-                        <p><?php echo PAST_NOT_FOUND_TEXT ?></p>
-                    </li>
-            <?php } ?>
+			
+            <?php }else{
+                echo '<li><p>'.PAST_NOT_FOUND_TEXT.'</p></li>';
+            }
+            ?>
                 </ul>
             </li>
     <!--Past Recurring Event -->
+           
         </ul>
-        <?php echo $after_widget;
+			<?php
+		    echo $after_widget;
     }
 
 	function update($new_instance, $old_instance) {

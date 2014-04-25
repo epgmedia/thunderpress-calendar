@@ -4,7 +4,6 @@ NAME : TAXONOMY TABBER
 DESCRIPTIPN : THIS FILE CREATES TABBER FOR UPCOMING, CURRENT AND PAST EVENTS ON EVENT DETAIL PAGE
 */
 get_header(); 
-
     if (get_option('ptthemes_category_map_event') == 'Yes' || get_option('ptthemes_category_map_event') == ''){
         if(file_exists(TEMPLATEPATH . '/library/map/category_listing_map.php')) {
             include_once (TEMPLATEPATH . '/library/map/category_listing_map.php');
@@ -17,7 +16,8 @@ get_header();
     }
     global $wp_query,$post;
     $current_term = $wp_query->get_queried_object();
-    if($_REQUEST['etype']=='') {
+if($_REQUEST['etype']=='')
+{
         $_REQUEST['etype']=get_option('ptthemes_category_current_tab')?get_option('ptthemes_category_current_tab'):'upcoming';
     }
     ?>
@@ -34,16 +34,18 @@ get_header();
 
             <form method="get" name="sort_by_result_frm" id="sort_by_result_frm" action="" >
 
-            <?php
-            if(@$_REQUEST[CUSTOM_CATEGORY_TYPE1]) { ?>
+              <?php	if(@$_REQUEST[CUSTOM_CATEGORY_TYPE1]){?>
                 <input type="hidden" name="<?php echo CUSTOM_CATEGORY_TYPE1;?>" value="<?php echo $_REQUEST[CUSTOM_CATEGORY_TYPE1];?>" />
-            <?php }
-            if (@$_REQUEST['etype']){ ?>
+				<?php }	?>
+                <?php if(@$_REQUEST['etype']){?>
                 <input type="hidden" name="etype" value="<?php echo $_REQUEST['etype']; ?>" />
             <?php }
-            if (isset($_REQUEST['eventtags'])) { ?>
+				if(isset($_REQUEST['eventtags'])){
+				?>
                 <input type="hidden" name="eventtags" value="<?php echo $_REQUEST['eventtags']; ?>" />
-            <?php } ?>
+				<?php }
+				
+				?>
                 <select name="sortby" id="sortby_id" class="category" onchange="sort_as_set()">
                     <option value=""> <?php _e('Select Sorting','templatic');?></option>
                     <option value="title_asc" <?php if($_REQUEST['sortby']=='title_asc'){ echo 'selected="selected"';}?>> <?php _e('Title Ascending','templatic');?></option>
@@ -61,35 +63,32 @@ get_header();
                 <li class="<?php if($_REQUEST['etype']=='past'){ echo 'active';}?>"> <a href="<?php if(strstr($category_link,'?')){ echo $cat_url = $category_link."&amp;etype=past";}else{ echo $cat_url = $category_link."?etype=past";}?>"><?php echo PAST_TEXT;?> </a></li>
             </ul>
 
+
             <script type="text/javascript">
-                function sort_as_set() {
-                    if(document.getElementById('sortby_id').value) {
+				function sort_as_set()
+				{
+					if(document.getElementById('sortby_id').value)
+					{
                         document.sort_by_result_frm.submit();
                     }
                 }
             </script>
         </div>
 
-        <?php
-        if(have_posts()) :
-            $pcount=0;
-            while(have_posts()) :
-                the_post()
-                get_the_post_content('listing_li'
-            endwhile;
-            if (function_exists('pagenavi')) {
-                pagenavi('<div class="pagination">  ','</div>');
-            }
-            else:
-                echo '<b>' . CUSTOM_POST_NOT_FOUND . '</b>';
-        endif;
-        ?>
+         <?php if(have_posts()) : $pcount=0; ?>
+      <?php while(have_posts()) : the_post()  ?>
+         <?php get_the_post_content('listing_li')?>
+        <?php endwhile; ?>
+        <?php if (function_exists('pagenavi')) { ?>
+        <?php pagenavi('<div class="pagination">  ','</div>'); ?>
+
+      <?php } ?>
+        <?php else: ?>
+     <b><?php echo CUSTOM_POST_NOT_FOUND;?></b>
+      <?php endif; ?>
+      
     </div> <!-- content #end -->
-
     <?php get_sidebar(); ?>
-
 </div> <!-- wrapper #end -->
-
 <div id="bottom"></div>    
-
-<?php get_footer();
+<?php get_footer(); ?>
