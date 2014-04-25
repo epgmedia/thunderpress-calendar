@@ -379,462 +379,454 @@ class news2columns extends WP_Widget {
 		$this->WP_Widget('news2columns', 'T &rarr; Latest Events List View', $widget_ops);
 	}
 	function widget($args, $instance) {
-	// prints the widget
-		extract($args, EXTR_SKIP);
-		echo $before_widget;
-		$title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
- 		$category = empty($instance['category']) ? '' : apply_filters('widget_category', $instance['category']);
-		$post_number = empty($instance['post_number']) ? '5' : apply_filters('widget_post_number', $instance['post_number']);
-		$post_link = empty($instance['post_link']) ? '' : apply_filters('widget_post_link', $instance['post_link']);
-		$character_cout = empty($instance['character_cout']) ? '15' : apply_filters('widget_character_cout', $instance['character_cout']);
-		$sorting = empty($instance['event_sorting']) ? 'Latest Published' : apply_filters('widget_event_sorting', $instance['event_sorting']);
-		$current_tab = empty($instance['current_tab']) ? 'current' : apply_filters('widget_current_tab', $instance['current_tab']);
-		?>
-	<div class="tabber">
-		<ul class="tab">
-		<li class="active" id="li_upcomming_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('upcoming');"><?php echo UPCOMING_TEXT; ?></a></li>
-		<li  id="li_current_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('current');"><?php echo CURRENT_TEXT;?></a></li>
-		<li id="li_index_past_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('past');"><?php echo PAST_TEXT; ?></a></li>
-		</ul>
-	</div>
-	<script type="text/javascript">
-		jQuery.noConflict();
-		jQuery( document ).ready( function() {
-				show_hide_tabs('<?php echo $current_tab;?>');
-		});
-		
-		function show_hide_tabs(type)
-		{
-			if( type == 'upcoming')
-			{
-				document.getElementById('li_upcomming_events').style.display='';
-				document.getElementById('upcomming_event_type').style.display='';
-				//document.getElementById('li_current_events').style.display='none';
-				document.getElementById('current_event_type').style.display='none';
-			//	document.getElementById('li_index_past_events').style.display='none';
-				document.getElementById('past_event_type').style.display='none';
-				document.getElementById('li_upcomming_events').className='active';
-				document.getElementById('li_current_events').className='';
-				document.getElementById('li_index_past_events').className='';
-			}
-			else if( type == 'current')
-			{
-			//	document.getElementById('li_upcomming_events').style.display='none';
-			//	document.getElementById('li_index_past_events').style.display='none';
-				document.getElementById('upcomming_event_type').style.display='none';
-				document.getElementById('li_current_events').style.display='';
-				document.getElementById('current_event_type').style.display='';
-				document.getElementById('past_event_type').style.display='none';
-				document.getElementById('li_current_events').className='active';
-				document.getElementById('li_upcomming_events').className='';
-				document.getElementById('li_index_past_events').className='';
-			}
-			else if( type == 'past')
-			{
-			//	document.getElementById('li_upcomming_events').style.display='none';
-			//	document.getElementById('li_current_events').style.display='none';
-				document.getElementById('current_event_type').style.display='none';
-				document.getElementById('upcomming_event_type').style.display='none';
-				document.getElementById('li_index_past_events').style.display='';
-				document.getElementById('past_event_type').style.display='';
-				document.getElementById('li_upcomming_events').className='';
-				document.getElementById('li_current_events').className='';
-				document.getElementById('li_index_past_events').className='active';
-			}
-		}
-		function show_hide_tabs_event_type(day,id)
-		{
-			<!--upcomming Event tab -->
-			if(day=='widget_index_upcomming_events_id')
-			{
-				
-				if(id=='widget_index_upcomming_regular_events_id')
-				{					
-					document.getElementById('widget_index_upcomming_recurring_events_id').style.display='none';
-					document.getElementById('widget_index_upcomming_regular_events_id').style.display='';
-					jQuery("#upcomming_regular").addClass("active");
-					jQuery("#upcomming_recurring").removeClass("active");
-				}else
-				{
-					document.getElementById('widget_index_upcomming_regular_events_id').style.display='none';
-					document.getElementById('widget_index_upcomming_recurring_events_id').style.display='';
-					jQuery("#upcomming_recurring").addClass("active");
-					jQuery("#upcomming_regular").removeClass("active");
-				}
-			}
-			<!--Current Event tab -->
-			if(day=='widget_index_current_events_id')
-			{
-				
-				if(id=='widget_index_current_regular_events_id')
-				{					
-					document.getElementById('widget_index_current_recurring_events_id').style.display='none';
-					document.getElementById('widget_index_current_regular_events_id').style.display='';
-					jQuery("#current_regular").addClass("active");
-					jQuery("#current_recurring").removeClass("active");
-					
-				}else
-				{
-					jQuery("#current_recurring").addClass("active");
-					jQuery("#current_regular").removeClass("active");
-					document.getElementById('widget_index_current_regular_events_id').style.display='none';
-					document.getElementById('widget_index_current_recurring_events_id').style.display='';
-					
-				}
-			}
-			<!--Past Event tab -->
-			if(day=='widget_index_past_events_id')
-			{
-				
-				if(id=='widget_index_past_regular_events_id')
-				{					
-					document.getElementById('widget_index_past_recurring_events_id').style.display='none';
-					document.getElementById('widget_index_past_regular_events_id').style.display='';
-					jQuery("#past_regular").addClass("active");
-					jQuery("#past_recurring").removeClass("active");
-				}else
-				{
-					document.getElementById('widget_index_past_regular_events_id').style.display='none';
-					document.getElementById('widget_index_past_recurring_events_id').style.display='';
-					jQuery("#past_recurring").addClass("active");
-					jQuery("#past_regular").removeClass("active");
-				}
-			}
-			
-		}
-		
-	</script>
-	<?php //$type = get_option('event_sorting');
-	if ( $sorting != '' )
-	{
-		global $wpdb;
-		if ( $sorting == 'Random' )
-		{
-			$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC, rand()";
-		}
-		elseif ( $sorting == 'Alphabetical' )
-		{
-			$orderby = "p.post_title ASC";
-		}elseif($sorting =='s_date'){
-			 $today = date('Y-m-d');
-			 $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC";
-		}
-		else
-		{
-			$today = date('Y-m-d');
-			$orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and $wpdb->postmeta.meta_key = 'featured_h') ASC, p.post_date DESC";
-		}
-	}
-	?>
-    
-	<ul class="category_list_view" id="upcomming_event_type">
-	<?php
-		global $post,$wpdb;
-		$category1 = $category;
-		$today = date('Y-m-d G:i:s');
-		if($category)
-		{
-			$category = "'".str_replace(",","','",$category)."'";
-			$where .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
-		}
-		$today = date('Y-m-d G:i:s');
-		@$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
-		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where order by $orderby limit $post_number";
-		$latest_menus = $wpdb->get_results($sql);
-		echo '<li class="" id="widget_index_upcomming_regular_events_id">  <ul>';
-		if($latest_menus)
-		{			
-		foreach($latest_menus as $post) :
-		setup_postdata($post);
-		$is_parent = $post->post_parent;
-		if($is_parent)
-			$post_id = $is_parent;
-		else
-			$post_id = $post->ID;
-		$post_img = bdw_get_images_with_info($post_id,'thumb');
-		
-		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
-		$thumb = '';
-		
-		if($image[0] != '')
-			$thumb = $image[0];
-		elseif($post_img[0]['file'] != '')
-			$thumb = $post_img[0]['file']; ?>		
-          <li class="clearfix">
-		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-		<?php if ( $thumb != '' ) { ?>
-		<a class="post_img" href="<?php the_permalink(); ?>">
-        <?php if($image[0]):
-        		echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
-			  else: ?>
-		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
-        <?php endif; ?>
-        </a>
-		<?php
-		} else { ?>
-		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
-		<?php } ?>
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		<?php
-		if(get_post_meta($post->ID,'address',true))
-		{
-			$from_add = get_post_meta($post->ID,'address',true);
-		}
-		if($from_add)
-		{ ?>
-		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br /><span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?><br />
-		<span><?php echo TIME_TEXT;?>: </span>
-		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-		}
-		else if(get_post_meta($post->ID,'st_time',true) )
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-		}
-		else
-		{
-			echo ' - ';	
-		} ?><br /></p>
-		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-		<?php }?>
-		<p class="bottom">
-		<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-		<?php  $taxonomy_category = get_the_taxonomies();
-			$taxonomy_category = @$taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-			$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-			$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-			$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-		<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-		<?php  $taxonomy_tags = get_the_taxonomies();
-			@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-			$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':','in ',$taxonomy_tags);
-			$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-			$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-		<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-		</li>
-		<?php endforeach; ?>
-		<?php }
-		else
-		{
-			echo "<li><p>".UPCOMING_NOT_FOUND_TEXT."</p></li>";
-		} 		
-		?>
-          </ul>
-          </li>
-          <!-- Upcomming Recurring evenet list-->
-          
-		</ul>
-          
-          <!--Current Event theme -->
-          
-		<ul class="category_list_view" id="current_event_type" style="display:none;">
-	<?php
-		global $post,$wpdb;
-		$today = date('Y-m-d');
-		if($category1)
-				{
-					$category1 = "'".str_replace(",","','",$category1)."'";
-					$where1 .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category1))";
-				}
-		
-		$today = date('Y-m-d');
-		$where1 .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') <='".$today."')) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >= '".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
-		$sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where1 order by $orderby limit $post_number";
-		
-		$latest_menus = $wpdb->get_results($sql);
-		echo "<li id='widget_index_current_regular_events_id'>";
-		echo "<ul>";
-		if($latest_menus)
-		{
-		foreach($latest_menus as $post) :
-		setup_postdata($post);
-
-		$is_parent = $post->post_parent;
-		if($is_parent)
-			$post_id = $is_parent;
-		else
-			$post_id = $post->ID;
-		$post_img = bdw_get_images_with_info($post_id,'thumb');
-		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
-		$thumb = '';
-		if($image[0] != '')
-			$thumb = $image[0];
-		elseif($post_img[0]['file'] != '')
-			$thumb = $post_img[0]['file']; ?>
-		<li class="clearfix">
-		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-		<?php if ( $thumb != '' ) { ?>
-		<a class="post_img" href="<?php the_permalink(); ?>">
-        <?php if($image[0]):
-		        echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
-	    else: ?>			
-			<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
-        <?php endif; ?>
-        </a> 
-		<?php
-		} else { ?>
-		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
-		<?php } ?>
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		<?php
-		if(get_post_meta($post->ID,'address',true))
-		{
-			$from_add = get_post_meta($post->ID,'address',true);
-		}
-		if($from_add)
-		{ ?>
-		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
-		<span><?php echo TIME_TEXT;?>: </span>
-		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-		}
-		else if(get_post_meta($post->ID,'st_time',true) )
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-		}
-		else
-		{
-			echo ' - ';	
-		} ?></p>
-		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-		<?php }?>
-		<p class="bottom">
-		<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-		<?php  $taxonomy_category = get_the_taxonomies();
-			$taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-			$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-			$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-			$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-		<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-		<?php  $taxonomy_tags = get_the_taxonomies();
-			@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-			$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
-			$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-			$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-		<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-		</li>
-		<?php endforeach; ?>
-		<?php }
-		else
-		{
-			echo "<li><p>".CURRENT_NOT_FOUND_TEXT."</p></li>";
-		} ?>
-          </ul>
-          </li>
-          	<!--Current Recurring Event List -->
-               
-          
-		</ul>
-          
-          
-          <!--Past Event Type -->
-                   
-		<ul class="category_list_view" id="past_event_type" style="display:none;">
-            <?php
-			 global $post,$wpdb;
-			 $today = date('Y-m-d');
-			 if($category)
-					{
-						$category = str_replace("","','",$category);
-						$sqlsql = "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
-					}
-					$today = date('Y-m-d');
-					$sqlsql .= " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."')  AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') ) ";
-				    $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $sqlsql order by $orderby limit $post_number";
-					$latest_menus = $wpdb->get_results($sql);
-			echo '<li id="widget_index_past_regular_events_id">';
-				echo "<ul>";
-			if($latest_menus)
-			{
-			?>
-			<?php
-			foreach($latest_menus as $post) :
-			setup_postdata($post); 
-			$is_parent = $post->post_parent;
-			if($is_parent)
-				$post_id = $is_parent;
-			else
-				$post_id = $post->ID;
-			$post_img = bdw_get_images_with_info($post_id,'thumb');
-			$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
-			$thumb = '';
-			if($image[0] != '')
-				$thumb = $image[0];
-			elseif($post_img[0]['file'] != '')
-				$thumb = $post_img[0]['file']; ?>
-		<li class="clearfix">
-		<?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?><div class="featured_tag"></div><?php }?>
-		<?php if ( $thumb != '' ) { ?>
-		<a class="post_img" href="<?php the_permalink(); ?>">
-		<img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
-		<?php
-		} else { ?>
-		<a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
-		<?php } ?>
-		<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-		<?php
-		if(get_post_meta($post->ID,'address',true))
-		{
-			$from_add = get_post_meta($post->ID,'address',true);
-		}
-		if($from_add)
-		{ ?>
-		<p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
-		<span><?php echo TIME_TEXT;?>: </span>
-		<?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true))
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
-		}
-		else if(get_post_meta($post->ID,'st_time',true) )
-		{
-			echo get_formated_time(get_post_meta($post->ID,'st_time',true));
-		}
-		else
-		{
-			echo ' - ';	
-		} ?></p>
-		<p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
-		<?php }?>
-		<p class="bottom">
-		<span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
-		<?php  $taxonomy_category = get_the_taxonomies();
-			$taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
-			$taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
-			$taxonomy_category = str_replace(', and',',',$taxonomy_category);
-			$taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
-			//$taxonomy_category = str_replace('.','',$taxonomy_category); ?>
-		<span class="post-category"><?php echo $taxonomy_category; ?> </span>
-		<?php  $taxonomy_tags = get_the_taxonomies();
-			@$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
-			$taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
-			$taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
-			$taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
-			//$taxonomy_tags = str_replace('.','',$taxonomy_tags); ?>
-		<span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
-		<a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a></p>
-		</li> 
-			<?php endforeach; ?>
-			
-            <?php }else{
-                echo '<li><p>'.PAST_NOT_FOUND_TEXT.'</p></li>';
-            }
+        // prints the widget
+            extract($args, EXTR_SKIP);
+            echo $before_widget;
+            $title = empty($instance['title']) ? '' : apply_filters('widget_title', $instance['title']);
+            $category = empty($instance['category']) ? '' : apply_filters('widget_category', $instance['category']);
+            $post_number = empty($instance['post_number']) ? '5' : apply_filters('widget_post_number', $instance['post_number']);
+            $post_link = empty($instance['post_link']) ? '' : apply_filters('widget_post_link', $instance['post_link']);
+            $character_cout = empty($instance['character_cout']) ? '15' : apply_filters('widget_character_cout', $instance['character_cout']);
+            $sorting = empty($instance['event_sorting']) ? 'Latest Published' : apply_filters('widget_event_sorting', $instance['event_sorting']);
+            $current_tab = empty($instance['current_tab']) ? 'current' : apply_filters('widget_current_tab', $instance['current_tab']);
             ?>
-           </ul>
-           </li>
-           <!--Past Recurring Event -->
-           
-       </ul>     
-			<?php
-		    echo $after_widget;
-	}
+        <div class="tabber">
+            <ul class="tab">
+            <li class="active" id="li_upcomming_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('upcoming');"><?php echo UPCOMING_TEXT; ?></a></li>
+            <li  id="li_current_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('current');"><?php echo CURRENT_TEXT;?></a></li>
+            <li id="li_index_past_events"> <a href="javascript:void(0);" onclick="show_hide_tabs('past');"><?php echo PAST_TEXT; ?></a></li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+            jQuery.noConflict();
+            jQuery( document ).ready( function() {
+                    show_hide_tabs('<?php echo $current_tab;?>');
+            });
+
+            function show_hide_tabs(type)
+            {
+                if( type == 'upcoming')
+                {
+                    document.getElementById('li_upcomming_events').style.display='';
+                    document.getElementById('upcomming_event_type').style.display='';
+                    //document.getElementById('li_current_events').style.display='none';
+                    document.getElementById('current_event_type').style.display='none';
+                //	document.getElementById('li_index_past_events').style.display='none';
+                    document.getElementById('past_event_type').style.display='none';
+                    document.getElementById('li_upcomming_events').className='active';
+                    document.getElementById('li_current_events').className='';
+                    document.getElementById('li_index_past_events').className='';
+                }
+                else if( type == 'current')
+                {
+                //	document.getElementById('li_upcomming_events').style.display='none';
+                //	document.getElementById('li_index_past_events').style.display='none';
+                    document.getElementById('upcomming_event_type').style.display='none';
+                    document.getElementById('li_current_events').style.display='';
+                    document.getElementById('current_event_type').style.display='';
+                    document.getElementById('past_event_type').style.display='none';
+                    document.getElementById('li_current_events').className='active';
+                    document.getElementById('li_upcomming_events').className='';
+                    document.getElementById('li_index_past_events').className='';
+                }
+                else if( type == 'past')
+                {
+                //	document.getElementById('li_upcomming_events').style.display='none';
+                //	document.getElementById('li_current_events').style.display='none';
+                    document.getElementById('current_event_type').style.display='none';
+                    document.getElementById('upcomming_event_type').style.display='none';
+                    document.getElementById('li_index_past_events').style.display='';
+                    document.getElementById('past_event_type').style.display='';
+                    document.getElementById('li_upcomming_events').className='';
+                    document.getElementById('li_current_events').className='';
+                    document.getElementById('li_index_past_events').className='active';
+                }
+            }
+            function show_hide_tabs_event_type(day,id)
+            {
+                <!--upcomming Event tab -->
+                if(day=='widget_index_upcomming_events_id')
+                {
+
+                    if(id=='widget_index_upcomming_regular_events_id')
+                    {
+                        document.getElementById('widget_index_upcomming_recurring_events_id').style.display='none';
+                        document.getElementById('widget_index_upcomming_regular_events_id').style.display='';
+                        jQuery("#upcomming_regular").addClass("active");
+                        jQuery("#upcomming_recurring").removeClass("active");
+                    }else
+                    {
+                        document.getElementById('widget_index_upcomming_regular_events_id').style.display='none';
+                        document.getElementById('widget_index_upcomming_recurring_events_id').style.display='';
+                        jQuery("#upcomming_recurring").addClass("active");
+                        jQuery("#upcomming_regular").removeClass("active");
+                    }
+                }
+                <!--Current Event tab -->
+                if(day=='widget_index_current_events_id')
+                {
+
+                    if(id=='widget_index_current_regular_events_id')
+                    {
+                        document.getElementById('widget_index_current_recurring_events_id').style.display='none';
+                        document.getElementById('widget_index_current_regular_events_id').style.display='';
+                        jQuery("#current_regular").addClass("active");
+                        jQuery("#current_recurring").removeClass("active");
+
+                    }else
+                    {
+                        jQuery("#current_recurring").addClass("active");
+                        jQuery("#current_regular").removeClass("active");
+                        document.getElementById('widget_index_current_regular_events_id').style.display='none';
+                        document.getElementById('widget_index_current_recurring_events_id').style.display='';
+
+                    }
+                }
+                <!--Past Event tab -->
+                if(day=='widget_index_past_events_id')
+                {
+
+                    if(id=='widget_index_past_regular_events_id')
+                    {
+                        document.getElementById('widget_index_past_recurring_events_id').style.display='none';
+                        document.getElementById('widget_index_past_regular_events_id').style.display='';
+                        jQuery("#past_regular").addClass("active");
+                        jQuery("#past_recurring").removeClass("active");
+                    }else
+                    {
+                        document.getElementById('widget_index_past_regular_events_id').style.display='none';
+                        document.getElementById('widget_index_past_recurring_events_id').style.display='';
+                        jQuery("#past_recurring").addClass("active");
+                        jQuery("#past_regular").removeClass("active");
+                    }
+                }
+
+            }
+
+        </script>
+        <?php
+        //$type = get_option('event_sorting');
+        if ( $sorting != '' ) {
+            global $wpdb;
+            if ( $sorting == 'Random' ) {
+                $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC, rand()";
+            } elseif ( $sorting == 'Alphabetical' ) {
+                $orderby = "p.post_title ASC";
+            } elseif($sorting =='s_date') {
+                 $today = date('Y-m-d');
+                 $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id = p.ID and $wpdb->postmeta.meta_key like \"st_date\") ASC";
+            } else {
+                $today = date('Y-m-d');
+                $orderby = "(select $wpdb->postmeta.meta_value from $wpdb->postmeta where $wpdb->postmeta.post_id=p.ID and $wpdb->postmeta.meta_key = 'featured_h') ASC, p.post_date DESC";
+            }
+        }
+        ?>
+        <ul class="category_list_view" id="upcomming_event_type">
+        <?php
+            global $post,$wpdb;
+            $category1 = $category;
+            $today = date('Y-m-d G:i:s');
+            if($category) {
+                $category = "'".str_replace(",","','",$category)."'";
+                $where .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
+            }
+            $today = date('Y-m-d G:i:s');
+            @$where .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >'".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
+            $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where order by $orderby limit $post_number";
+            $latest_menus = $wpdb->get_results($sql);
+            ?>
+            <li class="" id="widget_index_upcomming_regular_events_id">
+                <ul>
+            <?php
+            if($latest_menus) {
+                foreach($latest_menus as $post) :
+                    setup_postdata($post);
+                    $is_parent = $post->post_parent;
+                    if($is_parent)
+                        $post_id = $is_parent;
+                    else
+                        $post_id = $post->ID;
+                    $post_img = bdw_get_images_with_info($post_id,'thumb');
+                    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+                    $thumb = '';
+                    if($image[0] != '')
+                        $thumb = $image[0];
+                    elseif($post_img[0]['file'] != '')
+                        $thumb = $post_img[0]['file']; ?>
+                    <li class="clearfix">
+                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
+                        <div class="featured_tag"></div>
+                    <?php }
+                    if ( $thumb != '' ) { ?>
+                        <a class="post_img" href="<?php the_permalink(); ?>">
+                        <?php if($image[0]):
+                            echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
+                        else: ?>
+                            <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
+                        <?php endif; ?>
+                        </a>
+                    <?php } else { ?>
+                        <a href="<?php echo get_permalink($post->ID); ?>" class="post_img">
+                            <img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" />
+                        </a>
+                    <?php } ?>
+                        <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                    <?php if(get_post_meta($post->ID,'address',true)) {
+                        $from_add = get_post_meta($post->ID,'address',true);
+                    }
+                    if ($from_add) { ?>
+                        <p class="timing">
+                            <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?>
+                            <br /><span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?>
+                            <br /><span><?php echo TIME_TEXT;?>: </span>
+                            <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+                                echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
+                            } else if(get_post_meta($post->ID,'st_time',true) ) {
+                                echo get_formated_time(get_post_meta($post->ID,'st_time',true));
+                            } else {
+                                echo ' - ';
+                            } ?>
+                            <br />
+                        </p>
+                        <p class="address">
+                            <span><?php echo LOCATION_TEXT;?> :</span>
+                            <br /><?php echo get_post_meta($post->ID,'address',true);?>
+                        </p>
+                    <?php } ?>
+                        <p class="bottom">
+                            <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
+                        <?php
+                        $taxonomy_category = get_the_taxonomies();
+                        $taxonomy_category = @$taxonomy_category[CUSTOM_CATEGORY_TYPE1];
+                        $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
+                        $taxonomy_category = str_replace(', and',',',$taxonomy_category);
+                        $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
+                        //$taxonomy_category = str_replace('.','',$taxonomy_category);
+                        ?>
+                            <span class="post-category"><?php echo $taxonomy_category; ?> </span>
+                        <?php
+                        $taxonomy_tags = get_the_taxonomies();
+                        @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
+                        $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':','in ',$taxonomy_tags);
+                        $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
+                        $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
+                        //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
+                        ?>
+                            <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
+                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
+                        </p>
+                    </li>
+                <?php endforeach; ?>
+            <?php } else { ?>
+                    <li>
+                        <p><?php echo UPCOMING_NOT_FOUND_TEXT ?></p>
+                    </li>
+            <?php } ?>
+                </ul>
+            </li>
+        <!-- Upcomming Recurring evenet list-->
+        </ul>
+
+              <!--Current Event theme -->
+
+        <ul class="category_list_view" id="current_event_type" style="display:none;">
+        <?php
+            global $post,$wpdb;
+            $today = date('Y-m-d');
+            if($category1) {
+                $category1 = "'".str_replace(",","','",$category1)."'";
+                $where1 .= "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category1))";
+            }
+            $today = date('Y-m-d');
+            $where1 .= " AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='st_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') <='".$today."')) AND (p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d') >= '".$today."')) AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') )";
+            $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $where1 order by $orderby limit $post_number";
+            $latest_menus = $wpdb->get_results($sql);
+            ?>
+            <li id='widget_index_current_regular_events_id'>
+                <ul>
+            <?php
+            if($latest_menus) {
+                foreach($latest_menus as $post) :
+                    setup_postdata($post);
+                    $is_parent = $post->post_parent;
+                    if($is_parent)
+                        $post_id = $is_parent;
+                    else
+                        $post_id = $post->ID;
+                    $post_img = bdw_get_images_with_info($post_id,'thumb');
+                    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+                    $thumb = '';
+                    if($image[0] != '')
+                        $thumb = $image[0];
+                    elseif($post_img[0]['file'] != '')
+                        $thumb = $post_img[0]['file']; ?>
+                    <li class="clearfix">
+                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
+                        <div class="featured_tag"></div>
+                    <?php }?>
+                    <?php if ( $thumb != '' ) { ?>
+                        <a class="post_img" href="<?php the_permalink(); ?>">
+                        <?php if($image[0]):
+                            echo get_the_post_thumbnail( $post_id, 'home_listing_img' );
+                        else: ?>
+                            <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  />
+                        <?php endif; ?>
+                        </a>
+                    <?php } else { ?>
+                        <a href="<?php echo get_permalink($post->ID); ?>" class="post_img">
+                            <img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>" alt="<?php echo $post_img[0]['alt']; ?>" />
+                        </a>
+                    <?php } ?>
+                        <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                    <?php if(get_post_meta($post->ID,'address',true)) {
+                        $from_add = get_post_meta($post->ID,'address',true);
+                    }
+                    if($from_add) { ?>
+                        <p class="timing">
+                            <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?>
+                            <br /> <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?>
+                            <br /> <span><?php echo TIME_TEXT;?>: </span>
+                        <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+                            echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
+                        } else if(get_post_meta($post->ID,'st_time',true) ) {
+                            echo get_formated_time(get_post_meta($post->ID,'st_time',true));
+                        } else {
+                            echo ' - ';
+                        } ?>
+                        </p>
+                        <p class="address">
+                            <span><?php echo LOCATION_TEXT;?> :</span>
+                            <br /><?php echo get_post_meta($post->ID,'address',true);?>
+                        </p>
+                    <?php }?>
+                        <p class="bottom">
+                            <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
+                            <?php
+                            $taxonomy_category = get_the_taxonomies();
+                            $taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
+                            $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
+                            $taxonomy_category = str_replace(', and',',',$taxonomy_category);
+                            $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
+                            //$taxonomy_category = str_replace('.','',$taxonomy_category);
+                            ?>
+                            <span class="post-category"><?php echo $taxonomy_category; ?> </span>
+                            <?php
+                            $taxonomy_tags = get_the_taxonomies();
+                            @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
+                            $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
+                            $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
+                            $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
+                            //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
+                            ?>
+                            <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
+                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
+                        </p>
+                    </li>
+                <?php endforeach; ?>
+            <?php } else { ?>
+                    <li>
+                        <p><?php echo CURRENT_NOT_FOUND_TEXT ?></p>
+                    </li>
+            <?php } ?>
+                </ul>
+            </li>
+        <!--Current Recurring Event List -->
+        </ul>
+
+        <!--Past Event Type -->
+
+        <ul class="category_list_view" id="past_event_type" style="display:none;">
+            <?php
+            global $post,$wpdb;
+            $today = date('Y-m-d');
+            if($category) {
+               $category = str_replace("","','",$category);
+               $sqlsql = "and p.ID in (select tr.object_id from $wpdb->term_relationships tr join $wpdb->term_taxonomy t on t.term_taxonomy_id=tr.term_taxonomy_id where t.term_id in ($category))";
+            }
+            $today = date('Y-m-d');
+            $sqlsql = $sqlsql . " AND p.ID in (select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='end_date' and date_format($wpdb->postmeta.meta_value,'%Y-%m-%d')<'".$today."')  AND (p.ID in ( select $wpdb->postmeta.post_id from $wpdb->postmeta where $wpdb->postmeta.meta_key='event_type' and $wpdb->postmeta.meta_value ='Regular event') ) ";
+            $sql = "select p.* from $wpdb->posts p where p.post_type='".CUSTOM_POST_TYPE1."' and (p.post_status='publish' or p.post_status='recurring') $sqlsql order by $orderby limit $post_number";
+            $latest_menus = $wpdb->get_results($sql);
+            ?>
+            <li id="widget_index_past_regular_events_id">
+                <ul>
+            <?php
+            if($latest_menus) {
+                foreach($latest_menus as $post) :
+                    setup_postdata($post);
+                    $is_parent = $post->post_parent;
+                    if($is_parent)
+                        $post_id = $is_parent;
+                    else
+                        $post_id = $post->ID;
+                    $post_img = bdw_get_images_with_info($post_id,'thumb');
+                    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ) , 'single-post-thumbnail'  );
+                    $thumb = '';
+                    if($image[0] != '')
+                        $thumb = $image[0];
+                    elseif($post_img[0]['file'] != '')
+                        $thumb = $post_img[0]['file']; ?>
+                    <li class="clearfix">
+                    <?php if(get_post_meta($post->ID,'featured_h',true) == 'h' ) { ?>
+                        <div class="featured_tag"></div>
+                    <?php }?>
+                    <?php if ( $thumb != '' ) { ?>
+                        <a class="post_img" href="<?php the_permalink(); ?>">
+                        <img src="<?php echo $thumb; ?>" width="125" alt="<?php the_title(); ?>" title="<?php the_title(); ?>"  /></a>
+                    <?php } else { ?>
+                        <a href="<?php echo get_permalink($post->ID); ?>" class="post_img"><img src="<?php echo get_template_directory_uri()."/images/no-image.png"; ?>"  width="125" height="75" alt="<?php echo $post_img[0]['alt']; ?>" /></a>
+                    <?php } ?>
+                        <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                    <?php if(get_post_meta($post->ID,'address',true)) {
+                        $from_add = get_post_meta($post->ID,'address',true); }
+                    if($from_add) { ?>
+                        <p class="timing"> <span><?php echo START_DATE_TEXT;?>: </span> <?php echo get_formated_date(get_post_meta($post->ID,'st_date',true));?><br />  <span><?php echo END_DATE_TEXT;?>: </span><?php echo get_formated_date(get_post_meta($post->ID,'end_date',true));?> <br />
+                        <span><?php echo TIME_TEXT;?>: </span>
+                        <?php if(get_post_meta($post->ID,'st_time',true) && get_post_meta($post->ID,'end_time',true)) {
+                            echo get_formated_time(get_post_meta($post->ID,'st_time',true))?> <?php _e('to','templatic');?> <?php echo get_formated_time(get_post_meta($post->ID,'end_time',true));
+                        } else if(get_post_meta($post->ID,'st_time',true) ) {
+                            echo get_formated_time(get_post_meta($post->ID,'st_time',true));
+                        } else {
+                            echo ' - ';
+                        } ?>
+                        </p>
+                        <p class="address"><span><?php echo LOCATION_TEXT;?> :</span> <br /><?php echo get_post_meta($post->ID,'address',true);?></p>
+                    <?php } ?>
+                        <p class="bottom">
+                            <span class="flm"><?php echo LISTED_IN_TEXT." "; ?> </span>
+                        <?php
+                        $taxonomy_category = get_the_taxonomies();
+                        $taxonomy_category = $taxonomy_category[CUSTOM_CATEGORY_TYPE1];
+                        $taxonomy_category = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_category);
+                        $taxonomy_category = str_replace(', and',',',$taxonomy_category);
+                        $taxonomy_category = str_replace(' and ',', ',$taxonomy_category);
+                        //$taxonomy_category = str_replace('.','',$taxonomy_category);
+                        ?>
+                            <span class="post-category"><?php echo $taxonomy_category; ?> </span>
+                        <?php
+                        $taxonomy_tags = get_the_taxonomies();
+                        @$taxonomy_tags = $taxonomy_tags[CUSTOM_TAG_TYPE1];
+                        $taxonomy_tags = str_replace(CUSTOM_MENU_CAT_TITLE.':',' ',$taxonomy_tags);
+                        $taxonomy_tags = str_replace(', and',',',$taxonomy_tags);
+                        $taxonomy_tags = str_replace(' and ',', ',$taxonomy_tags);
+                        //$taxonomy_tags = str_replace('.','',$taxonomy_tags);
+                        ?>
+                            <span class="post-category">&nbsp; <?php echo $taxonomy_tags; ?></span>
+                            <a href="<?php the_permalink(); ?>" class="read_more" ><?php _e('Read More','templatic');?></a>
+                        </p>
+                    </li>
+                <?php endforeach; ?>
+            <?php } else { ?>
+                    <li>
+                        <p><?php echo PAST_NOT_FOUND_TEXT ?></p>
+                    </li>
+            <?php } ?>
+                </ul>
+            </li>
+    <!--Past Recurring Event -->
+        </ul>
+        <?php echo $after_widget;
+    }
 
 	function update($new_instance, $old_instance) {
 	//save the widget
@@ -859,46 +851,46 @@ class news2columns extends WP_Widget {
 		$post_link = strip_tags($instance['post_link']);
 		$character_cout = strip_tags($instance['character_cout']);
 		$sorting = strip_tags($instance['event_sorting']);
-		$current_tab = strip_tags($instance['current_tab']);
+        $current_tab = strip_tags($instance['current_tab']);
 
-?>
-<p>
-  <label for="<?php echo $this->get_field_id('title'); ?>"><?php echo TITLE_TEXT; ?>:
-    <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('category'); ?>"><?php echo CATEGORY_IDS_TEXT; ?>:
-  <input class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>" type="text" value="<?php echo esc_attr($category); ?>" />
-  </label>
-  <p><?php echo fetch_categories_ids('eventcategory'); ?></p>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('post_number'); ?>"><?php echo NUMBER_POSTS_TEXT; ?>:
-  <input class="widefat" id="<?php echo $this->get_field_id('post_number'); ?>" name="<?php echo $this->get_field_name('post_number'); ?>" type="text" value="<?php echo esc_attr($post_number); ?>" />
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('event_sorting'); ?>"><?php echo SORT_EVENT; ?>:
-  <select name="<?php echo $this->get_field_name('event_sorting'); ?>" id="<?php echo $this->get_field_id('event_sorting'); ?>">
-	<option selected="selected" value="Latest Published"><?php _e('Latest Published','templatic'); ?></option>
-	<option <?php if ($sorting == 'Random') { echo 'selected=selected'; } ?> value="Random"><?php _e('Random','templatic'); ?></option>
-	<option <?php if ($sorting == 'Alphabetical') { echo 'selected=selected'; } ?> value="Alphabetical"><?php _e('Alphabetical','templatic'); ?></option>
-	<option <?php if ($sorting == 's_date') { echo 'selected=selected'; } ?> value="s_date"><?php _e('As Per Start Date','templatic'); ?></option>
-  </select>
-  </label>
-</p>
-<p>
-  <label for="<?php echo $this->get_field_id('current_tab'); ?>"><?php echo SORT_EVENT; ?>:
-  <select name="<?php echo $this->get_field_name('current_tab'); ?>" id="<?php echo $this->get_field_id('current_tab'); ?>">
-	<option <?php if ($current_tab == 'upcoming') { echo 'selected=selected'; } ?> value="upcoming"><?php _e('Upcoming','templatic'); ?></option>
-	<option <?php if ($current_tab == 'current') { echo 'selected=selected'; } ?> value="current"><?php _e('Current','templatic'); ?></option>
-	<option <?php if ($current_tab == 'past') { echo 'selected=selected'; } ?> value="past"><?php _e('Past','templatic'); ?></option>
-  </select>
-  </label>
-</p>
-<?php
-	}
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php echo TITLE_TEXT; ?>:
+                <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
+            </label>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('category'); ?>"><?php echo CATEGORY_IDS_TEXT; ?>:
+                <input class="widefat" id="<?php echo $this->get_field_id('category'); ?>" name="<?php echo $this->get_field_name('category'); ?>" type="text" value="<?php echo esc_attr($category); ?>" />
+            </label>
+            <p><?php echo fetch_categories_ids('eventcategory'); ?></p>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('post_number'); ?>"><?php echo NUMBER_POSTS_TEXT; ?>:
+                <input class="widefat" id="<?php echo $this->get_field_id('post_number'); ?>" name="<?php echo $this->get_field_name('post_number'); ?>" type="text" value="<?php echo esc_attr($post_number); ?>" />
+            </label>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('event_sorting'); ?>"><?php echo SORT_EVENT; ?>:
+                <select name="<?php echo $this->get_field_name('event_sorting'); ?>" id="<?php echo $this->get_field_id('event_sorting'); ?>">
+                    <option selected="selected" value="Latest Published"><?php _e('Latest Published','templatic'); ?></option>
+                    <option <?php if ($sorting == 'Random') { echo 'selected=selected'; } ?> value="Random"><?php _e('Random','templatic'); ?></option>
+                    <option <?php if ($sorting == 'Alphabetical') { echo 'selected=selected'; } ?> value="Alphabetical"><?php _e('Alphabetical','templatic'); ?></option>
+                    <option <?php if ($sorting == 's_date') { echo 'selected=selected'; } ?> value="s_date"><?php _e('As Per Start Date','templatic'); ?></option>
+                </select>
+            </label>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('current_tab'); ?>"><?php echo SORT_EVENT; ?>:
+                <select name="<?php echo $this->get_field_name('current_tab'); ?>" id="<?php echo $this->get_field_id('current_tab'); ?>">
+                    <option <?php if ($current_tab == 'upcoming') { echo 'selected=selected'; } ?> value="upcoming"><?php _e('Upcoming','templatic'); ?></option>
+                    <option <?php if ($current_tab == 'current') { echo 'selected=selected'; } ?> value="current"><?php _e('Current','templatic'); ?></option>
+                    <option <?php if ($current_tab == 'past') { echo 'selected=selected'; } ?> value="past"><?php _e('Past','templatic'); ?></option>
+                </select>
+            </label>
+        </p>
+        <?php
+    }
 }
 register_widget('news2columns');
 // LATEST EVENTS WIDGET ENDS
