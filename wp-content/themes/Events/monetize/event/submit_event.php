@@ -1512,7 +1512,7 @@ include_once(TT_MODULES_FOLDER_PATH.'event/submition_validation.php');
 </div> <!-- wrapper #end -->
 <div id="bottom"></div>
     <script type="text/javascript">
-        function check_date(str='') {
+        function check_date(str = '') {
             if( str == 'end_date' ) {
                 if( jQuery("#st_date").val() !='' ) {
                     jQuery("#st_date_error").removeClass("message_error2");
