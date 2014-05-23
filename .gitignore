@@ -8,6 +8,7 @@
 .htaccess
 .idea
 *.log
+*_log.txt
 error_log
 
 
