@@ -3,7 +3,7 @@ Contributors: znaeff, shagimuratov
 Tags: antispam, anti-spam, anti spam, spam, spammers, captcha, comments, registration, contact form, blacklists, math, signup, formidable, bot, spam bots, спам, quiz
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 2.40
+Stable tag: 2.42
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,13 @@ Use other antispam plugins not necessarily, because CleanTalk stops up to 100% o
 = The plugin WordPress MultiUser (WPMU or WordPress network) compatible? =
 The plugin is WordPress MultiUser (WPMU or WordPress network) compatible. Each blog in multisite environment has individual anit spam options for spam bots protection.
 
+= After installing the plugin, I noticed in the statistics that spam attacks became more =
+This may be influenced by several factors:
+
+* As the indexing of your site by search engines, the appearance of external links and growth positions in the search results, your website becomes aware of an increasing number of spam bots.
+* On the opaque protection systems such as CAPTCHA or question&answer, which do not have statistics on incoming spam attacks, you do not see the real picture or it is not complete.
+* Calculation methods for spam attacks and spam bots from system to system may differ, so maybe the difference. We try to provide detailed statistics.
+
 == Other notes ==
 
 = Troubleshooting Guide =
@@ -106,6 +113,8 @@ WordPress 3.0 at least. PHP 4, 5 with CURL or file_get_contents() function and e
 1. Anti spam stopped spam bot at the registration form. 
 
 == Changelog ==
+= 2.42 2014-04-29 =
+  * Fixed: JavaScript anti-spam test for comments. 
 
 = 2.40 2014-04-25 =
   * New: Fast Secure Contact form support.
@@ -279,6 +288,9 @@ WordPress 3.0 at least. PHP 4, 5 with CURL or file_get_contents() function and e
   * First version
 
 == Upgrade Notice ==
+= 2.42 2014-04-29 =
+  * Fixed: JavaScript anti-spam test for comments.
+   
 = 2.38 2014-03-27 =
   * Fixed: Registraion form submit time spam test. 
 

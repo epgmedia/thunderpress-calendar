@@ -1,6 +1,8 @@
 ########################
-# Weird Files and logs #
-########################
+## Weird Files and logs #
+#########################
+
+*
 
 .DS_Store
 ._*
@@ -10,20 +12,21 @@
 error_log
 
 
-########################
-# Sitemap              #
-########################
+#########################
+## Sitemap              #
+#########################
 
 sitemap.xml
 sitemap.xml.gz
 
 
-########################
-# Wordpress            #
-########################
+#########################
+## Wordpress            #
+#########################
 
-# Admin
+# Admin and System
 wp-admin/
+wp-includes/
 
 # Config file
 wp-config.php
@@ -39,14 +42,15 @@ wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
 
-# System files
-wp-includes/
-
-
-########################
-# Site Specific        #
-########################
+#########################
+## Site Specific        #
+#########################
 
 e/
 /*.ics
 
+!/css/
+!export/
+!sww-convert/
+!wp-content/plugins/
+!wp-content/themes/
