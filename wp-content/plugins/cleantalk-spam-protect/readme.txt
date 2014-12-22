@@ -1,9 +1,9 @@
 === Anti-spam by CleanTalk (no CAPTCHA) ===
 Contributors: znaeff, shagimuratov
-Tags: antispam, anti-spam, anti spam, spam, spammers, captcha, comments, registration, contact form, blacklist, math, signup, formidable, bot, spam bots, spammy, s2member, wordpress, support, BuddyPress, bbpress, landing pages, fast secure contact form, WooCommerce, jetpack, cf7, akismet, capcha 
+Tags: Akismet, anti spam, antispam, bbpress spam, buddypress spam, capcha, captcha antispam, cf7 spam, comments spam, contact form spam, fast secure contact form spam, form, Formidable spam, jetpack spam, landing pages, math, registration spam, s2member, signup, signup spam, spam, spammers, spammy, WooCommerce spam, wordpress spam
 Requires at least: 3.0
-Tested up to: 4.0 
-Stable tag: 4.8
+Tested up to: 4.1 
+Stable tag: 4.11
 License: GPLv2 
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Spam is one of the most irritating factors. Spam become every year more and conv
 = Anti spam plugin info = 
 CleanTalk is an anti spam protection **4 in 1 for WordPress** that protects login, comment, contact and WooCommerce forms all at once. You don't need to install separate anti spam plugins for each form. This allows your blog to work faster and save resources. After installation **you will forget about spam**, CleanTalk plugin will do all the work. You won't have to deal with spam, CleanTalk will do this for you automatically.
 
-CleanTalk is a transparent anti spam protection, we provide detailed statistics of all entering comments and logins. You can always be sure that **there are no errors**. We have developed a mobile app for you to see anti spam statistics wherever whenever.
+CleanTalk is a transparent anti spam protection, we provide detailed statistics of all entering comments and logins. You can always be sure that **there are no errors**. We have developed a mobile app for you to see anti spam statistics wherever.
 
 We have developed antispam for WordPress that would provide **maximum protection from spam bots** and you can provide for your visitors **a simple and convenient form of comments/registrations without annoying CAPTCHAs and puzzles**. Used to detect spam multistage test that allows us to block up to 100% of spam bots.
 
@@ -145,15 +145,33 @@ WordPress 3.0 at least. PHP 4, 5 with CURL or file_get_contents() function and e
 
 = Translations =
 * Spain (es_ES) - thanks to Andrew Kurtis and <a href="http://www.webhostinghub.com/index-c.html">WebHostingHub</a>
+* Danish (da_DK)
 * Russian (ru_RU)
 
 == Screenshots ==
 1. Anti spam plugin settings. 
-1. Android app main. 
-1. Anti spam stopped spam bot at the CAPTCHA less registration form. 
+1. Anti spam stopped spam bot at the CAPTCHA less registration form. The plugin provide explanation to visitor and websites about eache rejected comment/registration or contact message. 
+1. Use anti spam analytics tool for each website in service Dashboard to have information about spam/legitimate statistics. 
+1. Use anti spam log to control anti spam plugin. 
+1. Setup Android/iOS app to have push notices when new legitiamte comments/registrations or contactcs appears on the website. 
 
 == Changelog ==
-= 4.9 2014-11-19 =
+= 4.11 2014-12-22 =
+  * Improved anti spam protection for custom contact/registration/subscribe forms.
+  * Improved anti spam protection for comments. 
+  * Accelerated plugin speed for comments, regirstrations and contacts. 
+  * Added translation to French. 
+
+= 4.10 2014-12-10 =
+  * Improved anti spam protection for custom contact/registration/subscribe forms.
+  * Option 'Custom contact forms' enabled by default for new setups.
+  * Removed settings "Publish relevant comments", "Use encrypted (SSL) connection".
+  * Added translation to Danish (thank you for Mikkel at KreativJul.dk).
+
+= 4.9 2014-11-24 =
+  * Fixed anti spam test for Contact Form 7. 
+
+= 4.8 2014-11-19 =
   * Improved anti spam protection for BuddyPress registrations and custom contact forms. 
 
 = 4.7 2014-11-16 =
@@ -435,7 +453,16 @@ WordPress 3.0 at least. PHP 4, 5 with CURL or file_get_contents() function and e
   * First version
 
 == Upgrade Notice ==
-= 4.9 2014-11-19 =
+= 4.11 2014-12-22 =
+Major changes in spam protection algorithms. 
+
+= 4.10 2014-12-10 =
+Minor improvements for custom contact/registration/subscribe forms.
+
+= 4.9 2014-11-24 =
+Minor bug fix for Contact form 7.
+
+= 4.8 2014-11-19 =
 Improved anti spam protection for BuddyPress registrations and custom contact forms. 
 
 = 4.7 2014-11-16 =

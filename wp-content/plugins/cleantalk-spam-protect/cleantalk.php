@@ -3,14 +3,14 @@
   Plugin Name: Anti-spam by CleanTalk
   Plugin URI: http://cleantalk.org
   Description:  Cloud antispam for comments, registrations and contacts. The plugin doesn't use CAPTCHA, Q&A, math, counting animals or quiz to stop spam bots. 
-  Version: 4.8
+  Version: 4.11
   Author: СleanTalk <welcome@cleantalk.org>
   Author URI: http://cleantalk.org
  */
 
 define('CLEANTALK_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-$ct_agent_version = 'wordpress-48';
+$ct_agent_version = 'wordpress-411';
 $ct_plugin_name = 'Anti-spam by CleanTalk';
 $ct_checkjs_frm = 'ct_checkjs_frm';
 $ct_checkjs_register_form = 'ct_checkjs_register_form';
@@ -292,7 +292,7 @@ function ct_def_options() {
         'registrations_test' => '1', 
         'comments_test' => '1', 
         'contact_forms_test' => '1', 
-        'general_contact_forms_test' => '0', // Antispam test for unsupported and untested contact forms 
+        'general_contact_forms_test' => '1', // Antispam test for unsupported and untested contact forms 
         'remove_old_spam' => '0',
         'spam_store_days' => '15', // Days before delete comments from folder Spam 
         'ssl_on' => 0, // Secure connection to servers 
@@ -435,7 +435,7 @@ function ct_cookies_test ($test = false) {
             $result = 0;
         }
     } else {
-        setcookie($cookie_label, $secret_hash, 0, '/');
+        @setcookie($cookie_label, $secret_hash, 0, '/');
 
         if ($test) {
             $result = 0;
@@ -538,7 +538,7 @@ function ct_comment_form($post_id) {
  */
 function ct_footer_add_cookie() {
     if (ct_is_user_enable() === false) {
-        return false;
+#        return false;
     }
 
     ct_add_hidden_fields(true, 'ct_checkjs', false, true);
@@ -575,13 +575,11 @@ ctSetCookie("%s", "%s", "%s");
 <script type="text/javascript">
 var ct_input_name = \'%s\';
 var ct_input_value = document.getElementById(ct_input_name).value;
-document.getElementById(ct_input_name).value = document.getElementById(ct_input_name).value.replace(ct_input_value, %s);
+setTimeout(function(){ document.getElementById(ct_input_name).value = document.getElementById(ct_input_name).value.replace(ct_input_value, %s); }, 1000);
 </script>
 ';
 		$html = sprintf($html, $field_id, $field_name, $ct_checkjs_def, $field_id, $ct_input_challenge);
     };
-
-    //$html .= '<noscript><p><b>Please enable JavaScript to pass anti-spam protection!</b><br />Here are the instructions how to enable JavaScript in your web browser <a href="http://www.enable-javascript.com" rel="nofollow" target="_blank">http://www.enable-javascript.com</a>. <br />' . $ct_plugin_name . '.</p></noscript>';
 
     // Simplify JS code
     // and fixing issue with wpautop()
@@ -1468,7 +1466,7 @@ function ct_wpcf7_spam($spam) {
 
     $checkjs = js_test('ct_checkjs', $_COOKIE, true);
     if($checkjs != 1){
-        $checkjs = js_test($ct_checkjs_cf7, $_POST);
+        $checkjs = js_test($ct_checkjs_cf7, $_POST, true);
     }
 
     $post_info['comment_type'] = 'feedback';
@@ -1613,7 +1611,7 @@ function ct_comment_text($comment_text) {
         $ct_hash = get_comment_meta($comment->comment_ID, 'ct_hash', true);
 
         if ($ct_hash !== '' && $_COOKIE[$ct_approved_request_id_label] == $ct_hash) {
-            $comment_text .= '<br /><br /> <em class="comment-awaiting-moderation">' . __('Comment is approved. Anti-spam by CleanTalk.', 'cleantalk') . '</em>'; 
+            $comment_text .= '<br /><br /> <em class="comment-awaiting-moderation">' . __('Comment approved. Anti-spam by CleanTalk.', 'cleantalk') . '</em>'; 
         }
     }
 
@@ -1787,39 +1785,46 @@ function ct_contact_form_validate () {
     $sender_nickname = null;
     $subject = '';
     $message = '';
-    $contact_form = false;
+    $contact_form = true;
 
-    foreach ($_POST as $k => $v) {
-        if ($sender_email === null && isset($v)) {
-            if (is_string($v) && preg_match("/^\S+@\S+\.\S+$/", $v)) {
-                $sender_email = $v;
+    $skip_params = array(
+	    'ipn_track_id', // PayPal IPN #
+	    'txn_type', // PayPal transaction type
+    );
+    if (is_array($_POST)) {
+        foreach ($_POST as $k => $v) {
+            if (in_array($k, $skip_params) || preg_match("/^ct_checkjs/", $k)) {
+                $contact_form = false;
+                break;
             }
 
-            // Looing email address in arrays
-            if (is_array($v)) {
-                foreach ($v as $v2) {
-                    if ($sender_email) {
-                        continue;
-                    }
-                    
-                    if (is_string($v2) && preg_match("/^\S+@\S+\.\S+$/", $v2)) {
-                        $sender_email = $v2;
+            if ($sender_email === null && isset($v)) {
+                if (is_string($v) && preg_match("/^\S+@\S+\.\S+$/", $v)) {
+                    $sender_email = $v;
+                }
+
+                // Looing email address in arrays
+                if (is_array($v)) {
+                    foreach ($v as $v2) {
+                        if ($sender_email) {
+                            continue;
+                        }
+                        
+                        if (is_string($v2) && preg_match("/^\S+@\S+\.\S+$/", $v2)) {
+                            $sender_email = $v2;
+                        }
                     }
                 }
             }
-        }
-        if ($sender_nickname === null && ct_get_data_from_submit($k, 'name')) {
-            $sender_nickname = $v;
-        }
-        if ($message === '' && ct_get_data_from_submit($k, 'message')) {
-            $message = $v;
-        }
-        if ($subject === '' && ct_get_data_from_submit($k, 'subject')) {
-            $subject = $v;
-        }
-
-        if (!$contact_form && preg_match("/(contact|form|feedback)/", $k) && !preg_match("/^ct_checkjs/", $k)) {
-            $contact_form = true;
+            if ($sender_nickname === null && ct_get_data_from_submit($k, 'name')) {
+                $sender_nickname = $v;
+            }
+            if ($message === '' && ct_get_data_from_submit($k, 'message')) {
+                $message = $v;
+            }
+            if ($subject === '' && ct_get_data_from_submit($k, 'subject')) {
+                $subject = $v;
+            }
         }
     }
 
