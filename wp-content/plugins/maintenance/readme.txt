@@ -2,9 +2,9 @@
 Contributors: fruitfulcode
 Donate link: http://fruitfulcode.com/
 Tags: maintenance, coming soon, under-construction, 503 error, administration, login, customize page, background, fullscreen, blur
-Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 2.1.2
+Requires at least: 3.4
+Tested up to: 4.0
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Maintenance plugin allow WordPress site administrator close the website for main
 <li>503 error on/off</li>
 <li>Google analytics field</li>
 <li>Login on/off</li>
+<li>Exclude pages in Maintenance mode</li>
 
 </ul>
 
@@ -38,14 +39,16 @@ Maintenance plugin allow WordPress site administrator close the website for main
 <strong>Required Free version.</strong> All features from FREE version included + 
 
 <ul>
-<li>Unique jQuery timer count down</li>
+<li>Unique scheduler countdown</li>
 <li>User permissions</li>
 <li>Fullscreen background gallery</li>
 <li>Gallery patterns overlays</li> 
-<li>Background video support</li>
+<li>Background gallery with overlay</li>
+<li>Background video from media gallery</li>
+<li>Background video from Youtube/Vimeo</li>
 <li>Additional HTML area</li>
 <li>Social media profiles (<a target="_blank" href="http://zurb.com/playground/foundation-icons">Foundation icons</a>)</li>
-<li>Email newsletter subscribe form (<a target="_blank" href="http://mailchimp.com/">MailChimp</a> integration) </li>
+<li>Email newsletter subscribe form (<a target="_blank" href="http://mailchimp.com/">MailChimp</a> and  <a href="https://www.campaignmonitor.com/">Campaign Monitor</a> integration) </li>
 </ul>
 
 <a target="_blank" href="http://codecanyon.net/item/maintenance-wordpress-plugin/2781350?ref=fruitfulcode">Get additional functionality</a>
@@ -104,6 +107,30 @@ You can check <a href="http://wordpress.org/support/plugin/maintenance">support 
 
 
 == Change log ==
+
+= 2.4 =
+* New option: Footer text
+* Improvements: Exclude / Include pages
+* Improvements: CSS optimization
+* Translation updates
+
+= 2.3 =
+* New: Enable maintenance mode for specific pages
+* Bug fix: Lost password
+* Bug fix: password format with symbols
+* Improvements: CSS optimization
+
+= 2.2.1 =
+* New: default background image
+* Improvements: blur off by default
+* Bug fix: Label styles
+
+= 2.2 =
+* New options: Custom css
+* New options: Font family
+* New login form
+* Improvements: Responsive version
+* Bug fix: PHP 5.2 support
 
 = 2.1.2 =
 * New translation Deutch (de_DE)

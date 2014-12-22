@@ -24,6 +24,7 @@
 			if (isset($_POST['lib_options']['htmlcss'])) {
 				$_POST['lib_options']['htmlcss'] = wp_kses_post(stripslashes($_POST['lib_options']['htmlcss']));
 			}
+			
 			if (isset($_POST['lib_options'])) {
 			    update_option( 'maintenance_options',  $_POST['lib_options']);
 			}	
@@ -45,6 +46,9 @@
 			
 			wp_enqueue_style  ('arvo', 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Arvo:400,400italic,700,700italic' );		
 			wp_enqueue_style  ('wp-color-picker' );
+			
+			wp_enqueue_script ('select2',    MAINTENANCE_URI .'js/select2/select2.min.js' );
+			wp_enqueue_style  ('select2',    MAINTENANCE_URI .'js/select2/select2.css' );	
 			
 			wp_enqueue_script ('uplaods_',    MAINTENANCE_URI .'js/uploads_.min.js' );
 			wp_enqueue_script ('maintenance', MAINTENANCE_URI .'js/init.min.js', array( 'wp-color-picker' ), false, true );
@@ -81,8 +85,8 @@
 						</div>
 						 
 					</div>
+					<?php submit_button(__('Save changes', 'maintenance'), 'primary'); ?>
 				</div>	
-				<?php submit_button(__('Save changes', 'maintenance'), 'primary'); ?>
 			</form>
 		</div>
 	<?php
